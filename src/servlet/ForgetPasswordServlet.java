@@ -9,50 +9,41 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
-
-
-
-
+import bean.Message;
 
 import com.alibaba.fastjson.JSON;
 
-import bean.Message;
 import dao.IdentifyCodeDao;
-public class AddIdentifyCodeServlet extends HttpServlet {
 
-	/**
-	 * Destruction of the servlet. <br>
-	 */
+public class ForgetPasswordServlet extends HttpServlet {
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
 		// Put your code here
 	}
-	@Override
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+	
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
 		String phone = req.getParameter("phone");
-		String indentifyCode = String.valueOf((int)((Math.random()*9+1)*100000));
+		String password=req.getParameter("password");
 		Message message = new Message();
 		try {
-			   if (IdentifyCodeDao.select_user(phone)&&IdentifyCodeDao.add_indentifyCode(indentifyCode, phone)) {
+			   if (IdentifyCodeDao.update_userpassword(phone, password)) {
 				message.setCode(200);
-				message.setMessage("获取验证码成功"); 
-				message.setData(indentifyCode);
+				message.setMessage("找回密码成功"); 
+				message.setData(null);
 			    }
 			else {
 				message.setCode(-11);
-				message.setMessage("获取验证码失败");
+				message.setMessage("找回密码失败");
 				message.setData(null);
 				
 			}
@@ -64,9 +55,10 @@ public class AddIdentifyCodeServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 	}
 
+	
 	public void init() throws ServletException {
 		// Put your code here
 	}

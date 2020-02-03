@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.alibaba.fastjson.JSON;
-
-import dao.UserDao;
 import bean.Message;
 
-public class UserBaseRegisterServlet extends HttpServlet {
+import com.alibaba.fastjson.JSON;
+
+import dao.TUserDao;
+
+public class UserRegisterServlet extends HttpServlet {
 
 	/**
 	 * Destruction of the servlet. <br>
@@ -24,16 +25,13 @@ public class UserBaseRegisterServlet extends HttpServlet {
 		// Put your code here
 	}
 
-	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
 		resp.setContentType("text/html");
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
@@ -43,24 +41,30 @@ public class UserBaseRegisterServlet extends HttpServlet {
 		String userName=req.getParameter("userName");
 		String roleName=req.getParameter("roleName");
 		String sex=req.getParameter("sex");
-		String workuserNo=req.getParameter("workuserNo");
-		Message message=new Message();//传给前台
+		//String workuserNo=req.getParameter("workuserno");
+		String indentificationCard=req.getParameter("indentificationCard");
+		String province=req.getParameter("province");
+		String city=req.getParameter("city");
+		String country=req.getParameter("country");
+		String address=req.getParameter("address");
+		Message message=new Message();
 		try {
-			if(UserDao.add_user(userName, phone, password, roleName,sex,workuserNo)){
+			if(TUserDao.update_user(userName, phone, password, roleName, sex, indentificationCard, province, city, country, address)){
 				message.setCode(200);//成功
 				message.setData(null);//传数据	
-				message.setMessage("注册成功");
+				message.setMessage("普通用户注册更新成功");
 			}
 			else {
 				message.setCode(-11);// 失败
 				message.setData(null);
-				message.setMessage("注册失败");//传提醒
+				message.setMessage("普通用户注册更新失败");//传提醒
 				}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		out.print(JSON.toJSONString(message));		
+		out.print(JSON.toJSONString(message));	
+		
 	}
 
 	/**

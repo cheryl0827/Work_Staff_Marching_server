@@ -15,6 +15,48 @@
     <servlet-name>UserBaseRegisterServlet</servlet-name>
     <servlet-class>servlet.UserBaseRegisterServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>WorkUserRegisterServlet</servlet-name>
+    <servlet-class>servlet.WorkUserRegisterServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserRegisterServlet</servlet-name>
+    <servlet-class>servlet.UserRegisterServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ForgetPasswordServlet</servlet-name>
+    <servlet-class>servlet.ForgetPasswordServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserLoginServlet</servlet-name>
+    <servlet-class>servlet.UserLoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>TaskAddServlet</servlet-name>
+    <servlet-class>servlet.TaskAddServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserTaskProportionServlet</servlet-name>
+    <servlet-class>servlet.UserTaskProportionServlet</servlet-class>
+  </servlet>
+
+
+
+
+
+
 
 
   <servlet-mapping>
@@ -24,6 +66,26 @@
   <servlet-mapping>
     <servlet-name>UserBaseRegisterServlet</servlet-name>
     <url-pattern>/UserBaseRegisterServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserRegisterServlet</servlet-name>
+    <url-pattern>/UserRegisterServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ForgetPasswordServlet</servlet-name>
+    <url-pattern>/ForgetPasswordServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserLoginServlet</servlet-name>
+    <url-pattern>/UserLoginServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TaskAddServlet</servlet-name>
+    <url-pattern>/TaskAddServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserTaskProportionServlet</servlet-name>
+    <url-pattern>/UserTaskProportionServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>

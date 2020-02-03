@@ -11,8 +11,35 @@ public class UserBean {
     private int registerStatus;
     private String city;
     private String province;
+    private String workuserNo;
+    private int workStatus;
+    private String sex; 
 
-    public int getUserID() {
+    public String getWorkuserNo() {
+		return workuserNo;
+	}
+
+	public void setWorkuserNo(String workuserNo) {
+		this.workuserNo = workuserNo;
+	}
+
+	public int getWorkStatus() {
+		return workStatus;
+	}
+
+	public void setWorkStatus(int workStatus) {
+		this.workStatus = workStatus;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public int getUserID() {
         return userID;
     }
 

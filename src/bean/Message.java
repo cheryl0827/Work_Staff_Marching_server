@@ -2,13 +2,10 @@ package bean;
 
 /**
 
- *code  200成功
+ *code  200鎴愬姛
 
- *      -11失败
+ *      -11澶辫触
 
- *message 返回信息
-
- *data 传回token
 
  */
 
