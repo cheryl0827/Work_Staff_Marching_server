@@ -51,6 +51,41 @@
     <servlet-name>UserTaskProportionServlet</servlet-name>
     <servlet-class>servlet.UserTaskProportionServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ChangePasswodServlet</servlet-name>
+    <servlet-class>servlet.ChangePasswodServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserChangeInformationServlet</servlet-name>
+    <servlet-class>servlet.UserChangeInformationServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserChangePhoneServlet</servlet-name>
+    <servlet-class>servlet.UserChangePhoneServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserChangeAdressServlet</servlet-name>
+    <servlet-class>servlet.UserChangeAdressServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>TaskReviewingShowServlet</servlet-name>
+    <servlet-class>servlet.TaskReviewingShowServlet</servlet-class>
+  </servlet>
+
+
+
+
+
 
 
 
@@ -86,6 +121,26 @@
   <servlet-mapping>
     <servlet-name>UserTaskProportionServlet</servlet-name>
     <url-pattern>/UserTaskProportionServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ChangePasswodServlet</servlet-name>
+    <url-pattern>/ChangePasswodServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserChangeInformationServlet</servlet-name>
+    <url-pattern>/UserChangeInformationServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserChangePhoneServlet</servlet-name>
+    <url-pattern>/UserChangePhoneServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserChangeAdressServlet</servlet-name>
+    <url-pattern>/UserChangeAdressServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TaskReviewingShowServlet</servlet-name>
+    <url-pattern>/TaskReviewingShowServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>

@@ -11,6 +11,7 @@ public class TUserDao {
 	 private static Connection con= DBBean.getConn();
 	    private static PreparedStatement ps=null;
 	    private static ResultSet rs=null;
+	    //工作用户的注册更新
 	    public static boolean update_user(String userName,String phone,String password,String role,String sex,String indentificationCard,String province,String city,String country,String address) throws SQLException {
 	        String sql="update user set indentificationCard=?,province=?,city=?,country=?,address=? where userName=? and phone=? and password=? and roleName=? and sex=?";
 	        boolean flag=false;

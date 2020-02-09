@@ -19,6 +19,7 @@ public class IdentifyCodeDao {
   private static Connection con=DBBean.getConn();
   private static PreparedStatement ps=null;
   private static ResultSet rs=null;
+  //增加验证码
   public static boolean add_indentifyCode(String indentifyCode,String phone) throws SQLException{
 	 //con=DBBean.getConn();
 	  String sql="insert into indentifycode(phone,indentifyCode) value (?,?)";
@@ -34,6 +35,7 @@ public class IdentifyCodeDao {
 		  flag=false;
 	  return flag;	     	  
   }
+  //查看用户是否存在
   public static boolean select_user(String phone) throws SQLException {
       String sql="select * from user where phone=?";
       boolean flag=false;
@@ -46,9 +48,9 @@ public class IdentifyCodeDao {
       }
 	return flag;   
   }
-
- public static boolean update_userpassword(String phone,String password) throws SQLException {
-			 String sql="update user set password=? where  phone=?";
+//根据手机号码找回用户的密码
+ public static boolean update_userpasswordbyphone(String phone,String password) throws SQLException {
+			 String sql="update user set password=? where phone=?";
 		        boolean flag=false;
 		        ps=con.prepareStatement(sql);
 		        ps.setString(1,password); 
@@ -59,6 +61,7 @@ public class IdentifyCodeDao {
 		        }
 		        else
 		            flag=false;
+		        
 		        return flag;
 		    }
 

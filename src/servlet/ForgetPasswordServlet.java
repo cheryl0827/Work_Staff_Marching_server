@@ -36,14 +36,14 @@ public class ForgetPasswordServlet extends HttpServlet {
 		String password=req.getParameter("password");
 		Message message = new Message();
 		try {
-			   if (IdentifyCodeDao.update_userpassword(phone, password)) {
+			   if (IdentifyCodeDao.update_userpasswordbyphone(phone,password)){
 				message.setCode(200);
 				message.setMessage("找回密码成功"); 
 				message.setData(null);
 			    }
 			else {
-				message.setCode(-11);
-				message.setMessage("找回密码失败");
+				message.setCode(200);
+				message.setMessage("");
 				message.setData(null);
 				
 			}
