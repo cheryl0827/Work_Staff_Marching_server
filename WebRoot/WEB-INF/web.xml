@@ -81,6 +81,34 @@
     <servlet-name>TaskReviewingShowServlet</servlet-name>
     <servlet-class>servlet.TaskReviewingShowServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>TaskDeleteServlet</servlet-name>
+    <servlet-class>servlet.TaskDeleteServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>TaskUpdateServlet</servlet-name>
+    <servlet-class>servlet.TaskUpdateServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>TaskShowServlet</servlet-name>
+    <servlet-class>servlet.TaskShowServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>EstimateAddServlet</servlet-name>
+    <servlet-class>servlet.EstimateAddServlet</servlet-class>
+  </servlet>
+
+
+
+
 
 
 
@@ -141,6 +169,22 @@
   <servlet-mapping>
     <servlet-name>TaskReviewingShowServlet</servlet-name>
     <url-pattern>/TaskReviewingShowServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TaskDeleteServlet</servlet-name>
+    <url-pattern>/TaskDeleteServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TaskUpdateServlet</servlet-name>
+    <url-pattern>/TaskUpdateServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TaskShowServlet</servlet-name>
+    <url-pattern>/TaskShowServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EstimateAddServlet</servlet-name>
+    <url-pattern>/EstimateAddServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>

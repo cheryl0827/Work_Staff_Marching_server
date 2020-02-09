@@ -86,14 +86,88 @@ public class TaskDao {
 	    	 }	
 	    	 return list;
 	     }	     
+        //删除诉求任务	     
+	     public static boolean delete_task(int taskID) throws SQLException {
+		        String sql="delete from task where taskID=?";
+		        boolean flag=false;
+		        ps=con.prepareStatement(sql);
+		        ps.setInt(1,taskID);		      
+		        int count=ps.executeUpdate();
+		        if(count==1){
+		            flag=true;
+		        }
+		        else
+		            flag=false;
+		        return flag;
+		    }   
+	   //修改诉求任务
+		    public static boolean update_task(String taskAdress,String taskCatagery,String taskContent,String taskTime,int taskID,String taskDetaiAdress) throws SQLException {
+		        String sql="update task set taskAdress=?, taskCatagery=?,taskContent=?,taskTime=?,taskDetaiAdress=? where taskID=? ";
+		        boolean flag=false;
+		        ps=con.prepareStatement(sql);
+		        ps.setString(1,taskAdress);
+		        ps.setString(2,taskCatagery);
+		        ps.setString(3,taskContent);
+		        ps.setString(4,taskTime);
+		        ps.setString(5, taskDetaiAdress);
+		        ps.setInt(6, taskID);
+		        int count=ps.executeUpdate();
+		        if(count==1){
+		            flag=true;
+		        }
+		        else
+		            flag=false;
+		        return flag;
+		    }
+		  //修改诉求任务的状态
+		    public static boolean update_taskStatus(int taskID,int taskStatus) throws SQLException {
+		        String sql="update task set taskStatus=? where taskID=? ";
+		        boolean flag=false;
+		        ps=con.prepareStatement(sql);
+		        ps.setInt(1,taskStatus);
+		        ps.setInt(2,taskID);
+		        int count=ps.executeUpdate();
+		        if(count==1){
+		            flag=true;
+		        }
+		        else
+		            flag=false;
+		        return flag;
+		    }
 	     
-	     
-	     
-	     
-	     
-	     
-	     
-	     
+  
+	     //显示诉求任务的工作人员的个人信息
+		    public static List<TaskBean> task_workSelect(int taskStatus) throws SQLException{
+		    	 List<TaskBean>list=new ArrayList<TaskBean>(); 
+		    	 String sql="select * from user as a,task as b where "
+		    	 		+ "b.taskWorknumber=a.workuserNo and taskStatus=?";
+		    	 ps.setInt(1, taskStatus);
+		    	 rs=ps.executeQuery();
+		    	 if(rs!=null){
+		    		 while(rs.next()){
+		    			 TaskBean taskBean=new TaskBean();
+		    			 taskBean.setTaskID(rs.getInt("taskID"));
+		    			 taskBean.setTaskAdress(rs.getString("taskAdress"));
+		    			 taskBean.setTaskCatagery(rs.getString("taskCatagery"));
+		    			 taskBean.setTaskContent(rs.getString("taskContent"));
+		    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
+		    			 taskBean.setTaskTime(rs.getString("taskTime"));
+		    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
+		    			 taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+		    			 taskBean.setUserID(rs.getInt("userID"));
+		    			 taskBean.setCommunity(rs.getInt("community"));
+		    			 taskBean.setUrgent(rs.getInt("urgent"));
+		    			 taskBean.setPsychology(rs.getInt("psychology"));
+		    			 taskBean.setOrganization(rs.getInt("organization"));
+		    			 taskBean.setAnalyse(rs.getInt("analyse"));
+		    			 taskBean.setLaw(rs.getInt("law"));
+		    			 taskBean.setUserName("userName");
+		    			 list.add(taskBean);
+		    		 }
+		    	 }	
+		    	 return list;
+		     }
+		         
 	     
 	     
 	     

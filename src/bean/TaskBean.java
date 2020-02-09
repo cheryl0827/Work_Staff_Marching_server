@@ -16,6 +16,13 @@ public class TaskBean {
   private int organization;
   private int analyse;
   private int law;
+  private String userName;
+public String getUserName() {
+	return userName;
+}
+public void setUserName(String userName) {
+	this.userName = userName;
+}
 public int getCommunity() {
 	return community;
 }

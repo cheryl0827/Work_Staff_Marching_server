@@ -44,6 +44,7 @@ public class UserBaseRegisterServlet extends HttpServlet {
 		String roleName=req.getParameter("roleName");
 		String sex=req.getParameter("sex");
 		String workuserNo=req.getParameter("workuserNo");
+		System.out.print(workuserNo);
 		Message message=new Message();//传给前台
 		try {
 			if(UserDao.add_user(userName, phone, password, roleName,sex,workuserNo)){

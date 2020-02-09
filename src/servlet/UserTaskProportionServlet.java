@@ -37,7 +37,6 @@ public class UserTaskProportionServlet extends HttpServlet {
 		String taskCatagery=req.getParameter("taskCatagery");
 		String taskDetaiAdress=req.getParameter("taskDetaiAdress");
 		String taskContent=req.getParameter("taskContent");
-		
 	    int community=Integer.valueOf(req.getParameter("community")).intValue();
 	    int urgent=Integer.valueOf(req.getParameter("urgent")).intValue();
 	    int psychology=Integer.valueOf(req.getParameter("psychology")).intValue();
