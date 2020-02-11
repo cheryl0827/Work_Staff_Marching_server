@@ -36,6 +36,7 @@ public class UserLoginServlet extends HttpServlet {
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
 		String phone = req.getParameter("phone");
+		
 		String password=req.getParameter("password");
 		String rolename=req.getParameter("usertype");
 		TMessage message = new TMessage();

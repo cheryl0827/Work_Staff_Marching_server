@@ -56,7 +56,7 @@ public class TaskDao {
 	            flag=false;
 	        return flag;
 	    }
-	    //显示所有审核不通过的诉求任务
+	    //显示所有诉求任务
 	     public static List<TaskBean> taskSelect(int taskStatus) throws SQLException{
 	    	 List<TaskBean>list=new ArrayList<TaskBean>();
 	    	 String sql="select * from task where taskStatus=?";
@@ -136,43 +136,9 @@ public class TaskDao {
 		    }
 	     
   
-	     //显示诉求任务的工作人员的个人信息
-		    public static List<TaskBean> task_workSelect(int taskStatus) throws SQLException{
-		    	 List<TaskBean>list=new ArrayList<TaskBean>(); 
-		    	 String sql="select * from user as a,task as b where "
-		    	 		+ "b.taskWorknumber=a.workuserNo and taskStatus=?";
-		    	 ps.setInt(1, taskStatus);
-		    	 rs=ps.executeQuery();
-		    	 if(rs!=null){
-		    		 while(rs.next()){
-		    			 TaskBean taskBean=new TaskBean();
-		    			 taskBean.setTaskID(rs.getInt("taskID"));
-		    			 taskBean.setTaskAdress(rs.getString("taskAdress"));
-		    			 taskBean.setTaskCatagery(rs.getString("taskCatagery"));
-		    			 taskBean.setTaskContent(rs.getString("taskContent"));
-		    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
-		    			 taskBean.setTaskTime(rs.getString("taskTime"));
-		    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
-		    			 taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
-		    			 taskBean.setUserID(rs.getInt("userID"));
-		    			 taskBean.setCommunity(rs.getInt("community"));
-		    			 taskBean.setUrgent(rs.getInt("urgent"));
-		    			 taskBean.setPsychology(rs.getInt("psychology"));
-		    			 taskBean.setOrganization(rs.getInt("organization"));
-		    			 taskBean.setAnalyse(rs.getInt("analyse"));
-		    			 taskBean.setLaw(rs.getInt("law"));
-		    			 taskBean.setUserName("userName");
-		    			 list.add(taskBean);
-		    		 }
-		    	 }	
-		    	 return list;
-		     }
-		         
 	     
 	     
 	     
-	     
-	     
-	     
+	    	     
 	     
 }

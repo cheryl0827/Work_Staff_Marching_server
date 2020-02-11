@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import bean.DBBean;
+import bean.TaskBean;
 import bean.UserBean;
 
 public class UserDao {
@@ -13,7 +16,7 @@ public class UserDao {
     private static PreparedStatement ps=null;
     private static ResultSet rs=null;
     //用户注册
-    public static boolean add_user(String userName,String phone,String password,String role,String sex,String workuserNo ) throws SQLException {
+    public static boolean add_user(String userName,String phone,String password,String role,String sex,String workuserNo) throws SQLException {
         String sql="insert into user(userName,phone,password,roleName,sex,workuserNo) value (?,?,?,?,?,?)";
         boolean flag=false;
         ps=con.prepareStatement(sql);
@@ -57,9 +60,7 @@ public class UserDao {
         	userBean.setCity(rs.getString("city"));
         	userBean.setProvince(rs.getString("province"));
         	userBean.setWorkuserNo(rs.getString("workuserNo"));
-        	userBean.setWorkStatus(rs.getInt("workStatus"));
-        	
-        	
+        	userBean.setWorkStatus(rs.getInt("workStatus"));      	
         	}
         }
   	return userBean;   
@@ -129,5 +130,47 @@ public class UserDao {
 	            flag=false;
 	        return flag;
 	    }
-   
+  //根据工号查询用户姓名
+    public static String select_userName(String workuserNo) throws SQLException {
+    	String sql="select * from user where workuserNo=?";
+    	String userName = null;
+        ps=con.prepareStatement(sql);
+        ps.setString(1,workuserNo);
+        rs=ps.executeQuery();
+        if(rs!=null){
+        	if(rs.next()){
+        		userName=rs.getString("userName");	
+        	}
+        	}
+        return userName;
+    }
+  //显示所有用户信息
+    public static List<UserBean> user_Select(int registerStatus,String roleName) throws SQLException{
+   	 List<UserBean>list=new ArrayList<UserBean>();
+   	 String sql="select * from user where registerStatus=? and roleName=?";
+   	 ps=con.prepareStatement(sql);
+   	 ps.setInt(1, registerStatus);
+   	 ps.setString(2, roleName);
+   	 rs=ps.executeQuery();
+   	 if(rs!=null){
+   		 while(rs.next()){
+   			 UserBean userBean=new UserBean();
+   			 userBean.setUserID(rs.getInt("userID"));
+   			 userBean.setUserName(rs.getString("userName"));
+   			 userBean.setIndentificationCard(rs.getString("indentificationCard"));
+   			 userBean.setPhone(rs.getString("phone"));
+   			 userBean.setCountry(rs.getString("country"));
+	   		 userBean.setAddress(rs.getString("address"));
+	   		 userBean.setRoleName(rs.getString("roleName"));
+	   		 userBean.setRegisterStatus(rs.getInt("registerStatus"));
+	   		 userBean.setCity(rs.getString("city"));
+	   		 userBean.setProvince(rs.getString("province"));
+	   		 userBean.setWorkuserNo(rs.getString("workuserNo"));
+	   		 userBean.setSex(rs.getString("sex"));
+	   		 userBean.setWorkStatus(rs.getInt("workStatus"));
+   			 list.add(userBean);
+   		 }
+   	 }	
+   	 return list;
+    }	     
 }

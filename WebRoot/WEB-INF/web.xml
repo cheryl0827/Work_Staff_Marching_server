@@ -105,6 +105,20 @@
     <servlet-name>EstimateAddServlet</servlet-name>
     <servlet-class>servlet.EstimateAddServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserNameShowServlet</servlet-name>
+    <servlet-class>servlet.UserNameShowServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserShowServlet</servlet-name>
+    <servlet-class>servlet.UserShowServlet</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -185,6 +199,14 @@
   <servlet-mapping>
     <servlet-name>EstimateAddServlet</servlet-name>
     <url-pattern>/EstimateAddServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserNameShowServlet</servlet-name>
+    <url-pattern>/UserNameShowServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserShowServlet</servlet-name>
+    <url-pattern>/UserShowServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>
