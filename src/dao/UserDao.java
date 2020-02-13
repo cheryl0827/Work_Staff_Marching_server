@@ -172,5 +172,20 @@ public class UserDao {
    		 }
    	 }	
    	 return list;
-    }	     
+    }	 
+    //根据userID和用户角色审核用户信息
+    public static boolean update_useraudit(int registerStatus,int userID) throws SQLException {
+		 String sql="update user set registerStatus=? where  userID=?";
+	        boolean flag=false;
+	        ps=con.prepareStatement(sql);
+	        ps.setInt(1,registerStatus); 
+	        ps.setInt(2, userID);
+	        int count=ps.executeUpdate();
+	        if(count==1){
+	            flag=true;
+	        }
+	        else
+	            flag=false;
+	        return flag;
+	    }
 }
