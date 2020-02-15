@@ -13,12 +13,9 @@ import bean.Message;
 
 import com.alibaba.fastjson.JSON;
 
-import dao.EstimateDao;
-import dao.TaskDao;
-import dao.UserDao;
 import dao.WorkUserEvaluatingIndicatorDao;
 
-public class AddWorkUserEvaluatingIndicatorServlet extends HttpServlet {
+public class DeleteWorkUserEvaluatingIndicatorServlet extends HttpServlet {
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
 		// Put your code here
@@ -35,33 +32,30 @@ public class AddWorkUserEvaluatingIndicatorServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		int community=Integer.valueOf(req.getParameter("community")).intValue();
-		int urgent=Integer.valueOf(req.getParameter("urgent")).intValue();
-		int psychology=Integer.valueOf(req.getParameter("psychology")).intValue();
-		int organization=Integer.valueOf(req.getParameter("organization")).intValue();
-		int analyse=Integer.valueOf(req.getParameter("analyse")).intValue();
-		int law=Integer.valueOf(req.getParameter("law")).intValue();
+		
 		int userID=Integer.valueOf(req.getParameter("userID")).intValue();
-	
 		Message message = new Message();
 		try {
-			if(WorkUserEvaluatingIndicatorDao.add_workevaliatingindicator(community, urgent, psychology, organization, analyse, law, userID)){
+			if(WorkUserEvaluatingIndicatorDao.delete_workuser(userID)){
 			   // UserBean userBean=UserDao.select_userlogin(phone, password, rolename);
 				message.setCode(200);
-				message.setMessage("工作人员评价成功"); 
+				message.setMessage("工作人员指标删除成功"); 
 				message.setData(null);
-				}		
-
+				}	
+			else{
+				message.setCode(-11);
+				message.setMessage("工作人员指标删除失败");
+				message.setData(null);
+			}
+			out.print(JSON.toJSONString(message));
 		} catch (SQLException e) {
 			
 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			message.setCode(-11);
-			message.setMessage("工作人员评价失败");
-			message.setData(null);
+			
 		}
-		out.print(JSON.toJSONString(message));
+		
 		
 	}
 }

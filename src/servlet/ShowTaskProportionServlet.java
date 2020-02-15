@@ -10,15 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.TMessage;
-import bean.UserBean;
-import bean.WorkuserEvaluatingIndicatorBean;
+import bean.TaskBean;
 
 import com.alibaba.fastjson.JSON;
 
-import dao.UserDao;
-import dao.WorkUserEvaluatingIndicatorDao;
+import dao.TaskDao;
 
-public class ShowWorkUserEvaluatingIndicatorServlet extends HttpServlet {
+public class ShowTaskProportionServlet extends HttpServlet {
+
 
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
@@ -36,21 +35,20 @@ public class ShowWorkUserEvaluatingIndicatorServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		//int workevaluatingStatus=2;
-		int userID=Integer.valueOf(req.getParameter("userID")).intValue();
+		int taskID=Integer.valueOf(req.getParameter("taskID")).intValue();
 		TMessage message = new TMessage();
 		try {
 		   // if(UserDao.update_workevaluatingStatus(workevaluatingStatus, userID)){
-			WorkuserEvaluatingIndicatorBean workUser=WorkUserEvaluatingIndicatorDao.select_workuser(userID);
+			TaskBean taskBean=TaskDao.admintask_Select(taskID);
 				message.setCode(200);
-				message.setMessage("查询用户信息成功"); 
-				message.setData(workUser);	//}
+				message.setMessage("查询诉求任务的权重成功"); 
+				message.setData(taskBean);	//}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.setCode(-11);
-			message.setMessage("查询用户信息失败");
+			message.setMessage("查询诉求任务的权重失败");
 			message.setData(null);
 		}
 		out.print(JSON.toJSONString(message));

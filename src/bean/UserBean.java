@@ -13,9 +13,9 @@ public class UserBean {
     private String province;
     private String workuserNo;
     private int workStatus;
-    private String sex; 
+    private String sex;
 
-    public String getWorkuserNo() {
+	public String getWorkuserNo() {
 		return workuserNo;
 	}
 

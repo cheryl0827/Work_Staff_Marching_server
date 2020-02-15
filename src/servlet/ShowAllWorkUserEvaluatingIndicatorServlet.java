@@ -3,12 +3,15 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.CodeExchange;
 import bean.TMessage;
 import bean.UserBean;
 import bean.WorkuserEvaluatingIndicatorBean;
@@ -18,7 +21,7 @@ import com.alibaba.fastjson.JSON;
 import dao.UserDao;
 import dao.WorkUserEvaluatingIndicatorDao;
 
-public class ShowWorkUserEvaluatingIndicatorServlet extends HttpServlet {
+public class ShowAllWorkUserEvaluatingIndicatorServlet extends HttpServlet {
 
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
@@ -36,24 +39,31 @@ public class ShowWorkUserEvaluatingIndicatorServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		//int workevaluatingStatus=2;
-		int userID=Integer.valueOf(req.getParameter("userID")).intValue();
-		TMessage message = new TMessage();
+	    TMessage<List<WorkuserEvaluatingIndicatorBean>> message=new TMessage<List<WorkuserEvaluatingIndicatorBean>>();
 		try {
-		   // if(UserDao.update_workevaluatingStatus(workevaluatingStatus, userID)){
-			WorkuserEvaluatingIndicatorBean workUser=WorkUserEvaluatingIndicatorDao.select_workuser(userID);
+			List<WorkuserEvaluatingIndicatorBean> workuserEvaluatingIndicatorBean=new ArrayList<WorkuserEvaluatingIndicatorBean>();
+			workuserEvaluatingIndicatorBean=WorkUserEvaluatingIndicatorDao.selectAll_workuser();
+			if(workuserEvaluatingIndicatorBean!=null && workuserEvaluatingIndicatorBean.size()>0){
 				message.setCode(200);
-				message.setMessage("查询用户信息成功"); 
-				message.setData(workUser);	//}
-
+				message.setMessage("获取工作用户指标数据成功");
+				message.setData(workuserEvaluatingIndicatorBean);
+				out.print(JSON.toJSONString(message));
+			}
+			else{
+				message.setCode(-11);
+				message.setMessage("获取工作用户指标数据失败");
+				message.setData(null);
+				out.print(JSON.toJSONString(message));
+				
+			}
 		} catch (SQLException e) {
+			
+
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			message.setCode(-11);
-			message.setMessage("查询用户信息失败");
-			message.setData(null);
+			
 		}
-		out.print(JSON.toJSONString(message));
+		
 		
 	}
-	}
+}

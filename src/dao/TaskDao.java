@@ -119,6 +119,36 @@ public class TaskDao {
 		            flag=false;
 		        return flag;
 		    }
+		  //显示所有诉求任务
+		     public static TaskBean task_Select(int taskID) throws SQLException{
+		    	 TaskBean taskBean=null;
+		    	 String sql="select * from task where taskID=?";
+		    	 ps=con.prepareStatement(sql);
+		    	 ps.setInt(1, taskID);
+		    	 rs=ps.executeQuery();
+		    	 if(rs!=null){
+		    		 while(rs.next()){
+		    			 taskBean=new TaskBean();
+		    			 taskBean.setTaskID(rs.getInt("taskID"));
+		    			 taskBean.setTaskAdress(rs.getString("taskAdress"));
+		    			 taskBean.setTaskCatagery(rs.getString("taskCatagery"));
+		    			 taskBean.setTaskContent(rs.getString("taskContent"));
+		    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
+		    			 taskBean.setTaskTime(rs.getString("taskTime"));
+		    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
+		    			 taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+		    			 taskBean.setUserID(rs.getInt("userID"));
+		    			 taskBean.setCommunity(rs.getInt("community"));
+		    			 taskBean.setUrgent(rs.getInt("urgent"));
+		    			 taskBean.setPsychology(rs.getInt("psychology"));
+		    			 taskBean.setOrganization(rs.getInt("organization"));
+		    			 taskBean.setAnalyse(rs.getInt("analyse"));
+		    			 taskBean.setLaw(rs.getInt("law"));
+		 
+		    		 }
+		    	 }	
+		    	 return taskBean;
+		     }	     
 		  //修改诉求任务的状态
 		    public static boolean update_taskStatus(int taskID,int taskStatus) throws SQLException {
 		        String sql="update task set taskStatus=? where taskID=? ";
@@ -126,6 +156,55 @@ public class TaskDao {
 		        ps=con.prepareStatement(sql);
 		        ps.setInt(1,taskStatus);
 		        ps.setInt(2,taskID);
+		        int count=ps.executeUpdate();
+		        if(count==1){
+		            flag=true;
+		        }
+		        else
+		            flag=false;
+		        return flag;
+		    }
+		    //诉求任务的权重显示
+		     public static TaskBean admintask_Select(int taskID) throws SQLException{
+		    	 TaskBean taskBean=null;
+		    	 String sql="select * from task where taskID=?";
+		    	 ps=con.prepareStatement(sql);
+		    	 ps.setInt(1, taskID);
+		    	 rs=ps.executeQuery();
+		    	 if(rs!=null){
+		    		 while(rs.next()){
+		    			 taskBean=new TaskBean();
+		    			 taskBean.setTaskID(rs.getInt("taskID"));
+		    			 taskBean.setTaskAdress(rs.getString("taskAdress"));
+		    			 taskBean.setTaskCatagery(rs.getString("taskCatagery"));
+		    			 taskBean.setTaskContent(rs.getString("taskContent"));
+		    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
+		    			 taskBean.setTaskTime(rs.getString("taskTime"));
+		    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
+		    			 taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+		    			 taskBean.setUserID(rs.getInt("userID"));
+		    			 taskBean.setCommunity(rs.getInt("community"));
+		    			 taskBean.setUrgent(rs.getInt("urgent"));
+		    			 taskBean.setPsychology(rs.getInt("psychology"));
+		    			 taskBean.setOrganization(rs.getInt("organization"));
+		    			 taskBean.setAnalyse(rs.getInt("analyse"));
+		    			 taskBean.setLaw(rs.getInt("law"));
+		    		 }
+		    	 }	
+		    	 return taskBean;
+		     }	     
+		    //诉求任务的权重更新
+		    public static boolean adminadd_taskproportion(int community,int urgent,int psychology,int organization,int analyse,int law,int taskID) throws SQLException {
+		        String sql="update task set community=?,urgent=?,psychology=?,organization=?,analyse=?,law=? where taskID=?";
+		        boolean flag=false;
+		        ps=con.prepareStatement(sql);
+		        ps.setInt(1,community);
+		        ps.setInt(2,urgent);
+		        ps.setInt(3,psychology);
+		        ps.setInt(4,organization);
+		        ps.setInt(5,analyse);
+		        ps.setInt(6, law);
+		        ps.setInt(7, taskID);
 		        int count=ps.executeUpdate();
 		        if(count==1){
 		            flag=true;

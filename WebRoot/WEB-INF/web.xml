@@ -141,6 +141,62 @@
     <servlet-name>ShowWorkUserEvaluatingIndicatorServlet</servlet-name>
     <servlet-class>servlet.ShowWorkUserEvaluatingIndicatorServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DeleteWorkUserEvaluatingIndicatorServlet</servlet-name>
+    <servlet-class>servlet.DeleteWorkUserEvaluatingIndicatorServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateWorkUserEvaluatingIndicatorServlet</servlet-name>
+    <servlet-class>servlet.UpdateWorkUserEvaluatingIndicatorServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ShowAllWorkUserEvaluatingIndicatorServlet</servlet-name>
+    <servlet-class>servlet.ShowAllWorkUserEvaluatingIndicatorServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ShowUserInformationServlet</servlet-name>
+    <servlet-class>servlet.ShowUserInformationServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ShowTaskServlet</servlet-name>
+    <servlet-class>servlet.ShowTaskServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateTaskStatusServlet</servlet-name>
+    <servlet-class>servlet.UpdateTaskStatusServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AdminTaskProportionServlet</servlet-name>
+    <servlet-class>servlet.AdminTaskProportionServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ShowTaskProportionServlet</servlet-name>
+    <servlet-class>servlet.ShowTaskProportionServlet</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+
 
 
 
@@ -251,6 +307,38 @@
   <servlet-mapping>
     <servlet-name>ShowWorkUserEvaluatingIndicatorServlet</servlet-name>
     <url-pattern>/ShowWorkUserEvaluatingIndicatorServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteWorkUserEvaluatingIndicatorServlet</servlet-name>
+    <url-pattern>/DeleteWorkUserEvaluatingIndicatorServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateWorkUserEvaluatingIndicatorServlet</servlet-name>
+    <url-pattern>/UpdateWorkUserEvaluatingIndicatorServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ShowAllWorkUserEvaluatingIndicatorServlet</servlet-name>
+    <url-pattern>/ShowAllWorkUserEvaluatingIndicatorServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ShowUserInformationServlet</servlet-name>
+    <url-pattern>/ShowUserInformationServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ShowTaskServlet</servlet-name>
+    <url-pattern>/ShowTaskServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateTaskStatusServlet</servlet-name>
+    <url-pattern>/UpdateTaskStatusServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminTaskProportionServlet</servlet-name>
+    <url-pattern>/AdminTaskProportionServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ShowTaskProportionServlet</servlet-name>
+    <url-pattern>/ShowTaskProportionServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>

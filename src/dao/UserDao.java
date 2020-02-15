@@ -168,6 +168,7 @@ public class UserDao {
 	   		 userBean.setWorkuserNo(rs.getString("workuserNo"));
 	   		 userBean.setSex(rs.getString("sex"));
 	   		 userBean.setWorkStatus(rs.getInt("workStatus"));
+	   		// userBean.setWorkevaluatingStatus(rs.getInt("workevaluatingStatus"));
    			 list.add(userBean);
    		 }
    	 }	
@@ -188,4 +189,33 @@ public class UserDao {
 	            flag=false;
 	        return flag;
 	    }
+    //查询用户的基本信息
+    public static UserBean select_userinformation(int userID) throws SQLException {
+        UserBean userBean=null;
+    	String sql="select * from user where userID=?";
+        //boolean flag=false;
+        ps=con.prepareStatement(sql);
+        ps.setInt(1, userID); 
+        rs=ps.executeQuery();
+        if(rs!=null){
+        	if(rs.next()){
+        	//flag=true;
+        	userBean=new UserBean();
+        	userBean.setUserID(rs.getInt("userID"));
+        	userBean.setUserName(rs.getString("userName"));
+        	userBean.setIndentificationCard(rs.getString("indentificationCard"));
+        	userBean.setPhone(rs.getString("phone"));
+        	userBean.setCountry(rs.getString("country"));
+        	userBean.setAddress(rs.getString("address"));
+        	userBean.setRoleName(rs.getString("roleName"));
+        	userBean.setPassword(rs.getString("password"));
+        	userBean.setRegisterStatus(rs.getInt("registerStatus"));
+        	userBean.setCity(rs.getString("city"));
+        	userBean.setProvince(rs.getString("province"));
+        	userBean.setWorkuserNo(rs.getString("workuserNo"));
+        	userBean.setWorkStatus(rs.getInt("workStatus"));      	
+        	}
+        }
+  	return userBean;   
+    }
 }
