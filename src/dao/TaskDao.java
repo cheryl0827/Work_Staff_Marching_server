@@ -9,6 +9,7 @@ import java.util.List;
 
 import bean.DBBean;
 import bean.TaskBean;
+import bean.WorkuserEvaluatingIndicatorBean;
 
 public class TaskDao {
 	  private static Connection con= DBBean.getConn();
@@ -59,7 +60,7 @@ public class TaskDao {
 	    //显示所有诉求任务
 	     public static List<TaskBean> taskSelect(int taskStatus) throws SQLException{
 	    	 List<TaskBean>list=new ArrayList<TaskBean>();
-	    	 String sql="select * from task where taskStatus=?";
+	    	 String sql="select * from task where taskStatus=? order by taskTime desc;";
 	    	 ps=con.prepareStatement(sql);
 	    	 ps.setInt(1, taskStatus);
 	    	 rs=ps.executeQuery();
@@ -214,7 +215,29 @@ public class TaskDao {
 		        return flag;
 		    }
 	     
-  
+		    //诉求任务的权重查看
+		     public static List<TaskBean> task_Porprotion(int taskStatus) throws SQLException {
+			     List<TaskBean> list=new ArrayList<TaskBean>();
+		    	 String sql="select * from task where taskStatus=?";
+		    	 ps=con.prepareStatement(sql);
+		    	 ps.setInt(1,taskStatus);
+		    	 rs=ps.executeQuery();
+		    	 if(rs!=null){
+		    		 while(rs.next()){
+		    			 TaskBean taskBean=new TaskBean();
+		    			 taskBean=new TaskBean();
+		    			 taskBean.setTaskID(rs.getInt("taskID"));	    		
+		    			 taskBean.setCommunity(rs.getInt("community"));
+		    			 taskBean.setUrgent(rs.getInt("urgent"));
+		    			 taskBean.setPsychology(rs.getInt("psychology"));
+		    			 taskBean.setOrganization(rs.getInt("organization"));
+		    			 taskBean.setAnalyse(rs.getInt("analyse"));
+		    			 taskBean.setLaw(rs.getInt("law"));
+		    			 list.add(taskBean);
+		    		 }
+		    	 }	
+		    	 return list;
+		     }	     
 	     
 	     
 	     

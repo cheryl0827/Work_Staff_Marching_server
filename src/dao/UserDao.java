@@ -211,6 +211,7 @@ public class UserDao {
         	userBean.setPassword(rs.getString("password"));
         	userBean.setRegisterStatus(rs.getInt("registerStatus"));
         	userBean.setCity(rs.getString("city"));
+        	 userBean.setSex(rs.getString("sex"));
         	userBean.setProvince(rs.getString("province"));
         	userBean.setWorkuserNo(rs.getString("workuserNo"));
         	userBean.setWorkStatus(rs.getInt("workStatus"));      	

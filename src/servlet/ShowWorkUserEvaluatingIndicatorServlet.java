@@ -42,7 +42,7 @@ public class ShowWorkUserEvaluatingIndicatorServlet extends HttpServlet {
 		try {
 		   // if(UserDao.update_workevaluatingStatus(workevaluatingStatus, userID)){
 			WorkuserEvaluatingIndicatorBean workUser=WorkUserEvaluatingIndicatorDao.select_workuser(userID);
-				message.setCode(200);
+			    message.setCode(200);
 				message.setMessage("查询用户信息成功"); 
 				message.setData(workUser);	//}
 

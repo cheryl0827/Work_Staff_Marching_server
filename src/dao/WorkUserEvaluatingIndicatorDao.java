@@ -102,7 +102,7 @@ public class WorkUserEvaluatingIndicatorDao {
 	        ps=con.prepareStatement(sql);
 	        rs=ps.executeQuery();
 	        if(rs!=null){
-	        	if(rs.next()){
+	        	while(rs.next()){
 	        	//flag=true;
 	        	WorkuserEvaluatingIndicatorBean workUser=new WorkuserEvaluatingIndicatorBean();
 	        	workUser.setWorkEvaluatingIndicatorID(rs.getInt("workEvaluatingIndicatorID"));
@@ -118,4 +118,5 @@ public class WorkUserEvaluatingIndicatorDao {
 	        }
 	  	return list;   
 	    }
+	   
 }
