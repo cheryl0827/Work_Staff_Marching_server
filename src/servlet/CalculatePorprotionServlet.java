@@ -1,4 +1,4 @@
-package servlet;
+﻿package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,6 +39,9 @@ public class CalculatePorprotionServlet extends HttpServlet {
 			throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
+
+
+
 		PrintWriter out = resp.getWriter();
 		int taskStatus=3;
 		try {
