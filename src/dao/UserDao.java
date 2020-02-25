@@ -34,6 +34,19 @@ public class UserDao {
             flag=false;
         return flag;
     }
+    //用户注册的查看
+    public static boolean add_userSelect(String phone) throws SQLException {
+        String sql="select * from user where phone=?";
+        boolean flag=true;
+        ps=con.prepareStatement(sql);
+        ps.setString(1,phone);   
+        rs=ps.executeQuery();
+        if(rs.next()){
+            flag=false;          
+        }
+        return flag;
+        
+    }
     //查询登录用户的信息
     public static UserBean select_userlogin(String phone,String password,String usertype) throws SQLException {
         UserBean userBean=null;

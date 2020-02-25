@@ -121,11 +121,12 @@ public class TaskDao {
 		        return flag;
 		    }
 		  //显示所有诉求任务
-		     public static TaskBean task_Select(int taskID) throws SQLException{
+		     public static TaskBean task_Select(int taskID,int recordStatus) throws SQLException{
 		    	 TaskBean taskBean=null;
-		    	 String sql="select * from task where taskID=?";
+		    	 String sql="select * from task where taskID=? and recordStatus=? order by taskTime desc";
 		    	 ps=con.prepareStatement(sql);
 		    	 ps.setInt(1, taskID);
+		    	 ps.setInt(2, recordStatus);
 		    	 rs=ps.executeQuery();
 		    	 if(rs!=null){
 		    		 while(rs.next()){
@@ -238,8 +239,37 @@ public class TaskDao {
 		    	 }	
 		    	 return list;
 		     }	     
-	     
-	     
+		     //显示未匹配的诉求任务
+		     public static List<TaskBean> worktaskSelect(int taskStatus,int marchingStatus) throws SQLException{
+		    	 List<TaskBean>list=new ArrayList<TaskBean>();
+		    	 String sql="select * from task where taskStatus=? and marchingStatus=? order by taskTime desc;";
+		    	 ps=con.prepareStatement(sql);
+		    	 ps.setInt(1, taskStatus);
+		    	 ps.setInt(2,marchingStatus);  	
+		    	 rs=ps.executeQuery();
+		    	 if(rs!=null){
+		    		 while(rs.next()){
+		    			 TaskBean taskBean=new TaskBean();
+		    			 taskBean.setTaskID(rs.getInt("taskID"));
+		    			 taskBean.setTaskAdress(rs.getString("taskAdress"));
+		    			 taskBean.setTaskCatagery(rs.getString("taskCatagery"));
+		    			 taskBean.setTaskContent(rs.getString("taskContent"));
+		    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
+		    			 taskBean.setTaskTime(rs.getString("taskTime"));
+		    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
+		    			 taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+		    			 taskBean.setUserID(rs.getInt("userID"));
+		    			 taskBean.setCommunity(rs.getInt("community"));
+		    			 taskBean.setUrgent(rs.getInt("urgent"));
+		    			 taskBean.setPsychology(rs.getInt("psychology"));
+		    			 taskBean.setOrganization(rs.getInt("organization"));
+		    			 taskBean.setAnalyse(rs.getInt("analyse"));
+		    			 taskBean.setLaw(rs.getInt("law"));
+		    			 list.add(taskBean);
+		    		 }
+		    	 }	
+		    	 return list;
+		     }	          
 	     
 	    	     
 	     

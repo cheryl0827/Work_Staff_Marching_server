@@ -3,23 +3,26 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.MarchingBean;
 import bean.TMessage;
 import bean.TaskBean;
-import bean.UserBean;
+import bean.WorkuserEvaluatingIndicatorBean;
 
 import com.alibaba.fastjson.JSON;
 
+import dao.MarchingDao;
 import dao.TaskDao;
-import dao.UserDao;
+import dao.WorkUserEvaluatingIndicatorDao;
 
-public class ShowTaskServlet extends HttpServlet {
-
+public class MarchigShowServlet extends HttpServlet {
 
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
@@ -37,24 +40,26 @@ public class ShowTaskServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		int taskID=Integer.valueOf(req.getParameter("taskID")).intValue();
-		int recordStatus=1;
-		TMessage message = new TMessage();
-		try {
-		   // if(UserDao.update_workevaluatingStatus(workevaluatingStatus, userID)){
-			   TaskBean taskBean=TaskDao.task_Select(taskID,recordStatus);
+		String workuserNo=req.getParameter("workuserNo");
+		  TMessage<List<MarchingBean>> message=new TMessage<List<MarchingBean>>();
+			try {
+				List<MarchingBean> marchingBean=new ArrayList<MarchingBean>();
+				marchingBean=MarchingDao.Marching_Select(workuserNo);
+				if(marchingBean!=null && marchingBean.size()>0){
 				message.setCode(200);
-				message.setMessage("查询诉求任务成功"); 
-				message.setData(taskBean);	//}
+				message.setMessage("查询诉求任务的匹配成功"); 
+				message.setData(marchingBean);	
+				}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.setCode(-11);
-			message.setMessage("查询诉求任务失败");
+			message.setMessage("查询诉求任务的匹配失败");
 			message.setData(null);
 		}
 		out.print(JSON.toJSONString(message));
 		
 	}
-	}
+
+}

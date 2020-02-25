@@ -75,7 +75,7 @@ public class CalculatePorprotionServlet extends HttpServlet {
 					
 				}	
 			}
-			//计算a乘以b行的矩阵，比如：{{1,2，1，2}，{3,4,3,4}，{1,2，1，2}，{3,4,3,4}}
+			//计算a乘以b行的矩阵，比如：{{1,2，1，2}，{3,4,3,4}，{1,2,1,2}，{3,4,3,4}}
 			 for(int i=0;i<c;i++){
 		    	  System.out.println("");
 		    	  for(int j = 0;j<c;j++){
