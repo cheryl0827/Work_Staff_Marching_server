@@ -1,4 +1,4 @@
-package servlet;
+﻿package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,6 +20,9 @@ import dao.WorkUserEvaluatingIndicatorDao;
 
 public class AddWorkUserEvaluatingIndicatorServlet extends HttpServlet {
 	public void destroy() {
+
+
+
 		super.destroy(); // Just puts "destroy" string in log
 		// Put your code here
 	}
