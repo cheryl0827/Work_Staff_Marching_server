@@ -16,7 +16,21 @@ public class TaskBean {
   private int organization;
   private int analyse;
   private int law;
- 
+  private int recordStatus;
+  private int marchingStatus;
+  
+public int getRecordStatus() {
+	return recordStatus;
+}
+public void setRecordStatus(int recordStatus) {
+	this.recordStatus = recordStatus;
+}
+public int getMarchingStatus() {
+	return marchingStatus;
+}
+public void setMarchingStatus(int marchingStatus) {
+	this.marchingStatus = marchingStatus;
+}
 public int getCommunity() {
 	return community;
 }

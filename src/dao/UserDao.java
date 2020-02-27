@@ -232,4 +232,19 @@ public class UserDao {
         }
   	return userBean;   
     }
+    //根据工号修改工作人员的工作状态
+    public static boolean update_userWorkStatus(String workuserNo,int workStatus) throws SQLException {
+		 String sql="update user set workStatus=? where workuserNo=?";
+	        boolean flag=false;
+	        ps=con.prepareStatement(sql);
+	        ps.setInt(1,workStatus); 
+	        ps.setString(2, workuserNo);
+	        int count=ps.executeUpdate();
+	        if(count==1){
+	            flag=true;
+	        }
+	        else
+	            flag=false;
+	        return flag;
+	    }
 }

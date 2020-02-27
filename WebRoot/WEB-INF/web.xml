@@ -219,6 +219,27 @@
     <servlet-name>AddRecordServlet</servlet-name>
     <servlet-class>servlet.AddRecordServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ShowRecordServlet</servlet-name>
+    <servlet-class>servlet.ShowRecordServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateUserTaskServlet</servlet-name>
+    <servlet-class>servlet.UpdateUserTaskServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ShowTasklServlet</servlet-name>
+    <servlet-class>servlet.ShowTasklServlet</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -394,6 +415,18 @@
   <servlet-mapping>
     <servlet-name>AddRecordServlet</servlet-name>
     <url-pattern>/AddRecordServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ShowRecordServlet</servlet-name>
+    <url-pattern>/ShowRecordServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateUserTaskServlet</servlet-name>
+    <url-pattern>/UpdateUserTaskServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ShowTasklServlet</servlet-name>
+    <url-pattern>/ShowTasklServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>

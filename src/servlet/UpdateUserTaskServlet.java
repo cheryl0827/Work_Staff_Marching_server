@@ -9,17 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean.TMessage;
-import bean.TaskBean;
-import bean.UserBean;
+import bean.Message;
 
 import com.alibaba.fastjson.JSON;
 
 import dao.TaskDao;
-import dao.UserDao;
 
-public class ShowTaskServlet extends HttpServlet {
-
+public class UpdateUserTaskServlet extends HttpServlet {
 
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
@@ -37,25 +33,27 @@ public class ShowTaskServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		int taskID=Integer.valueOf(req.getParameter("taskID")).intValue();
-		int recordStatus=1;
-		TMessage message = new TMessage();
+		String taskID1=req.getParameter("taskID");
+		int taskID=Integer.valueOf(taskID1).intValue();
+		int taskStatus=Integer.valueOf(req.getParameter("taskStatus")).intValue();
+		Message message = new Message();
 		try {
-		   // if(UserDao.update_workevaluatingStatus(workevaluatingStatus, userID)){
-			   TaskBean taskBean=TaskDao.task_Select(taskID,recordStatus);
-//			   if(taskBean!=null){
+			if(TaskDao.update_taskStatus(taskID, taskStatus)){
 				message.setCode(200);
-				message.setMessage("查询诉求任务成功"); 
-				message.setData(taskBean);	//}
+				message.setMessage("诉求任务审核成功"); 
+				message.setData(null);	
 
-		} catch (SQLException e) {
+		}} catch (SQLException e) {
+			
+
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.setCode(-11);
-			message.setMessage("查询诉求任务失败");
+			message.setMessage("诉求任务审核失败");
 			message.setData(null);
 		}
 		out.print(JSON.toJSONString(message));
 		
 	}
-	}
+
+}

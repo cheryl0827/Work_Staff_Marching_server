@@ -270,7 +270,21 @@ public class TaskDao {
 		    	 }	
 		    	 return list;
 		     }	          
-	     
+		     //修改诉求任务的记录状态
+			    public static boolean update_recordStatus(int taskID,int recordStatus) throws SQLException {
+			        String sql="update task set recordStatus=? where taskID=? ";
+			        boolean flag=false;
+			        ps=con.prepareStatement(sql);
+			        ps.setInt(1,recordStatus);
+			        ps.setInt(2,taskID);
+			        int count=ps.executeUpdate();
+			        if(count==1){
+			            flag=true;
+			        }
+			        else
+			            flag=false;
+			        return flag;
+			    }
 	    	     
 	     
 }

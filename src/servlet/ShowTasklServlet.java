@@ -11,14 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.TMessage;
 import bean.TaskBean;
-import bean.UserBean;
 
 import com.alibaba.fastjson.JSON;
 
 import dao.TaskDao;
-import dao.UserDao;
 
-public class ShowTaskServlet extends HttpServlet {
+public class ShowTasklServlet extends HttpServlet {
 
 
 	public void destroy() {
@@ -38,12 +36,11 @@ public class ShowTaskServlet extends HttpServlet {
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
 		int taskID=Integer.valueOf(req.getParameter("taskID")).intValue();
-		int recordStatus=1;
+		int recordStatus=Integer.valueOf(req.getParameter("recordStatus")).intValue();
 		TMessage message = new TMessage();
 		try {
 		   // if(UserDao.update_workevaluatingStatus(workevaluatingStatus, userID)){
 			   TaskBean taskBean=TaskDao.task_Select(taskID,recordStatus);
-//			   if(taskBean!=null){
 				message.setCode(200);
 				message.setMessage("查询诉求任务成功"); 
 				message.setData(taskBean);	//}
@@ -58,4 +55,4 @@ public class ShowTaskServlet extends HttpServlet {
 		out.print(JSON.toJSONString(message));
 		
 	}
-	}
+}

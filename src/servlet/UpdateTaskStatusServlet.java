@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSON;
 
 import dao.EstimateDao;
 import dao.TaskDao;
+import dao.UserDao;
 
 public class UpdateTaskStatusServlet extends HttpServlet {
 
@@ -36,12 +37,14 @@ public class UpdateTaskStatusServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		String taskID1=req.getParameter("taskID");
 		int taskID=Integer.valueOf(taskID1).intValue();
-		int taskStatus=Integer.valueOf(req.getParameter("taskStatus")).intValue();
+		String workuserNo=req.getParameter("workuserNo");
+		int recordStatus=2;
+		int workStatus=1;
 		Message message = new Message();
 		try {
-			if(TaskDao.update_taskStatus(taskID, taskStatus)){
+			if(TaskDao.update_recordStatus(taskID, recordStatus)&&UserDao.update_userWorkStatus(workuserNo, workStatus)){
 				message.setCode(200);
-				message.setMessage("诉求任务审核成功"); 
+				message.setMessage("办理结束成功"); 
 				message.setData(null);	
 
 		}} catch (SQLException e) {
@@ -50,7 +53,7 @@ public class UpdateTaskStatusServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.setCode(-11);
-			message.setMessage("诉求任务审核失败");
+			message.setMessage("办理结束失败");
 			message.setData(null);
 		}
 		out.print(JSON.toJSONString(message));
