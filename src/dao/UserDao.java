@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.DBBean;
+import bean.EstimateBean;
 import bean.TaskBean;
 import bean.UserBean;
 
@@ -203,7 +204,37 @@ public class UserDao {
 	        return flag;
 	    }
     //查询用户的基本信息
-    public static UserBean select_userinformation(int userID) throws SQLException {
+    public static UserBean select_userinformation(String workuserNo) throws SQLException {
+        UserBean userBean=null;
+    	String sql="select * from user where workuserNo=?";
+        //boolean flag=false;
+        ps=con.prepareStatement(sql);
+        ps.setString(1, workuserNo); 
+        rs=ps.executeQuery();
+        if(rs!=null){
+        	if(rs.next()){
+        	//flag=true;
+        	userBean=new UserBean();
+        	userBean.setUserID(rs.getInt("userID"));
+        	userBean.setUserName(rs.getString("userName"));
+        	userBean.setIndentificationCard(rs.getString("indentificationCard"));
+        	userBean.setPhone(rs.getString("phone"));
+        	userBean.setCountry(rs.getString("country"));
+        	userBean.setAddress(rs.getString("address"));
+        	userBean.setRoleName(rs.getString("roleName"));
+        	userBean.setPassword(rs.getString("password"));
+        	userBean.setRegisterStatus(rs.getInt("registerStatus"));
+        	userBean.setCity(rs.getString("city"));
+        	 userBean.setSex(rs.getString("sex"));
+        	userBean.setProvince(rs.getString("province"));
+        	userBean.setWorkuserNo(rs.getString("workuserNo"));
+        	userBean.setWorkStatus(rs.getInt("workStatus"));      	
+        	}
+        }
+  	return userBean;   
+    }
+    //查询用户的基本信息
+    public static UserBean select_Userinformation(int userID) throws SQLException {
         UserBean userBean=null;
     	String sql="select * from user where userID=?";
         //boolean flag=false;
@@ -247,4 +278,33 @@ public class UserDao {
 	            flag=false;
 	        return flag;
 	    }
+    //根据工号查询工作人员的查看
+    public static UserBean workuserInformation_show(String workuserNo) throws SQLException {
+   	 String sql="select * from user where workuserNo=?";
+   	 UserBean userBean=null;
+   	 ps=con.prepareStatement(sql);
+   	 ps.setString(1, workuserNo);
+   	 rs=ps.executeQuery();
+   	 if(rs!=null){
+   		 while(rs.next()){
+   			 userBean=new UserBean();
+   			userBean.setUserID(rs.getInt("userID"));
+        	userBean.setUserName(rs.getString("userName"));
+        	userBean.setIndentificationCard(rs.getString("indentificationCard"));
+        	userBean.setPhone(rs.getString("phone"));
+        	userBean.setCountry(rs.getString("country"));
+        	userBean.setAddress(rs.getString("address"));
+        	userBean.setRoleName(rs.getString("roleName"));
+        	userBean.setPassword(rs.getString("password"));
+        	userBean.setRegisterStatus(rs.getInt("registerStatus"));
+        	userBean.setCity(rs.getString("city"));
+        	 userBean.setSex(rs.getString("sex"));
+        	userBean.setProvince(rs.getString("province"));
+        	userBean.setWorkuserNo(rs.getString("workuserNo"));
+        	userBean.setWorkStatus(rs.getInt("workStatus"));  
+   		 }
+   	 }	
+   	 return userBean;
+    }	
+
 }

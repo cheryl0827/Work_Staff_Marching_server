@@ -237,6 +237,43 @@
     <servlet-name>ShowTasklServlet</servlet-name>
     <servlet-class>servlet.ShowTasklServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserTaskShowServlet</servlet-name>
+    <servlet-class>servlet.UserTaskShowServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ShowEstimateServlet</servlet-name>
+    <servlet-class>servlet.ShowEstimateServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>WorkUserInformationShow</servlet-name>
+    <servlet-class>servlet.WorkUserInformationShow</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>CaculateWorkuserTaskServlet</servlet-name>
+    <servlet-class>servlet.CaculateWorkuserTaskServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserInformationShowServlet</servlet-name>
+    <servlet-class>servlet.UserInformationShowServlet</servlet-class>
+  </servlet>
+
+
+
+
+ 
+
+
 
 
 
@@ -428,5 +465,26 @@
     <servlet-name>ShowTasklServlet</servlet-name>
     <url-pattern>/ShowTasklServlet</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserTaskShowServlet</servlet-name>
+    <url-pattern>/UserTaskShowServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ShowEstimateServlet</servlet-name>
+    <url-pattern>/ShowEstimateServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>WorkUserInformationShow</servlet-name>
+    <url-pattern>/WorkUserInformationShow</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CaculateWorkuserTaskServlet</servlet-name>
+    <url-pattern>/CaculateWorkuserTaskServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserInformationShowServlet</servlet-name>
+    <url-pattern>/UserInformationShowServlet</url-pattern>
+  </servlet-mapping>
+
 
 </web-app>

@@ -44,11 +44,10 @@ public class AddWorkUserEvaluatingIndicatorServlet extends HttpServlet {
 		int organization=Integer.valueOf(req.getParameter("organization")).intValue();
 		int analyse=Integer.valueOf(req.getParameter("analyse")).intValue();
 		int law=Integer.valueOf(req.getParameter("law")).intValue();
-		int userID=Integer.valueOf(req.getParameter("userID")).intValue();
-	
+		String workuserNo=req.getParameter("workuserNo");
 		Message message = new Message();
 		try {
-			if(WorkUserEvaluatingIndicatorDao.add_workevaliatingindicator(community, urgent, psychology, organization, analyse, law, userID)){
+			if(WorkUserEvaluatingIndicatorDao.add_workevaliatingindicator(community, urgent, psychology, organization, analyse, law, workuserNo)){
 			   // UserBean userBean=UserDao.select_userlogin(phone, password, rolename);
 				message.setCode(200);
 				message.setMessage("工作人员评价成功"); 

@@ -285,6 +285,56 @@ public class TaskDao {
 			            flag=false;
 			        return flag;
 			    }
-	    	     
-	     
+			    //显示普通用户的所有诉求任务
+			     public static List<TaskBean> task_UserSelect(int taskStatus,int userID,int marchingStatus,int pingjiaStatus) throws SQLException{
+			    	 List<TaskBean>list=new ArrayList<TaskBean>();
+			    	 TaskBean taskBean=null;
+			    	 String sql="select * from task where taskStatus=? and userID=? and marchingStatus=? and pingjiaStatus=? order by taskTime desc";
+			    	 ps=con.prepareStatement(sql);
+			    	 ps.setInt(1,taskStatus);
+			    	 ps.setInt(2,userID);
+			    	 ps.setInt(3,marchingStatus);
+			    	 ps.setInt(4,pingjiaStatus);
+			    	 rs=ps.executeQuery();
+			    	 if(rs!=null){
+			    		 while(rs.next()){
+			    			 taskBean=new TaskBean();
+			    			 taskBean.setTaskID(rs.getInt("taskID"));
+			    			 taskBean.setTaskAdress(rs.getString("taskAdress"));
+			    			 taskBean.setTaskCatagery(rs.getString("taskCatagery"));
+			    			 taskBean.setTaskContent(rs.getString("taskContent"));
+			    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
+			    			 taskBean.setTaskTime(rs.getString("taskTime"));
+			    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
+			    			 taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+			    			 taskBean.setUserID(rs.getInt("userID"));
+			    			 taskBean.setCommunity(rs.getInt("community"));
+			    			 taskBean.setUrgent(rs.getInt("urgent"));
+			    			 taskBean.setPsychology(rs.getInt("psychology"));
+			    			 taskBean.setOrganization(rs.getInt("organization"));
+			    			 taskBean.setAnalyse(rs.getInt("analyse"));
+			    			 taskBean.setLaw(rs.getInt("law"));
+			    			 taskBean.setMarchingStatus(rs.getInt("marchingStatus"));
+			    			 taskBean.setPingjiaStatus(rs.getInt("pingjiaStatus"));
+			    			 list.add(taskBean);
+			    		 }
+			    	 }	
+			    	 return list;
+			     }	     
+			     //修改诉求任务的状态
+				    public static boolean update_usertaskStatus(int taskID,int taskStatus,int pingjiaStatus) throws SQLException {
+				        String sql="update task set taskStatus=?,pingjiaStatus=? where taskID=? ";
+				        boolean flag=false;
+				        ps=con.prepareStatement(sql);
+				        ps.setInt(1,taskStatus);
+				        ps.setInt(2, pingjiaStatus);
+				        ps.setInt(3,taskID);
+				        int count=ps.executeUpdate();
+				        if(count==1){
+				            flag=true;
+				        }
+				        else
+				            flag=false;
+				        return flag;
+				    }			   
 }

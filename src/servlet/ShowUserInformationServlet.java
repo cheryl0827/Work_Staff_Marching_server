@@ -37,11 +37,11 @@ public class ShowUserInformationServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		int userID=Integer.valueOf(req.getParameter("userID")).intValue();
+		String workuserNo=req.getParameter("workuserNo");
 		TMessage message = new TMessage();
 		try {
 		   // if(UserDao.update_workevaluatingStatus(workevaluatingStatus, userID)){
-			UserBean userBean=UserDao.select_userinformation(userID);
+			UserBean userBean=UserDao.select_userinformation(workuserNo);
 				message.setCode(200);
 				message.setMessage("查询用户信息成功"); 
 				message.setData(userBean);	//}

@@ -16,8 +16,8 @@ public class WorkUserEvaluatingIndicatorDao {
 	    private static PreparedStatement ps=null;
 	    private static ResultSet rs=null;
 	    //工作人员指标的增加
-	    public static boolean add_workevaliatingindicator(int community,int urgent,int psychology,int organization,int analyse,int law,int userID) throws SQLException {
-	        String sql="insert into workevaluatingindicator(community,urgent,psychology,organization,analyse,law,userID) value (?,?,?,?,?,?,?)";
+	    public static boolean add_workevaliatingindicator(int community,int urgent,int psychology,int organization,int analyse,int law,String workuserNo) throws SQLException {
+	        String sql="insert into workevaluatingindicator(community,urgent,psychology,organization,analyse,law,workuserNo) value (?,?,?,?,?,?,?)";
 	        boolean flag=false;
 	        ps=con.prepareStatement(sql);
 	        ps.setInt(1,community);
@@ -26,7 +26,7 @@ public class WorkUserEvaluatingIndicatorDao {
 	        ps.setInt(4, organization);
 	        ps.setInt(5,analyse);
 	        ps.setInt(6,law);
-	        ps.setInt(7, userID);
+	        ps.setString(7, workuserNo);
 	        int count=ps.executeUpdate();
 	        if(count==1){
 	            flag=true;
@@ -36,11 +36,11 @@ public class WorkUserEvaluatingIndicatorDao {
 	        return flag;
 	    }
 	    //工作人员指标信息的查看
-	    public static WorkuserEvaluatingIndicatorBean select_workuser(int userID) throws SQLException {
+	    public static WorkuserEvaluatingIndicatorBean select_workuser(String workuserNo) throws SQLException {
 	        WorkuserEvaluatingIndicatorBean workUser=null;
-	    	String sql="select * from workevaluatingindicator where userID=?";
+	    	String sql="select * from workevaluatingindicator where workuserNo=?";
 	        ps=con.prepareStatement(sql);
-	        ps.setInt(1, userID);
+	        ps.setString(1, workuserNo);
 	        rs=ps.executeQuery();
 	        if(rs!=null){
 	        	if(rs.next()){
@@ -53,19 +53,18 @@ public class WorkUserEvaluatingIndicatorDao {
 	        	workUser.setOrganization(rs.getInt("organization"));
 	        	workUser.setAnalyse(rs.getInt("analyse"));
 	        	workUser.setLaw(rs.getInt("law"));
-	        	workUser.setUserID(rs.getInt("userID"));
-	        	   	
+	        	workUser.setWorkuserNo(rs.getString("workuserNo"));	   	
 	        	}
 	        }
 	  	return workUser;   
 	    }
 	    //工作人员指标信息的删除
-	    public static boolean delete_workuser(int userID) throws SQLException {
+	    public static boolean delete_workuser(String workuserNo) throws SQLException {
 	        WorkuserEvaluatingIndicatorBean workUser=null;
-	    	String sql="delete from workevaluatingindicator where userID=?";
+	    	String sql="delete from workevaluatingindicator where workuserNo=?";
 	    	boolean flag=false;
 	        ps=con.prepareStatement(sql);
-	        ps.setInt(1, userID);
+	        ps.setString(1, workuserNo);
 	        int count=ps.executeUpdate();
 	        if(count==1){
 	            flag=true;
@@ -75,9 +74,9 @@ public class WorkUserEvaluatingIndicatorDao {
 	        return flag;
 	    }
 	  //工作人员指标信息的修改
-	    public static boolean update_workuser(int community,int urgent,int psychology,int organization,int analyse,int law,int userID) throws SQLException {
+	    public static boolean update_workuser(int community,int urgent,int psychology,int organization,int analyse,int law,String workuserNo) throws SQLException {
 	        WorkuserEvaluatingIndicatorBean workUser=null;
-	    	String sql="update workevaluatingindicator set community=?,urgent=?,psychology=?,organization=?,analyse=?,law=? where userID=?";
+	    	String sql="update workevaluatingindicator set community=?,urgent=?,psychology=?,organization=?,analyse=?,law=? where workuserNo=?";
 	    	boolean flag=false;
 	        ps=con.prepareStatement(sql);
 	        ps.setInt(1,community);
@@ -86,7 +85,7 @@ public class WorkUserEvaluatingIndicatorDao {
 	        ps.setInt(4, organization);
 	        ps.setInt(5,analyse);
 	        ps.setInt(6,law);
-	        ps.setInt(7, userID);
+	        ps.setString(7, workuserNo);
 	        int count=ps.executeUpdate();
 	        if(count==1){
 	            flag=true;
@@ -112,7 +111,7 @@ public class WorkUserEvaluatingIndicatorDao {
 	        	workUser.setOrganization(rs.getInt("organization"));
 	        	workUser.setAnalyse(rs.getInt("analyse"));
 	        	workUser.setLaw(rs.getInt("law"));
-	        	workUser.setUserID(rs.getInt("userID"));
+	        	workUser.setWorkuserNo(rs.getString("workuserNo"));
 	        	list.add(workUser);  	
 	        	}
 	        }

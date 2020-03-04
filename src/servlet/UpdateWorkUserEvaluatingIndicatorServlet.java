@@ -38,10 +38,10 @@ public class UpdateWorkUserEvaluatingIndicatorServlet extends HttpServlet {
 		int organization=Integer.valueOf(req.getParameter("organization")).intValue();
 		int analyse=Integer.valueOf(req.getParameter("analyse")).intValue();
 		int law=Integer.valueOf(req.getParameter("law")).intValue();
-		int userID=Integer.valueOf(req.getParameter("userID")).intValue();
+		String workuserNo=req.getParameter("workuserNo");
 		Message message = new Message();
 		try {
-			if(WorkUserEvaluatingIndicatorDao.update_workuser(community, urgent, psychology, organization, analyse, law, userID)){
+			if(WorkUserEvaluatingIndicatorDao.update_workuser(community, urgent, psychology, organization, analyse, law, workuserNo)){
 			   // UserBean userBean=UserDao.select_userlogin(phone, password, rolename);
 				message.setCode(200);
 				message.setMessage("工作人员指标修改成功"); 

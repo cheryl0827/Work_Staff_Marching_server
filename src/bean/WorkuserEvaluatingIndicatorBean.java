@@ -9,6 +9,13 @@ public class WorkuserEvaluatingIndicatorBean {
 	  private int analyse;
 	  private int law;
 	  private int userID;
+	  private String workuserNo;
+	public String getWorkuserNo() {
+		return workuserNo;
+	}
+	public void setWorkuserNo(String workuserNo) {
+		this.workuserNo = workuserNo;
+	}
 	public int getWorkEvaluatingIndicatorID() {
 		return workEvaluatingIndicatorID;
 	}

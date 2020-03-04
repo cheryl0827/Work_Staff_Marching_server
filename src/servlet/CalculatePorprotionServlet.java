@@ -43,7 +43,8 @@ public class CalculatePorprotionServlet extends HttpServlet {
 
 
 		PrintWriter out = resp.getWriter();
-		int taskStatus=3;
+		int taskStatus=2;
+		int marchingStatus=1;
 		try {
 			List<WorkuserEvaluatingIndicatorBean> workuserEvaluatingIndicatorBean=new ArrayList<WorkuserEvaluatingIndicatorBean>();
 			workuserEvaluatingIndicatorBean=WorkUserEvaluatingIndicatorDao.selectAll_workuser();
@@ -65,7 +66,7 @@ public class CalculatePorprotionServlet extends HttpServlet {
 				task1[i]=taskBean.get(i).getTaskID();
 				for(int j=0;j < b;j++)
 				{
-					workuserEvaluatingIndicator1[j]=workuserEvaluatingIndicatorBean.get(j).getUserID();
+					workuserEvaluatingIndicator1[j]=Integer.valueOf(workuserEvaluatingIndicatorBean.get(j).getWorkuserNo()).intValue();
 					count=(int) (taskBean.get(i).getCommunity()*workuserEvaluatingIndicatorBean.get(j).getCommunity()*e+
 							taskBean.get(i).getUrgent()*workuserEvaluatingIndicatorBean.get(j).getUrgent()*e+
 							taskBean.get(i).getPsychology()*workuserEvaluatingIndicatorBean.get(j).getPsychology()*e+
@@ -111,14 +112,14 @@ public class CalculatePorprotionServlet extends HttpServlet {
 			 }
 //			 System.out.println("");
 //			 System.out.println("任务id ");
-//			 for(int i=0;i<c;i++){
-//				  System.out.print(task[i]+"  "); 
-//			 }
+			 for(int i=0;i<c;i++){
+				  System.out.print(task[i]+"  "); 
+			 }
 //			 System.out.println("");
 //			 System.out.println("工作id ");
-//			 for(int i=0;i<c;i++){
-//				  System.out.print(workuserEvaluatingIndicator[i]+"  "); 
-//			 }
+			 for(int i=0;i<c;i++){
+				  System.out.print(workuserEvaluatingIndicator[i]+"  "); 
+			 }
 			
 
 		} catch (SQLException e) {

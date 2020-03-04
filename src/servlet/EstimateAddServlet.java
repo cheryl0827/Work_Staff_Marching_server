@@ -39,12 +39,12 @@ public class EstimateAddServlet extends HttpServlet {
 		int organization=Integer.valueOf(req.getParameter("organization")).intValue();
 		int analyse=Integer.valueOf(req.getParameter("analyse")).intValue();
 		int law=Integer.valueOf(req.getParameter("law")).intValue();
-		String taskID1=req.getParameter("taskID");
-		int taskID=Integer.valueOf(taskID1).intValue();
+		int taskID=Integer.valueOf(req.getParameter("taskID")).intValue();
+		int pingjiaStatus=Integer.valueOf(req.getParameter("pingjiaStatus")).intValue();
 		int taskStatus=Integer.valueOf(req.getParameter("taskStatus")).intValue();
 		Message message = new Message();
 		try {
-			if(TaskDao.update_taskStatus(taskID, taskStatus)){
+			if(TaskDao.update_usertaskStatus(taskID, taskStatus, pingjiaStatus)){
 			if(EstimateDao.add_estimate(community, urgent, psychology, organization, analyse, law, taskID)){
 			   // UserBean userBean=UserDao.select_userlogin(phone, password, rolename);
 				message.setCode(200);

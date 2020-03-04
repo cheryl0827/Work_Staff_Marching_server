@@ -18,7 +18,14 @@ public class TaskBean {
   private int law;
   private int recordStatus;
   private int marchingStatus;
+  private int pingjiaStatus;
   
+public int getPingjiaStatus() {
+	return pingjiaStatus;
+}
+public void setPingjiaStatus(int pingjiaStatus) {
+	this.pingjiaStatus = pingjiaStatus;
+}
 public int getRecordStatus() {
 	return recordStatus;
 }

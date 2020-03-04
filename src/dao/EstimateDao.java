@@ -4,8 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import bean.DBBean;
+import bean.EstimateBean;
+import bean.TaskBean;
 
 public class EstimateDao {
 	  private static Connection con= DBBean.getConn();
@@ -31,5 +35,27 @@ public class EstimateDao {
 	            flag=false;
 	        return flag;
 	    }
+	    //诉求任务评价的查看
+	     public static EstimateBean Estimate_show(int taskID) throws SQLException {
+	    	 String sql="select * from estimate where taskID=?";
+	    	 EstimateBean estimaneBean=null;
+	    	 ps=con.prepareStatement(sql);
+	    	 ps.setInt(1,taskID);
+	    	 rs=ps.executeQuery();
+	    	 if(rs!=null){
+	    		 while(rs.next()){
+	    			 estimaneBean=new EstimateBean();
+	    			 estimaneBean.setTaskID(rs.getInt("taskID"));	    		
+	    			 estimaneBean.setCommunity(rs.getInt("community"));
+	    			 estimaneBean.setUrgent(rs.getInt("urgent"));
+	    			 estimaneBean.setPsychology(rs.getInt("psychology"));
+	    			 estimaneBean.setOrganization(rs.getInt("organization"));
+	    			 estimaneBean.setAnalyse(rs.getInt("analyse"));
+	    			 estimaneBean.setLaw(rs.getInt("law"));
+	    			
+	    		 }
+	    	 }	
+	    	 return estimaneBean;
+	     }	
 
 }

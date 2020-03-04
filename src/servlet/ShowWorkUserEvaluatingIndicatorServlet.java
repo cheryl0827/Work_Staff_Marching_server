@@ -37,11 +37,11 @@ public class ShowWorkUserEvaluatingIndicatorServlet extends HttpServlet {
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
 		//int workevaluatingStatus=2;
-		int userID=Integer.valueOf(req.getParameter("userID")).intValue();
+		String workuserNo=req.getParameter("workuserNo");
 		TMessage message = new TMessage();
 		try {
 		   // if(UserDao.update_workevaluatingStatus(workevaluatingStatus, userID)){
-			WorkuserEvaluatingIndicatorBean workUser=WorkUserEvaluatingIndicatorDao.select_workuser(userID);
+			WorkuserEvaluatingIndicatorBean workUser=WorkUserEvaluatingIndicatorDao.select_workuser(workuserNo);
 			    message.setCode(200);
 				message.setMessage("查询用户信息成功"); 
 				message.setData(workUser);	//}
