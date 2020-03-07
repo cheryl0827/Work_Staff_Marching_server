@@ -3,23 +3,20 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean.EstimateBean;
-import bean.TMessage;
-import bean.WorkuserEvaluatingIndicatorBean;
+import bean.Message;
 
 import com.alibaba.fastjson.JSON;
 
-import dao.EstimateDao;
-import dao.WorkUserEvaluatingIndicatorDao;
+import dao.TaskDao;
+import dao.UserDao;
 
-public class ShowEstimateServlet extends HttpServlet {
+public class UpdateAduitTaskStatusServlet extends HttpServlet {
 
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
@@ -37,24 +34,32 @@ public class ShowEstimateServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		int taskID=Integer.valueOf(req.getParameter("taskID")).intValue();
-		System.out.print(taskID);
-		TMessage message = new TMessage();
+		String taskID1=req.getParameter("taskID");
+		int taskID=Integer.valueOf(taskID1);
+		int taskStatus=Integer.valueOf(req.getParameter("taskStatus"));
+		Message message = new Message();
 		try {
-		   // if(UserDao.update_workevaluatingStatus(workevaluatingStatus, userID)){
-			EstimateBean estimateBean=EstimateDao.Estimate_show(taskID);
-			    message.setCode(200);
-				message.setMessage("查询评价信息成功"); 
-				message.setData(estimateBean);	//}
+			if(TaskDao.update_taskStatus(taskID, taskStatus)){
+				message.setCode(200);
+				message.setMessage("审核诉求任务成功"); 
+				message.setData(null);	
 
+		}else {
+			message.setCode(-11);
+			message.setMessage("审核诉求任务失败");
+			message.setData(null);
+		}
+			
 		} catch (SQLException e) {
+			
+
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.setCode(-11);
-			message.setMessage("查询评价信息失败");
+			message.setMessage("办理结束失败");
 			message.setData(null);
 		}
 		out.print(JSON.toJSONString(message));
 		
 	}
-	}
+}

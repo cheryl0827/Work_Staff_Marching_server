@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.CodeExchange;
 import bean.Message;
 
 import com.alibaba.fastjson.JSON;
@@ -36,10 +37,10 @@ public class UserChangeAdressServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		String province=req.getParameter("province");
-		String city=req.getParameter("city");
-		String country=req.getParameter("country");
-		String address=req.getParameter("address");
+		String province=CodeExchange.ChineseCoding(req.getParameter("province"));
+		String city=CodeExchange.ChineseCoding(req.getParameter("city"));
+		String country=CodeExchange.ChineseCoding(req.getParameter("country"));
+		String address=CodeExchange.ChineseCoding(req.getParameter("address"));
 		String userID1=req.getParameter("userID");
 		int userID=Integer.valueOf(userID1).intValue();
 		Message message=new Message();

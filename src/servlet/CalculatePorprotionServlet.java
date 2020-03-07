@@ -93,13 +93,13 @@ public class CalculatePorprotionServlet extends HttpServlet {
 			 PSA.num1=array;
 			 int[] optimal=new int[c];
 			 optimal=psa1.bsss(PSA.num1);			 
-//
-//			 for(int i=0;i<c;i++){
-//		    	  System.out.println("");
-//		    	  for(int j = 0;j<c;j++){
-//		    		  System.out.print(array[i][j]+"  ");
-//		    	  }
-//		      }
+
+			 for(int i=0;i<c;i++){
+		    	  System.out.println("");
+		    	  for(int j = 0;j<c;j++){
+		    		  System.out.print(array[i][j]+"  ");
+		    	  }
+		      }
 			 //生成长度为c的一位数组，对应的是task的id
 			 for(int i=0;i<c;i++){
 				 int f=i%a;
@@ -110,13 +110,13 @@ public class CalculatePorprotionServlet extends HttpServlet {
 				 int f=i%b;
 				 workuserEvaluatingIndicator[i]=workuserEvaluatingIndicator1[f]; 
 			 }
-//			 System.out.println("");
-//			 System.out.println("任务id ");
+			 System.out.println("");
+			 System.out.println("任务id ");
 			 for(int i=0;i<c;i++){
 				  System.out.print(task[i]+"  "); 
 			 }
-//			 System.out.println("");
-//			 System.out.println("工作id ");
+			 System.out.println("");
+			 System.out.println("工作id ");
 			 for(int i=0;i<c;i++){
 				  System.out.print(workuserEvaluatingIndicator[i]+"  "); 
 			 }

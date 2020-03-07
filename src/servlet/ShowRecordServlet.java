@@ -52,7 +52,7 @@ public class ShowRecordServlet extends HttpServlet {
 			}
 			else{
 				message.setCode(-11);
-				message.setMessage("获取记录数据失败");
+				message.setMessage("获取记录数据失败,工作用户未填写记录过程！");
 				message.setData(null);
 				out.print(JSON.toJSONString(message));
 				

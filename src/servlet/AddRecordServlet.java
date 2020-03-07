@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.CodeExchange;
 import bean.Message;
 
 import com.alibaba.fastjson.JSON;
@@ -38,7 +39,7 @@ public class AddRecordServlet extends HttpServlet {
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
 		String nextVisitTime = req.getParameter("nextVisitTime");
-		String recordContent = req.getParameter("recordContent");
+		String recordContent = CodeExchange.ChineseCoding(req.getParameter("recordContent"));
 		String recordTime = req.getParameter("recordTime");
 		String taskID1=req.getParameter("taskID");
 		int taskID=Integer.valueOf(taskID1).intValue();

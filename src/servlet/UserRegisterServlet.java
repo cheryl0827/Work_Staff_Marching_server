@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.CodeExchange;
 import bean.Message;
 
 import com.alibaba.fastjson.JSON;
@@ -38,15 +39,15 @@ public class UserRegisterServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		String phone = req.getParameter("phone");
 		String password=req.getParameter("password");
-		String userName=req.getParameter("userName");
-		String roleName=req.getParameter("roleName");
-		String sex=req.getParameter("sex");
+		String userName=CodeExchange.ChineseCoding(req.getParameter("userName"));
+		String roleName=CodeExchange.ChineseCoding(req.getParameter("roleName"));
+		String sex=CodeExchange.ChineseCoding(req.getParameter("sex"));
 		//String workuserNo=req.getParameter("workuserno");
 		String indentificationCard=req.getParameter("indentificationCard");
-		String province=req.getParameter("province");
-		String city=req.getParameter("city");
-		String country=req.getParameter("country");
-		String address=req.getParameter("address");
+		String province=CodeExchange.ChineseCoding(req.getParameter("province"));
+		String city=CodeExchange.ChineseCoding(req.getParameter("city"));
+		String country=CodeExchange.ChineseCoding(req.getParameter("country"));
+		String address=CodeExchange.ChineseCoding(req.getParameter("address"));
 		Message message=new Message();
 		try {
 			if(TUserDao.update_user(userName, phone, password, roleName, sex, indentificationCard, province, city, country, address)){

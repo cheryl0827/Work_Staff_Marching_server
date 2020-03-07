@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.alibaba.fastjson.JSON;
 
 import dao.UserDao;
+import bean.CodeExchange;
 import bean.Message;
 
 public class UserBaseRegisterServlet extends HttpServlet {
@@ -42,9 +43,9 @@ public class UserBaseRegisterServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		String phone = req.getParameter("phone");
 		String password=req.getParameter("password");
-		String userName=req.getParameter("userName");
-		String roleName=req.getParameter("roleName");
-		String sex=req.getParameter("sex");
+		String userName=CodeExchange.ChineseCoding(req.getParameter("userName"));
+		String roleName=CodeExchange.ChineseCoding(req.getParameter("roleName"));
+		String sex=CodeExchange.ChineseCoding(req.getParameter("sex"));
 		String workuserNo=req.getParameter("workuserNo");
 		//System.out.print(workuserNo);
 		Message message=new Message();//传给前台

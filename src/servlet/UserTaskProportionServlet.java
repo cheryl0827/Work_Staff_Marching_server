@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.CodeExchange;
 import bean.Message;
 
 import com.alibaba.fastjson.JSON;
@@ -33,16 +34,24 @@ public class UserTaskProportionServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		String taskAdress = req.getParameter("taskAdress");
-		String taskCatagery=req.getParameter("taskCatagery");
-		String taskDetaiAdress=req.getParameter("taskDetaiAdress");
-		String taskContent=req.getParameter("taskContent");
-	    int community=Integer.valueOf(req.getParameter("community")).intValue();
-	    int urgent=Integer.valueOf(req.getParameter("urgent")).intValue();
-	    int psychology=Integer.valueOf(req.getParameter("psychology")).intValue();
-	    int organization=Integer.valueOf(req.getParameter("organization")).intValue();
-	    int analyse=Integer.valueOf(req.getParameter("analyse")).intValue();
-	    int law=Integer.valueOf(req.getParameter("law")).intValue();
+		String taskAdress = CodeExchange.ChineseCoding(req.getParameter("taskAdress"));
+		String taskCatagery=CodeExchange.ChineseCoding(req.getParameter("taskCatagery"));
+		String taskDetaiAdress=CodeExchange.ChineseCoding(req.getParameter("taskDetaiAdress"));
+		String taskContent=CodeExchange.ChineseCoding(req.getParameter("taskContent"));
+		String community=req.getParameter("community");
+		String urgent=req.getParameter("urgent");
+		String psychology=req.getParameter("psychology");
+		String organization=req.getParameter("organization");
+		String analyse=req.getParameter("analyse");
+		String law=req.getParameter("law");
+		//System.out.println(taskAdress+taskCatagery+taskDetaiAdress+taskContent+community+urgent+psychology+organization+analyse+law);
+//		int community=0;
+//	  // int community=Integer.valueOf(req.getParameter("community"));
+//	    int urgent=Integer.valueOf(req.getParameter("urgent"));
+//	    int psychology=Integer.valueOf(req.getParameter("psychology"));
+//	    int organization=Integer.valueOf(req.getParameter("organization"));
+//	    int analyse=Integer.valueOf(req.getParameter("analyse"));
+//	    int law=Integer.valueOf(req.getParameter("law"));
 		Message message = new Message();
 		try {
 			if(TaskDao.add_taskproportion(taskAdress, taskCatagery, taskContent, taskDetaiAdress, community, urgent, psychology, organization, analyse, law)){
@@ -50,16 +59,21 @@ public class UserTaskProportionServlet extends HttpServlet {
 				message.setCode(200);
 				message.setMessage("诉求任务权重表填写成功"); 
 				message.setData(null);
-				}		
+				}	
+			else{
+				message.setCode(-11);
+				message.setMessage("诉求任务权重表填写失败");
+				message.setData(null);	
+			}
 
 		} catch (SQLException e) {
 			
-
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			message.setCode(-11);
 			message.setMessage("诉求任务权重表填写失败");
 			message.setData(null);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
 		}
 		out.print(JSON.toJSONString(message));
 		

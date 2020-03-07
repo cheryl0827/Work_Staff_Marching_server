@@ -41,6 +41,7 @@ public class RecordDao {
 		   	 rs=ps.executeQuery();
 		   	 if(rs!=null){
 		   		 while(rs.next()){
+		   			
 		   			RecordBean recordBean=new RecordBean();
 		   			recordBean.setRecordID(rs.getInt("recordID"));
 		   			recordBean.setTaskID(rs.getInt("taskID"));

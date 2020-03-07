@@ -35,21 +35,22 @@ public class TaskDao {
 	        return flag;
 	    }
 	    //诉求任务的权重更新
-	    public static boolean add_taskproportion(String taskAdress,String taskCatagery,String taskContent,String taskDetaiAdress,int community,int urgent,int psychology,int organization,int analyse,int law) throws SQLException {
+	    public static boolean add_taskproportion(String taskAdress,String taskCatagery,String taskContent,String taskDetaiAdress,String community,String urgent,String psychology,String organization,String analyse,String law) throws SQLException {
 	        String sql="update task set community=?,urgent=?,psychology=?,organization=?,analyse=?,law=? where taskAdress=? and taskCatagery=? and taskContent=? and taskDetaiAdress=?";
 	        boolean flag=false;
 	        ps=con.prepareStatement(sql);
-	        ps.setInt(1,community);
-	        ps.setInt(2,urgent);
-	        ps.setInt(3,psychology);
-	        ps.setInt(4,organization);
-	        ps.setInt(5,analyse);
-	        ps.setInt(6, law);
+	        ps.setString(1,community);
+	        ps.setString(2,urgent);
+	        ps.setString(3,psychology);
+	        ps.setString(4,organization);
+	        ps.setString(5,analyse);
+	        ps.setString(6, law);
 	        ps.setString(7, taskAdress);
 	        ps.setString(8, taskCatagery);
 	        ps.setString(9, taskContent);
 	        ps.setString(10, taskDetaiAdress);
 	        int count=ps.executeUpdate();
+	       System.out.print(count);
 	        if(count==1){
 	            flag=true;
 	        }
@@ -336,5 +337,21 @@ public class TaskDao {
 				        else
 				            flag=false;
 				        return flag;
-				    }			   
+				    }	
+				    
+				    //计算工作人员完成的诉求任务数量
+				    public static int calculate_usertasks(String taskWorknumber) throws SQLException {
+				        String sql="select * from task where taskWorknumber=?";
+				        boolean flag=false;
+				        ps=con.prepareStatement(sql);
+				        ps.setString(1,taskWorknumber);
+				        int count=0;
+				        rs=ps.executeQuery();
+				    	 if(rs!=null){
+				    		 while(rs.next()){
+				    		 count=count+1;	 
+				    		 }
+				    		 }
+				    	 return count;
+				    }		
 }

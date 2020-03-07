@@ -9,6 +9,7 @@ import java.util.List;
 
 import bean.DBBean;
 import bean.EstimateBean;
+import bean.MarchingBean;
 import bean.TaskBean;
 import bean.UserBean;
 
@@ -305,6 +306,36 @@ public class UserDao {
    		 }
    	 }	
    	 return userBean;
-    }	
+    }
+    //查询管理员用户的信息
+    public static UserBean select_Adminuser(int userID) throws SQLException {
+    	UserBean userBean=null;
+    	String sql="select * from user where userID=?";
+        //boolean flag=false;
+        ps=con.prepareStatement(sql);
+        ps.setInt(1, userID);
+        rs=ps.executeQuery();
+        if(rs!=null){
+        	if(rs.next()){
+        	//flag=true;
+        	userBean=new UserBean();
+        	userBean.setUserID(rs.getInt("userID"));
+        	userBean.setUserName(rs.getString("userName"));
+        	userBean.setIndentificationCard(rs.getString("indentificationCard"));
+        	userBean.setPhone(rs.getString("phone"));
+        	userBean.setCountry(rs.getString("country"));
+        	userBean.setAddress(rs.getString("address"));
+        	userBean.setRoleName(rs.getString("roleName"));
+        	userBean.setPassword(rs.getString("password"));
+        	userBean.setRegisterStatus(rs.getInt("registerStatus"));
+        	userBean.setCity(rs.getString("city"));
+        	userBean.setProvince(rs.getString("province"));
+        	userBean.setWorkuserNo(rs.getString("workuserNo"));
+        	userBean.setWorkStatus(rs.getInt("workStatus")); 
+        	
+        	}
+        }
+  	return userBean;   
+    }
 
 }

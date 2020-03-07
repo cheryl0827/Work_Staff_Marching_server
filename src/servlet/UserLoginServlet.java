@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.CodeExchange;
 import bean.Message;
 import bean.TMessage;
 import bean.UserBean;
@@ -38,7 +39,7 @@ public class UserLoginServlet extends HttpServlet {
 		String phone = req.getParameter("phone");
 		
 		String password=req.getParameter("password");
-		String rolename=req.getParameter("usertype");
+		String rolename=CodeExchange.ChineseCoding(req.getParameter("usertype"));
 		TMessage message = new TMessage();
 		try {
 			if(UserDao.select_userloginregister(phone, password, rolename)==2){

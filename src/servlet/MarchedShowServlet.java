@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,16 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean.EstimateBean;
+import bean.MarchingBean;
 import bean.TMessage;
-import bean.WorkuserEvaluatingIndicatorBean;
 
 import com.alibaba.fastjson.JSON;
 
-import dao.EstimateDao;
-import dao.WorkUserEvaluatingIndicatorDao;
+import dao.MarchingDao;
 
-public class ShowEstimateServlet extends HttpServlet {
+public class MarchedShowServlet extends HttpServlet {
 
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
@@ -37,24 +36,25 @@ public class ShowEstimateServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		int taskID=Integer.valueOf(req.getParameter("taskID")).intValue();
-		System.out.print(taskID);
-		TMessage message = new TMessage();
-		try {
-		   // if(UserDao.update_workevaluatingStatus(workevaluatingStatus, userID)){
-			EstimateBean estimateBean=EstimateDao.Estimate_show(taskID);
-			    message.setCode(200);
-				message.setMessage("查询评价信息成功"); 
-				message.setData(estimateBean);	//}
+		  TMessage<List<MarchingBean>> message=new TMessage<List<MarchingBean>>();
+			try {
+				List<MarchingBean> marchingBean=new ArrayList<MarchingBean>();
+				marchingBean=MarchingDao.Marching_SelectAll();
+				if(marchingBean!=null && marchingBean.size()>0){
+				message.setCode(200);
+				message.setMessage("查询诉求任务的匹配成功"); 
+				message.setData(marchingBean);	
+				}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.setCode(-11);
-			message.setMessage("查询评价信息失败");
+			message.setMessage("查询诉求任务的匹配失败");
 			message.setData(null);
 		}
 		out.print(JSON.toJSONString(message));
 		
 	}
-	}
+
+}

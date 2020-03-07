@@ -34,5 +34,24 @@ public class MarchingDao {
    		 }
    	 }	
    	 return list;
-    }	          
+    }	
+    //显示所有的匹配信息
+    public static List<MarchingBean> Marching_SelectAll() throws SQLException{
+      	 List<MarchingBean>list=new ArrayList<MarchingBean>();
+      	 String sql="select * from marching order by marchingTime desc";
+      	 ps=con.prepareStatement(sql);
+      	 rs=ps.executeQuery();
+      	 if(rs!=null){
+      		 while(rs.next()){
+      			MarchingBean marchingBean=new MarchingBean();
+      			marchingBean.setMarchingID(rs.getInt("marchingID"));
+      			marchingBean.setWorkuserNo(rs.getString("workuserNo"));
+      			marchingBean.setAdminID(rs.getInt("adminID"));
+      			marchingBean.setTaskID(rs.getInt("taskID"));
+      			marchingBean.setMarchingTime(rs.getString("marchingTime"));
+      			list.add(marchingBean);
+      		 }
+      	 }	
+      	 return list;
+       }	
 }

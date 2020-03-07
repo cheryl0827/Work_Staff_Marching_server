@@ -36,7 +36,7 @@ public class UpdateTaskStatusServlet extends HttpServlet {
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
 		String taskID1=req.getParameter("taskID");
-		int taskID=Integer.valueOf(taskID1).intValue();
+		int taskID=Integer.valueOf(taskID1);
 		String workuserNo=req.getParameter("workuserNo");
 		int recordStatus=2;
 		int workStatus=1;
@@ -47,7 +47,13 @@ public class UpdateTaskStatusServlet extends HttpServlet {
 				message.setMessage("办理结束成功"); 
 				message.setData(null);	
 
-		}} catch (SQLException e) {
+		}else {
+			message.setCode(-11);
+			message.setMessage("办理结束失败");
+			message.setData(null);
+		}
+			
+		} catch (SQLException e) {
 			
 
 			// TODO Auto-generated catch block

@@ -9,14 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean.CodeExchange;
 import bean.Message;
 
 import com.alibaba.fastjson.JSON;
 
 import dao.TaskDao;
+import dao.UserDao;
 
-public class TaskUpdateServlet extends HttpServlet {
+public class CalculateTasksServlet extends HttpServlet {
 
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
@@ -33,36 +33,24 @@ public class TaskUpdateServlet extends HttpServlet {
 			throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
-		String taskAdress = CodeExchange.ChineseCoding(req.getParameter("taskAdress"));
-		String taskCatagery=CodeExchange.ChineseCoding(req.getParameter("taskCatagery"));
-		String taskDetaiAdress=CodeExchange.ChineseCoding(req.getParameter("taskDetaiAdress"));
-		String taskContent=CodeExchange.ChineseCoding(req.getParameter("taskContent"));
-		String taskTime=req.getParameter("taskTime");
 		PrintWriter out = resp.getWriter();
-		String taskID1=req.getParameter("taskID");
-		int taskID=Integer.valueOf(taskID1).intValue();
+		String taskWorknumber=req.getParameter("workuserNo");
 		Message message = new Message();
-		try {
-			   if (TaskDao.update_task(taskAdress, taskCatagery, taskContent, taskTime, taskID, taskDetaiAdress)) {
+		int a=0;
+			try {
+				a=TaskDao.calculate_usertasks(taskWorknumber);
 				message.setCode(200);
-				message.setMessage("修改诉求任务成功"); 
-				message.setData(null);
-			    }
-			else {
+				message.setMessage("计算工作人员诉求任务的数量成功"); 
+				message.setData(a+"");
+				out.print(JSON.toJSONString(message));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
 				message.setCode(-11);
-				message.setMessage("修改诉求任务失败");
-				message.setData(null);
-				
-			}
-			out.print(JSON.toJSONString(message));
-
-		} catch (SQLException e) {
-			
-
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+				message.setMessage("计算工作人员诉求任务的数量失败");
+				message.setData(null);						
+			    out.print(JSON.toJSONString(message));
+				e.printStackTrace();
+			}  						
 	}
 
 	
