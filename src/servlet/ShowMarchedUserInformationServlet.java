@@ -3,8 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,14 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.TMessage;
-import bean.TaskBean;
+import bean.UserBean;
 
 import com.alibaba.fastjson.JSON;
 
 import dao.TaskDao;
+import dao.UserDao;
 
-public class MarchingTaskShowServlet extends HttpServlet {
-
+public class ShowMarchedUserInformationServlet extends HttpServlet {
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
 		// Put your code here
@@ -36,36 +34,25 @@ public class MarchingTaskShowServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		String taskStatus1 = req.getParameter("taskStatus");
-		int taskStatus=Integer.valueOf(taskStatus1).intValue();
-		String marchingStatus1 = req.getParameter("marchingStatus");
-		int marchingStatus=Integer.valueOf(marchingStatus1).intValue();
+		int taskID=Integer.valueOf(req.getParameter("taskID")).intValue();
+		int userID;
 		TMessage message = new TMessage();
 		try {
-			List<TaskBean> taskBean=new ArrayList<TaskBean>();
-			taskBean=TaskDao.worktaskSelect(taskStatus, marchingStatus);
-			if(taskBean!=null && taskBean.size()>0){
-				message.setCode(200);
-				message.setMessage("获取用户数据成功");
-				message.setData(taskBean);
-				out.print(JSON.toJSONString(message));
-			}
-			else{
-				message.setCode(-11);
-				message.setMessage("获取用户数据失败");
-				message.setData(null);
-				
-				out.print(JSON.toJSONString(message));
-				
-			}
-		} catch (SQLException e) {
+			userID = TaskDao.Show_userID(taskID);
+			UserBean userBean=UserDao.select_Userinformation(userID);
+		    message.setCode(200);
+			message.setMessage("查询用户信息成功"); 
+			message.setData(userBean);		
 			
-
+		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
+			e1.printStackTrace();
+			message.setCode(-11);
+			message.setMessage("查询用户信息失败");
+			message.setData(null);
 		}
-		
+
+		out.print(JSON.toJSONString(message));
 		
 	}
-}
+	}

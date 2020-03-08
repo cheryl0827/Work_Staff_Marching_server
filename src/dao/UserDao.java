@@ -337,5 +337,19 @@ public class UserDao {
         }
   	return userBean;   
     }
+    //查看工作人员是否处于空闲阶段
+    public static int Show_workStatus(String workuserNo) throws SQLException {
+        String sql="select * from user where workuserNo=?";
+        ps=con.prepareStatement(sql);
+        ps.setString(1,workuserNo);
+        int workStatus = 0;
+        rs=ps.executeQuery();
+    	 if(rs!=null){
+    		 while(rs.next()){
+    			 workStatus=rs.getInt("workStatus"); 
+    		 }
+    		 }
+    	 return workStatus;
+    }	
 
 }

@@ -117,5 +117,31 @@ public class WorkUserEvaluatingIndicatorDao {
 	        }
 	  	return list;   
 	    }
+	    //有空闲的工作人员指标信息的查看
+	    public static List<WorkuserEvaluatingIndicatorBean> select_FreeWorkuser() throws SQLException {
+	    	List<WorkuserEvaluatingIndicatorBean> list=new ArrayList<WorkuserEvaluatingIndicatorBean>();
+	    	String sql="select * from workevaluatingindicator";
+	        ps=con.prepareStatement(sql);
+	        rs=ps.executeQuery();
+	        if(rs!=null){
+	        	while(rs.next()){
+	        	String workuserNo=rs.getString("workuserNo");
+	        	if(UserDao.Show_workStatus(workuserNo)==1){
+	        		WorkuserEvaluatingIndicatorBean workUser=new WorkuserEvaluatingIndicatorBean();
+		        	workUser.setWorkEvaluatingIndicatorID(rs.getInt("workEvaluatingIndicatorID"));
+		        	workUser.setCommunity(rs.getInt("community"));
+		        	workUser.setUrgent(rs.getInt("urgent"));
+		        	workUser.setPsychology(rs.getInt("psychology"));
+		        	workUser.setOrganization(rs.getInt("organization"));
+		        	workUser.setAnalyse(rs.getInt("analyse"));
+		        	workUser.setLaw(rs.getInt("law"));
+		        	workUser.setWorkuserNo(rs.getString("workuserNo"));
+		        	list.add(workUser);  	
+	        	  }	
+	        	}
+	        }
+	  	return list;   
+	    }
+	   
 	   
 }

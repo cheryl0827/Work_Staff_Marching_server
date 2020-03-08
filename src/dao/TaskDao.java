@@ -353,5 +353,42 @@ public class TaskDao {
 				    		 }
 				    		 }
 				    	 return count;
-				    }		
+				    }	
+				    //查询诉求任务的UserID
+				    public static int Show_userID(int taskID) throws SQLException {
+				        String sql="select * from task where taskID=?";
+				        ps=con.prepareStatement(sql);
+				        ps.setInt(1,taskID);
+				        int userID = 0;
+				        rs=ps.executeQuery();
+				    	 if(rs!=null){
+				    		 while(rs.next()){
+				    		    userID=rs.getInt("userID"); 
+				    		 }
+				    		 }
+				    	 return userID;
+				    }	
+				    //诉求任务的权重查看
+				     public static TaskBean task_porprotion(String taskID) throws SQLException {
+				    	 TaskBean taskBean=null;
+				    	 String sql="select * from task where taskID=?";
+				    	 ps=con.prepareStatement(sql);
+				    	 ps.setString(1,taskID);
+				    	 rs=ps.executeQuery();
+				    	 if(rs!=null){
+				    		 while(rs.next()){
+				    			 taskBean=new TaskBean();
+				    			 taskBean.setTaskID(rs.getInt("taskID"));	    		
+				    			 taskBean.setCommunity(rs.getInt("community"));
+				    			 taskBean.setUrgent(rs.getInt("urgent"));
+				    			 taskBean.setPsychology(rs.getInt("psychology"));
+				    			 taskBean.setOrganization(rs.getInt("organization"));
+				    			 taskBean.setAnalyse(rs.getInt("analyse"));
+				    			 taskBean.setLaw(rs.getInt("law"));
+				    			
+				    		 }
+				    	 }	
+				    	 return taskBean;
+				     }	     
+				  	     
 }
