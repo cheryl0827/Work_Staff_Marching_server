@@ -39,13 +39,15 @@ public class AddRecordServlet extends HttpServlet {
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
 		String nextVisitTime = req.getParameter("nextVisitTime");
-		String recordContent = CodeExchange.ChineseCoding(req.getParameter("recordContent"));
+		String recordContent = req.getParameter("recordContent");
 		String recordTime = req.getParameter("recordTime");
 		String taskID1=req.getParameter("taskID");
+		String userName=req.getParameter("userName");
+		String workuserNo=req.getParameter("workuserNo");
 		int taskID=Integer.valueOf(taskID1).intValue();
 		Message message = new Message();
 		try {
-			   if (RecordDao.add_record(taskID, nextVisitTime, recordContent, recordTime)) {
+			   if (RecordDao.add_record(taskID, nextVisitTime, recordContent, recordTime, workuserNo, userName)) {
 				message.setCode(200);
 				message.setMessage("获取验证码成功"); 
 				message.setData(null);

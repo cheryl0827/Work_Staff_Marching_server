@@ -75,7 +75,7 @@ public class TaskDao {
 	    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
 	    			 taskBean.setTaskTime(rs.getString("taskTime"));
 	    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
-	    			 taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+	    			 //taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
 	    			 taskBean.setUserID(rs.getInt("userID"));
 	    			 taskBean.setCommunity(rs.getInt("community"));
 	    			 taskBean.setUrgent(rs.getInt("urgent"));
@@ -139,7 +139,7 @@ public class TaskDao {
 		    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
 		    			 taskBean.setTaskTime(rs.getString("taskTime"));
 		    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
-		    			 taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+		    			 //taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
 		    			 taskBean.setUserID(rs.getInt("userID"));
 		    			 taskBean.setCommunity(rs.getInt("community"));
 		    			 taskBean.setUrgent(rs.getInt("urgent"));
@@ -184,7 +184,7 @@ public class TaskDao {
 		    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
 		    			 taskBean.setTaskTime(rs.getString("taskTime"));
 		    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
-		    			 taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+		    			 //taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
 		    			 taskBean.setUserID(rs.getInt("userID"));
 		    			 taskBean.setCommunity(rs.getInt("community"));
 		    			 taskBean.setUrgent(rs.getInt("urgent"));
@@ -258,7 +258,7 @@ public class TaskDao {
 		    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
 		    			 taskBean.setTaskTime(rs.getString("taskTime"));
 		    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
-		    			 taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+		    			 //taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
 		    			 taskBean.setUserID(rs.getInt("userID"));
 		    			 taskBean.setCommunity(rs.getInt("community"));
 		    			 taskBean.setUrgent(rs.getInt("urgent"));
@@ -307,7 +307,7 @@ public class TaskDao {
 			    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
 			    			 taskBean.setTaskTime(rs.getString("taskTime"));
 			    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
-			    			 taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+			    			 //taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
 			    			 taskBean.setUserID(rs.getInt("userID"));
 			    			 taskBean.setCommunity(rs.getInt("community"));
 			    			 taskBean.setUrgent(rs.getInt("urgent"));
@@ -339,21 +339,7 @@ public class TaskDao {
 				        return flag;
 				    }	
 				    
-				    //计算工作人员完成的诉求任务数量
-				    public static int calculate_usertasks(String taskWorknumber) throws SQLException {
-				        String sql="select * from task where taskWorknumber=?";
-				        boolean flag=false;
-				        ps=con.prepareStatement(sql);
-				        ps.setString(1,taskWorknumber);
-				        int count=0;
-				        rs=ps.executeQuery();
-				    	 if(rs!=null){
-				    		 while(rs.next()){
-				    		 count=count+1;	 
-				    		 }
-				    		 }
-				    	 return count;
-				    }	
+				   
 				    //查询诉求任务的UserID
 				    public static int Show_userID(int taskID) throws SQLException {
 				        String sql="select * from task where taskID=?";
@@ -389,6 +375,36 @@ public class TaskDao {
 				    		 }
 				    	 }	
 				    	 return taskBean;
-				     }	     
+				     }	
+				     //显示所有匹配的诉求任务
+				     public static List<TaskBean> worktask_MarchedSelect(int marchingStatus) throws SQLException{
+				    	 List<TaskBean>list=new ArrayList<TaskBean>();
+				    	 String sql="select * from task where  marchingStatus=? order by taskTime desc;";
+				    	 ps=con.prepareStatement(sql);
+				    	 ps.setInt(1,marchingStatus);  	
+				    	 rs=ps.executeQuery();
+				    	 if(rs!=null){
+				    		 while(rs.next()){
+				    			 TaskBean taskBean=new TaskBean();
+				    			 taskBean.setTaskID(rs.getInt("taskID"));
+				    			 taskBean.setTaskAdress(rs.getString("taskAdress"));
+				    			 taskBean.setTaskCatagery(rs.getString("taskCatagery"));
+				    			 taskBean.setTaskContent(rs.getString("taskContent"));
+				    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
+				    			 taskBean.setTaskTime(rs.getString("taskTime"));
+				    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
+				    			 //taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+				    			 taskBean.setUserID(rs.getInt("userID"));
+				    			 taskBean.setCommunity(rs.getInt("community"));
+				    			 taskBean.setUrgent(rs.getInt("urgent"));
+				    			 taskBean.setPsychology(rs.getInt("psychology"));
+				    			 taskBean.setOrganization(rs.getInt("organization"));
+				    			 taskBean.setAnalyse(rs.getInt("analyse"));
+				    			 taskBean.setLaw(rs.getInt("law"));
+				    			 list.add(taskBean);
+				    		 }
+				    	 }	
+				    	 return list;
+				     }	          
 				  	     
 }

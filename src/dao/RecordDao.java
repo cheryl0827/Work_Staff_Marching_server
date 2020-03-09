@@ -16,14 +16,16 @@ public class RecordDao {
 	 private static PreparedStatement ps=null;
 	 private static ResultSet rs=null;
 	 //工作人员办理记录的增加
-	  public static boolean add_record(int taskID,String nextVisitTime,String recordContent,String recordTime) throws SQLException {
-	        String sql="insert into record(taskID,nextVisitTime,recordContent,recordTime) value (?,?,?,?)";
+	  public static boolean add_record(int taskID,String nextVisitTime,String recordContent,String recordTime,String workuserNo,String userName) throws SQLException {
+	        String sql="insert into record(taskID,nextVisitTime,recordContent,recordTime,workuserNo,userName) value (?,?,?,?,?,?)";
 	        boolean flag=false;
 	        ps=con.prepareStatement(sql);
 	        ps.setInt(1,taskID);
 	        ps.setString(2,nextVisitTime);
 	        ps.setString(3,recordContent);
 	        ps.setString(4,recordTime);
+	        ps.setString(5,workuserNo);
+	        ps.setString(6,userName);
 	        int count=ps.executeUpdate();
 	        if(count==1){
 	            flag=true;
@@ -48,6 +50,8 @@ public class RecordDao {
 		   			recordBean.setNextVisitTime(rs.getString("nextVisitTime"));
 		   			recordBean.setRecordContent(rs.getString("recordContent"));
 		   			recordBean.setRecordTime(rs.getString("recordTime"));
+		   			recordBean.setUserName(rs.getString("userName"));
+		   			recordBean.setWorkuserNo(rs.getString("workuserNo"));
 		   			list.add(recordBean);
 		   		 }
 		   	 }	

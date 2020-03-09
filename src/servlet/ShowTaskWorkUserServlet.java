@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.MarchingBean;
 import bean.TMessage;
-import bean.TaskBean;
+import bean.UserBean;
 
 import com.alibaba.fastjson.JSON;
 
 import dao.MarchingDao;
-import dao.TaskDao;
+import dao.UserDao;
 
-public class MarchedShowServlet extends HttpServlet {
+public class ShowTaskWorkUserServlet extends HttpServlet {
 
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
@@ -38,18 +38,21 @@ public class MarchedShowServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		String marchingStatus1 = req.getParameter("marchingStatus");
-		int marchingStatus=Integer.valueOf(marchingStatus1).intValue();
-		TMessage message = new TMessage();
+		String taskID=req.getParameter("taskID");
+		TMessage<List<UserBean>> message=new TMessage<List<UserBean>>();
 		try {
-			List<TaskBean> taskBean=new ArrayList<TaskBean>();
-			taskBean=TaskDao.worktask_MarchedSelect(marchingStatus);
-			if(taskBean!=null && taskBean.size()>0){
+				List<UserBean> userBean=new ArrayList<UserBean>();
+				userBean=MarchingDao.Show_workuserNo(taskID);
+				if(userBean!=null && userBean.size()>0){
 				message.setCode(200);
-				message.setMessage("查询诉求任务的匹配成功"); 
-				message.setData(taskBean);	
+				message.setMessage("查询用户信息成功"); 
+				message.setData(userBean);	
 				}
-
+				else{
+					message.setCode(-11);
+					message.setMessage("查询诉求任务的匹配失败");
+					message.setData(null);
+				}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,5 +63,4 @@ public class MarchedShowServlet extends HttpServlet {
 		out.print(JSON.toJSONString(message));
 		
 	}
-
-}
+	}

@@ -351,5 +351,37 @@ public class UserDao {
     		 }
     	 return workStatus;
     }	
+    //查询用户的基本信息
+    public static UserBean select_Userinformation(String workuserNo) throws SQLException {
+    	 //List<UserBean>list=new ArrayList<UserBean>();
+    	String sql="select * from user where workuserNo=?";
+        //boolean flag=false;
+    	UserBean userBean=null;
+        ps=con.prepareStatement(sql);
+        ps.setString(1, workuserNo); 
+        rs=ps.executeQuery();
+        if(rs!=null){
+        	while(rs.next()){
+        	//flag=true;
+        	 userBean=new UserBean();
+        	userBean.setUserID(rs.getInt("userID"));
+        	userBean.setUserName(rs.getString("userName"));
+        	userBean.setIndentificationCard(rs.getString("indentificationCard"));
+        	userBean.setPhone(rs.getString("phone"));
+        	userBean.setCountry(rs.getString("country"));
+        	userBean.setAddress(rs.getString("address"));
+        	userBean.setRoleName(rs.getString("roleName"));
+        	userBean.setPassword(rs.getString("password"));
+        	userBean.setRegisterStatus(rs.getInt("registerStatus"));
+        	userBean.setCity(rs.getString("city"));
+        	 userBean.setSex(rs.getString("sex"));
+        	userBean.setProvince(rs.getString("province"));
+        	userBean.setWorkuserNo(rs.getString("workuserNo"));
+        	userBean.setWorkStatus(rs.getInt("workStatus"));   
+        	//list.add(userBean);
+        	}
+        }
+  	return userBean;   
+    }
 
 }

@@ -34,7 +34,7 @@ public class UserTaskProportionServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		String taskAdress = CodeExchange.ChineseCoding(req.getParameter("taskAdress"));
+		String taskAdress =CodeExchange.ChineseCoding(req.getParameter("taskAdress"));
 		String taskCatagery=CodeExchange.ChineseCoding(req.getParameter("taskCatagery"));
 		String taskDetaiAdress=CodeExchange.ChineseCoding(req.getParameter("taskDetaiAdress"));
 		String taskContent=CodeExchange.ChineseCoding(req.getParameter("taskContent"));

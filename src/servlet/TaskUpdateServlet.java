@@ -33,10 +33,10 @@ public class TaskUpdateServlet extends HttpServlet {
 			throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
-		String taskAdress = CodeExchange.ChineseCoding(req.getParameter("taskAdress"));
-		String taskCatagery=CodeExchange.ChineseCoding(req.getParameter("taskCatagery"));
-		String taskDetaiAdress=CodeExchange.ChineseCoding(req.getParameter("taskDetaiAdress"));
-		String taskContent=CodeExchange.ChineseCoding(req.getParameter("taskContent"));
+		String taskAdress =req.getParameter("taskAdress");
+		String taskCatagery= req.getParameter("taskCatagery");
+		String taskDetaiAdress= req.getParameter("taskDetaiAdress");
+		String taskContent=  req.getParameter("taskContent");
 		String taskTime=req.getParameter("taskTime");
 		PrintWriter out = resp.getWriter();
 		String taskID1=req.getParameter("taskID");

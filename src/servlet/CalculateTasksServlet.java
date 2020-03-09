@@ -13,6 +13,7 @@ import bean.Message;
 
 import com.alibaba.fastjson.JSON;
 
+import dao.MarchingDao;
 import dao.TaskDao;
 import dao.UserDao;
 
@@ -38,7 +39,7 @@ public class CalculateTasksServlet extends HttpServlet {
 		Message message = new Message();
 		int a=0;
 			try {
-				a=TaskDao.calculate_usertasks(taskWorknumber);
+				a=MarchingDao.calculate_usertasks(taskWorknumber);
 				message.setCode(200);
 				message.setMessage("计算工作人员诉求任务的数量成功"); 
 				message.setData(a+"");
