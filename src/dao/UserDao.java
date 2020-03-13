@@ -75,7 +75,7 @@ public class UserDao {
         	userBean.setCity(rs.getString("city"));
         	userBean.setProvince(rs.getString("province"));
         	userBean.setWorkuserNo(rs.getString("workuserNo"));
-        	userBean.setWorkStatus(rs.getInt("workStatus"));      	
+        	//userBean.setWorkStatus(rs.getInt("workStatus"));      	
         	}
         }
   	return userBean;   
@@ -182,7 +182,7 @@ public class UserDao {
 	   		 userBean.setProvince(rs.getString("province"));
 	   		 userBean.setWorkuserNo(rs.getString("workuserNo"));
 	   		 userBean.setSex(rs.getString("sex"));
-	   		 userBean.setWorkStatus(rs.getInt("workStatus"));
+	   		 //userBean.setWorkStatus(rs.getInt("workStatus"));
 	   		// userBean.setWorkevaluatingStatus(rs.getInt("workevaluatingStatus"));
    			 list.add(userBean);
    		 }
@@ -229,7 +229,8 @@ public class UserDao {
         	 userBean.setSex(rs.getString("sex"));
         	userBean.setProvince(rs.getString("province"));
         	userBean.setWorkuserNo(rs.getString("workuserNo"));
-        	userBean.setWorkStatus(rs.getInt("workStatus"));      	
+        	//userBean.setWorkStatus(rs.getInt("workStatus"));  
+        	userBean.setMaxTaskNumber(rs.getInt("maxTaskNumber"));
         	}
         }
   	return userBean;   
@@ -259,7 +260,7 @@ public class UserDao {
         	 userBean.setSex(rs.getString("sex"));
         	userBean.setProvince(rs.getString("province"));
         	userBean.setWorkuserNo(rs.getString("workuserNo"));
-        	userBean.setWorkStatus(rs.getInt("workStatus"));      	
+        	//userBean.setWorkStatus(rs.getInt("workStatus"));      	
         	}
         }
   	return userBean;   
@@ -302,7 +303,7 @@ public class UserDao {
         	 userBean.setSex(rs.getString("sex"));
         	userBean.setProvince(rs.getString("province"));
         	userBean.setWorkuserNo(rs.getString("workuserNo"));
-        	userBean.setWorkStatus(rs.getInt("workStatus"));  
+        	//userBean.setWorkStatus(rs.getInt("workStatus"));  
    		 }
    	 }	
    	 return userBean;
@@ -331,7 +332,7 @@ public class UserDao {
         	userBean.setCity(rs.getString("city"));
         	userBean.setProvince(rs.getString("province"));
         	userBean.setWorkuserNo(rs.getString("workuserNo"));
-        	userBean.setWorkStatus(rs.getInt("workStatus")); 
+        	//userBean.setWorkStatus(rs.getInt("workStatus")); 
         	
         	}
         }
@@ -342,14 +343,14 @@ public class UserDao {
         String sql="select * from user where workuserNo=?";
         ps=con.prepareStatement(sql);
         ps.setString(1,workuserNo);
-        int workStatus = 0;
+        int remainTaskNumber = 0;
         rs=ps.executeQuery();
     	 if(rs!=null){
     		 while(rs.next()){
-    			 workStatus=rs.getInt("workStatus"); 
+    			 remainTaskNumber=rs.getInt("remainTaskNumber"); 
     		 }
     		 }
-    	 return workStatus;
+    	 return remainTaskNumber;
     }	
     //查询用户的基本信息
     public static UserBean select_Userinformation(String workuserNo) throws SQLException {
@@ -377,11 +378,81 @@ public class UserDao {
         	 userBean.setSex(rs.getString("sex"));
         	userBean.setProvince(rs.getString("province"));
         	userBean.setWorkuserNo(rs.getString("workuserNo"));
-        	userBean.setWorkStatus(rs.getInt("workStatus"));   
+        	//userBean.setWorkStatus(rs.getInt("workStatus"));   
         	//list.add(userBean);
         	}
         }
   	return userBean;   
     }
-
+    //增加工作人员处理的最大任务数
+    public static boolean add_maxTaskNumber(int maxTaskNumber,String workuserNo) throws SQLException {
+        String sql="update user set maxTaskNumber=?,remainTaskNumber=? where workuserNo=?";
+        boolean flag=false;
+        int handleStatus=1;
+        int coun=MarchingDao.calculate_workusertasks(workuserNo,handleStatus);
+        int remainTaskNumber=maxTaskNumber-coun;
+        ps=con.prepareStatement(sql);
+        ps.setInt(1,maxTaskNumber);
+        ps.setInt(2,remainTaskNumber);
+        ps.setString(3,workuserNo);
+        int count=ps.executeUpdate();
+        if(count==1){
+            flag=true;
+        }
+        else
+            flag=false;
+        return flag;
+    }
+  //根据工号查询工作人员的剩余能处理的任务数
+    public static int select_userTaskNumber(String workuserNo) throws SQLException {
+    	String sql="select * from user where workuserNo=?";
+    	int remainTaskNumber = 0;
+        ps=con.prepareStatement(sql);
+        ps.setString(1,workuserNo);
+        rs=ps.executeQuery();
+        if(rs!=null){
+        	if(rs.next()){
+        		remainTaskNumber=rs.getInt("remainTaskNumber");	
+        	}
+        	}
+        return remainTaskNumber;
+    }
+  //根据工号修改工作人员的剩余能处理的任务数
+    public static boolean update_userTaskNumber(String workuserNo) throws SQLException {
+    	String sql="update user set remainTaskNumber=? where workuserNo=?";
+    	boolean flag=false;
+    	int c=UserDao.select_userTaskNumber(workuserNo);
+    	int remainTaskNumber=c+1;
+        ps=con.prepareStatement(sql);
+        ps.setInt(1,remainTaskNumber);
+        ps.setString(2,workuserNo);
+        int count=ps.executeUpdate();
+        if(count==1){
+            flag=true;
+        }
+        else
+            flag=false;
+        return flag;
+    }
+    
+  //根据工号修改工作人员的剩余能处理的任务数(匹配的时候)
+    public static boolean update_workuserTaskNumber(String workuserNo) throws SQLException {
+    	String sql="update user set remainTaskNumber=? where workuserNo=?";
+    	boolean flag=false;
+    	int handleStatus=1;
+        int coun=MarchingDao.calculate_workusertasks(workuserNo,handleStatus);
+        int c=UserDao.select_userTaskNumber(workuserNo);
+    	int remainTaskNumber=c-coun;
+        ps=con.prepareStatement(sql);
+        ps.setInt(1,remainTaskNumber);
+        ps.setString(2,workuserNo);
+        int count=ps.executeUpdate();
+        if(count==1){
+            flag=true;
+        }
+        else
+            flag=false;
+        return flag;
+    }
+    
 }

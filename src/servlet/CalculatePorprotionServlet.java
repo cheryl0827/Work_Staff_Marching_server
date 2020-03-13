@@ -20,7 +20,9 @@ import bean.WorkuserEvaluatingIndicatorBean;
 
 import com.alibaba.fastjson.JSON;
 
+import dao.MarchingDao;
 import dao.TaskDao;
+import dao.UserDao;
 import dao.WorkUserEvaluatingIndicatorDao;
 
 public class CalculatePorprotionServlet extends HttpServlet {
@@ -41,6 +43,10 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
+		String Number=req.getParameter("Number");//诉求任务所需要的工作人员数量
+		String adminID=req.getParameter("adminID");//匹配人员的工作id
+		String marchingTime=req.getParameter("marchingTime");//匹配时间
+		
 		String all_id=req.getParameter("all_id");//获取前台需要匹配的诉求任务的taskID
 		String[] taskids = all_id.split(",");//要匹配的诉求任务的taskID的数组，注意这个数组是String类型的
 		List<WorkuserEvaluatingIndicatorBean> workuserEvaluatingIndicatorBean=new ArrayList<WorkuserEvaluatingIndicatorBean>();
@@ -50,11 +56,12 @@ public class CalculatePorprotionServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} 
-		
+		String workuserNo;
 		int taskLength=taskids.length;//诉求任务数组的长度
 		int peopleLength=workuserEvaluatingIndicatorBean.size();//工作人员的长度
 		int CLength=taskLength*peopleLength;//最后矩阵的行数和列数
 		
+		int[]workUserRemainTaskNumber=new int[peopleLength];
 		int[]WorkuserEvaluatingIndicators=new int[peopleLength]; //peopleLength个工作人员工号的存放数组
 		int[]WorkuserEvaluatingIndicator=new int[CLength]; //CLength个工作人员工号的存放数组
 		String[]Task=new String[CLength];  //CLength个诉求任务的taskID存放数组
@@ -75,6 +82,13 @@ public class CalculatePorprotionServlet extends HttpServlet {
 				}
 				for(int j=0;j<peopleLength;j++){
 					WorkuserEvaluatingIndicators[j]=Integer.valueOf(workuserEvaluatingIndicatorBean.get(j).getWorkuserNo()).intValue();
+					workuserNo=workuserEvaluatingIndicatorBean.get(j).getWorkuserNo();
+					try {
+						workUserRemainTaskNumber[j]=UserDao.Show_workStatus(workuserNo);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					Count=(int) (taskBean.getCommunity()*workuserEvaluatingIndicatorBean.get(j).getCommunity()*E+
 							taskBean.getUrgent()*workuserEvaluatingIndicatorBean.get(j).getUrgent()*E+
 							taskBean.getPsychology()*workuserEvaluatingIndicatorBean.get(j).getPsychology()*E+
@@ -108,11 +122,35 @@ public class CalculatePorprotionServlet extends HttpServlet {
 			 PSA psa1=new PSA();
 			 PSA.num1=Array;
 			 int[] optimal=new int[CLength];
-			 optimal=psa1.bsss(PSA.num1);	
-		
+			 optimal=psa1.bsss(PSA.num1);
+			 
+			 //增加匹配信息调用MarchingDao.add_marching(workuserNo, adminID, taskID, marchingTime)
+			 //匹配消息后工作人员信息修改UserDao.update_workuserTaskNumber(workuserNo)
+			 
+			 
+			 
+			 
+			 //显示长度为peopleLength的一位数组，对应的是工作人员的还能处理的任务数
+			 System.out.println();
+			 System.out.print("工作人员的还能处理的任务数:");
+			 for(int i=0;i<peopleLength;i++){
+				 System.out.print(workUserRemainTaskNumber[i]+"  ");
+			 }
+			 //显示长度为peopleLength的一位数组，对应的是工作人员的工号
+			 System.out.println();
+			 System.out.print("原始的工作人员的工号:");
+			 for(int i=0;i<peopleLength;i++){
+				 System.out.print( WorkuserEvaluatingIndicators[i]+"  ");
+			 }
+			 //显示长度为peopleLength的一位数组，对应的是诉求任务的taskID
+			 System.out.println();
+			 System.out.print("原始的诉求任务的taskID:");
+			 for(int i=0;i<taskLength;i++){
+				 System.out.print( taskids[i]+"  ");
+			 }
 		   //行代表诉求任务，列代表工作人员，显示生成的taskLength行，peopleLength列的矩阵
 		    System.out.println();
-		    System.out.print("最初taskLength行，peopleLength列的矩阵：(行代表诉求任务，列代表工作人员)");
+		    System.out.print("原始taskLength行，peopleLength列的矩阵：(行代表诉求任务，列代表工作人员)");
 			for(int i=0;i<taskLength;i++){
 				System.out.println();
 				for(int j=0;j<peopleLength;j++){
@@ -137,111 +175,24 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		      
 			 //显示长度为CLength的一维数组，对应的是诉求任务的taskID
 			 System.out.println();
-			 System.out.print("诉求任务的taskID:(对应矩阵的行)");
+			 System.out.print("整合后诉求任务的taskID:(对应矩阵的行)");
 			 for(int i=0;i<CLength;i++){
 				 System.out.print(Task[i]+"  ");
 			 } 
 			 //显示长度为CLength的一位数组，对应的是工作人员的工号
 			 System.out.println();
-			 System.out.print("工作人员的工号:(对应矩阵的列)");
+			 System.out.print("整合后的工作人员的工号:(对应矩阵的列)");
 			 for(int i=0;i<CLength;i++){
 				 System.out.print(WorkuserEvaluatingIndicator[i]+"  ");
 			 }
+			 
+			
+			
 		 
 		
 		
 		
-		
-		
-//	     // System.out.println(Arrays.toString(arr1));
-//		
-//		
-//		int taskStatus=2;
-//		int marchingStatus=1;
-//		try {
-//			
-//		
-//			List<TaskBean> taskBean=new ArrayList<TaskBean>();
-//			taskBean=TaskDao.task_Porprotion(taskStatus);
-//			int a=taskBean.size();//任务的数据条数
-//			int b=workuserEvaluatingIndicatorBean.size(); //工作人员的数据条数
-//			int c=a*b; 
-//			int count;
-//			float e=(float) 0.01;	//任务权重的转换，转换为1
-//			int[]task1=new int[a];  //a个任务的id存放
-//			int[]workuserEvaluatingIndicator1=new int[b]; //b个工作人员id存放
-//			int[]task=new int[c];  //c个任务的id存放
-//			int[]workuserEvaluatingIndicator=new int[c]; //c个工作人员id存放
-//			int[][] moduleList=new int[a][b]; //任务乘以工作人员的值
-//			int [][]array=new int[c][c];//构建c*c的矩阵
-//			//计算每个任务对应每个人有的专有指标数组，比如：{{1,2}，{3,4}}
-//			for(int i = 0; i < a; i++){
-//				task1[i]=taskBean.get(i).getTaskID();
-//				for(int j=0;j < b;j++)
-//				{
-//					workuserEvaluatingIndicator1[j]=Integer.valueOf(workuserEvaluatingIndicatorBean.get(j).getWorkuserNo()).intValue();
-//					count=(int) (taskBean.get(i).getCommunity()*workuserEvaluatingIndicatorBean.get(j).getCommunity()*e+
-//							taskBean.get(i).getUrgent()*workuserEvaluatingIndicatorBean.get(j).getUrgent()*e+
-//							taskBean.get(i).getPsychology()*workuserEvaluatingIndicatorBean.get(j).getPsychology()*e+
-//							taskBean.get(i).getOrganization()*workuserEvaluatingIndicatorBean.get(j).getOrganization()*e+
-//							taskBean.get(i).getAnalyse()*workuserEvaluatingIndicatorBean.get(j).getAnalyse()*e+
-//							taskBean.get(i).getLaw()*workuserEvaluatingIndicatorBean.get(j).getLaw()*e);
-////					BigDecimal bb = new BigDecimal(count); 
-////					float f1 = bb.setScale(0, BigDecimal.ROUND_HALF_UP).floatValue();
-//					moduleList[i][j]=count;
-//					
-//				}	
-//			}
-//			//计算a乘以b行的矩阵，比如：{{1,2，1，2}，{3,4,3,4}，{1,2,1,2}，{3,4,3,4}}
-//			 for(int i=0;i<c;i++){
-//		    	  System.out.println("");
-//		    	  for(int j = 0;j<c;j++){
-//		    		  int x=i%a;
-//		    		  int y=j%b;
-//		    		  array[i][j]=100-moduleList[x][y];
-//		    	  }
-//		      }
-//			//调用psa生成一个长度为c的一维数组，对应的匹配结果
-//			 PSA psa1=new PSA();
-//			 PSA.num1=array;
-//			 int[] optimal=new int[c];
-//			 optimal=psa1.bsss(PSA.num1);			 
-////
-////			 for(int i=0;i<c;i++){
-////		    	  System.out.println("");
-////		    	  for(int j = 0;j<c;j++){
-////		    		  System.out.print(array[i][j]+"  ");
-////		    	  }
-////		      }
-//			 //生成长度为c的一位数组，对应的是task的id
-//			 for(int i=0;i<c;i++){
-//				 int f=i%a;
-//				 task[i]=task1[f];
-//			 } 
-//			 //生成长度为c的一位数组，对应的是workuserEvaluatingIndicator的id
-//			 for(int i=0;i<c;i++){
-//				 int f=i%b;
-//				 workuserEvaluatingIndicator[i]=workuserEvaluatingIndicator1[f]; 
-//			 }
-////			 System.out.println("");
-////			 System.out.println("任务id ");
-////			 for(int i=0;i<c;i++){
-////				  System.out.print(task[i]+"  "); 
-////			 }
-////			 System.out.println("");
-////			 System.out.println("工作id ");
-////			 for(int i=0;i<c;i++){
-////				  System.out.print(workuserEvaluatingIndicator[i]+"  "); 
-////			 }
-//			
-//
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//		
-//		}
-//		
-//		
-//	}
+
 	}
 }
 	

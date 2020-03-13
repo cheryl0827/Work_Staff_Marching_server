@@ -126,7 +126,7 @@ public class WorkUserEvaluatingIndicatorDao {
 	        if(rs!=null){
 	        	while(rs.next()){
 	        	String workuserNo=rs.getString("workuserNo");
-	        	if(UserDao.Show_workStatus(workuserNo)==1){
+	        	if(UserDao.Show_workStatus(workuserNo)!=0){
 	        		WorkuserEvaluatingIndicatorBean workUser=new WorkuserEvaluatingIndicatorBean();
 		        	workUser.setWorkEvaluatingIndicatorID(rs.getInt("workEvaluatingIndicatorID"));
 		        	workUser.setCommunity(rs.getInt("community"));

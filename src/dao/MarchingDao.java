@@ -86,4 +86,53 @@ public class MarchingDao {
     		 }
     	 return  list;
     }	
+  //计算工作人员未完成的诉求任务数量
+    public static int calculate_workusertasks(String workuserNo,int handleStatus) throws SQLException {
+        String sql="select * from marching where workuserNo=? and handleStatus=?";
+        boolean flag=false;
+        ps=con.prepareStatement(sql);
+        ps.setString(1,workuserNo);
+        ps.setInt(2,handleStatus);
+        int count=0;
+        rs=ps.executeQuery();
+    	 if(rs!=null){
+    		 while(rs.next()){
+    		 count=count+1;	 
+    		 }
+    		 }
+    	 return count;
+    }
+    //根据工号修改匹配信息的状态
+    public static boolean update_MarchingStatus(int handleStatus,String workuserNo,int taskID) throws SQLException {
+    	String sql="update marching set handleStatus=? where workuserNo=? and taskID=?";
+    	boolean flag=false;
+        ps=con.prepareStatement(sql);
+        ps.setInt(1,handleStatus);
+        ps.setString(2,workuserNo);
+        ps.setInt(3, taskID);
+        int count=ps.executeUpdate();
+        if(count==1){
+            flag=true;
+        }
+        else
+            flag=false;
+        return flag;
+    }
+    //匹配信息的增加
+    public static boolean add_marching(String workuserNo,String adminID,String taskID,String marchingTime) throws SQLException {
+        String sql="insert into marching(workuserNo,adminID,taskID,marchingTime) value (?,?,?,?)";
+        boolean flag=false;
+        ps=con.prepareStatement(sql);
+        ps.setString(1,workuserNo);
+        ps.setString(2,adminID);
+        ps.setString(3,taskID);
+        ps.setString(4,marchingTime);
+        int count=ps.executeUpdate();
+        if(count==1){
+            flag=true;
+        }
+        else
+            flag=false;
+        return flag;
+    }
 }

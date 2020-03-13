@@ -14,6 +14,24 @@ public class UserBean {
     private String workuserNo;
     private int workStatus;
     private String sex;
+    private int maxTaskNumber;
+    private int remainTaskNumber;
+    
+	public int getRemainTaskNumber() {
+		return remainTaskNumber;
+	}
+
+	public void setRemainTaskNumber(int remainTaskNumber) {
+		this.remainTaskNumber = remainTaskNumber;
+	}
+
+	public int getMaxTaskNumber() {
+		return maxTaskNumber;
+	}
+
+	public void setMaxTaskNumber(int maxTaskNumber) {
+		this.maxTaskNumber = maxTaskNumber;
+	}
 
 	public String getWorkuserNo() {
 		return workuserNo;

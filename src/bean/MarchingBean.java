@@ -6,6 +6,13 @@ public class MarchingBean {
 	private int taskID;
 	private String marchingTime;
 	private int adminID;
+	private int handleStatus;
+	public int getHandleStatus() {
+		return handleStatus;
+	}
+	public void setHandleStatus(int handleStatus) {
+		this.handleStatus = handleStatus;
+	}
 	public int getMarchingID() {
 		return marchingID;
 	}
