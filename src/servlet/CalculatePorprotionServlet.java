@@ -46,6 +46,7 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		String Number=req.getParameter("Number");//诉求任务所需要的工作人员数量
 		String adminID=req.getParameter("adminID");//匹配人员的工作id
 		String marchingTime=req.getParameter("marchingTime");//匹配时间
+		int marchingStatus=2;//匹配状态
 		
 		String all_id=req.getParameter("all_id");//获取前台需要匹配的诉求任务的taskID
 		String[] taskids = all_id.split(",");//要匹配的诉求任务的taskID的数组，注意这个数组是String类型的
@@ -61,9 +62,9 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		int peopleLength=workuserEvaluatingIndicatorBean.size();//工作人员的长度
 		int CLength=taskLength*peopleLength;//最后矩阵的行数和列数
 		
-		int[]workUserRemainTaskNumber=new int[peopleLength];
-		int[]WorkuserEvaluatingIndicators=new int[peopleLength]; //peopleLength个工作人员工号的存放数组
-		int[]WorkuserEvaluatingIndicator=new int[CLength]; //CLength个工作人员工号的存放数组
+		int[]workUserRemainTaskNumber=new int[peopleLength];//每个工作人员还能做的剩余任务数量
+		String[]WorkuserEvaluatingIndicators=new String[peopleLength]; //peopleLength个工作人员工号的存放数组
+		String[]WorkuserEvaluatingIndicator=new String[CLength]; //CLength个工作人员工号的存放数组
 		String[]Task=new String[CLength];  //CLength个诉求任务的taskID存放数组
 	
 		int[][] ModuleList=new int[taskLength][peopleLength]; //诉求任务乘以工作人员的综合指标值
@@ -81,7 +82,7 @@ public class CalculatePorprotionServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 				for(int j=0;j<peopleLength;j++){
-					WorkuserEvaluatingIndicators[j]=Integer.valueOf(workuserEvaluatingIndicatorBean.get(j).getWorkuserNo()).intValue();
+					WorkuserEvaluatingIndicators[j]=workuserEvaluatingIndicatorBean.get(j).getWorkuserNo();
 					workuserNo=workuserEvaluatingIndicatorBean.get(j).getWorkuserNo();
 					try {
 						workUserRemainTaskNumber[j]=UserDao.Show_workStatus(workuserNo);
@@ -123,9 +124,61 @@ public class CalculatePorprotionServlet extends HttpServlet {
 			 PSA.num1=Array;
 			 int[] optimal=new int[CLength];
 			 optimal=psa1.bsss(PSA.num1);
+			 String as[][]=new String[CLength][2];
+			 for(int i=0;i<optimal.length-1-1;i++)
+			 {
+				 as[i][0]=Task[optimal[i]];
+				 as[i][1]=WorkuserEvaluatingIndicator[optimal[i+1]];
+			 }
+			 as[CLength-1][0]=Task[optimal[0]];
+			 as[CLength-1][1]=WorkuserEvaluatingIndicator[optimal[CLength-1]];
 			 
+//			 for(int i=0;i<CLength;i++){
+//				 System.out.println("");
+//			       for(int j=0;j<2;j++){
+//			    	   System.out.print(as[i][j]+"  ");
+//			       }
+//			       }
+			 
+			 
+			 //去重
+//			 String as1[][]=new String[CLength][2];
+//			 String str="";
+//			 as1[0][0]=as[0][0];
+//			 for(int x=0;x<CLength;x++){
+//				 for(int y=0;y<2;y++){
+//					 str=as1[x][y];
+//					 for(int i=0;i<CLength;i++){
+//				       for(int j=0;j<2;j++){
+//					     if (str!=as[i][j])
+//					    	 as1[x][y]=as[i][j]; 		 
+//				 }
+//			 }
+//			 
+//				 }
+//			 }
+			 
+			 
+//			 
+//			 for(int i=0;i<optimal.length-1;i++)
+//			 {
+//				 try {
+//					MarchingDao.add_marching(WorkuserEvaluatingIndicator[optimal[i+1]],adminID,Task[optimal[i]],marchingTime);
+//				} catch (SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			 }
+//			 try {
+//				MarchingDao.add_marching(WorkuserEvaluatingIndicator[optimal[0]],adminID,Task[optimal[optimal.length-1]],marchingTime);
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			 
 			 //增加匹配信息调用MarchingDao.add_marching(workuserNo, adminID, taskID, marchingTime)
-			 //匹配消息后工作人员信息修改UserDao.update_workuserTaskNumber(workuserNo)
+			 //匹配消息后工作人员的信息修改UserDao.update_workuserTaskNumber(workuserNo)
+			 //每个人task被匹配后要修改的task状态TaskDao.update_taskMarchingStatus(taskID, marchingStatus)
 			 
 			 
 			 
