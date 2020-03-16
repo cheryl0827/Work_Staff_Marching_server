@@ -9,15 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean.Message;
+import bean.EstimateBean;
+import bean.TMessage;
 
 import com.alibaba.fastjson.JSON;
 
-import dao.MarchingDao;
-import dao.TaskDao;
-import dao.UserDao;
+import dao.EstimateDao;
 
-public class CalculateTasksServlet extends HttpServlet {
+public class EstimateAvgServlet extends HttpServlet {
 
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
@@ -36,28 +35,22 @@ public class CalculateTasksServlet extends HttpServlet {
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
 		String workuserNo=req.getParameter("workuserNo");
-		int handleStatus=2;
-		Message message = new Message();
-		int a=0;
-			try {
-				a=MarchingDao.calculate_workusertasks(workuserNo, handleStatus);
-				message.setCode(200);
-				message.setMessage("计算工作人员诉求任务的数量成功"); 
-				message.setData(a+"");
-				out.print(JSON.toJSONString(message));
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				message.setCode(-11);
-				message.setMessage("计算工作人员诉求任务的数量失败");
-				message.setData(null);						
-			    out.print(JSON.toJSONString(message));
-				e.printStackTrace();
-			}  						
-	}
+		TMessage message = new TMessage();
+		try {
+		   // if(UserDao.update_workevaluatingStatus(workevaluatingStatus, userID)){
+			EstimateBean estimateBean=EstimateDao.estimateAvg_show(workuserNo);
+			    message.setCode(200);
+				message.setMessage("查询评价信息的平均值成功"); 
+				message.setData(estimateBean);	//}
 
-	
-	public void init() throws ServletException {
-		// Put your code here
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			message.setCode(-11);
+			message.setMessage("查询评价信息的平均值失败");
+			message.setData(null);
+		}
+		out.print(JSON.toJSONString(message));
+		
 	}
-
-}
+	}

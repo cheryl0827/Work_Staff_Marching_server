@@ -9,6 +9,7 @@ import java.util.List;
 
 import bean.DBBean;
 import bean.EstimateBean;
+import bean.MarchingBean;
 import bean.TaskBean;
 
 public class EstimateDao {
@@ -57,5 +58,38 @@ public class EstimateDao {
 	    	 }	
 	    	 return estimaneBean;
 	     }	
-
+	   //根据工号显示诉求任务评价信息的平均值
+	     public static EstimateBean estimateAvg_show(String workuserNo) throws SQLException {
+	    	 String sql="select * from marching m,estimate e where m.workuserNo=? and e.taskID=m.taskID";
+	    	 EstimateBean estimaneBean=null;
+	    	 ps=con.prepareStatement(sql);
+	    	 ps.setString(1,workuserNo);
+	    	 rs=ps.executeQuery();
+	    	 int count=0;
+	    	 float community=0,urgent=0,psychology=0,organization=0,analyse=0,law=0;
+	    	 if(rs!=null){
+	    		 while(rs.next()){
+	    			 estimaneBean=new EstimateBean();
+	    			   community=community+rs.getInt("community");
+		    			urgent=urgent+rs.getInt("urgent");
+		    			psychology=psychology+rs.getInt("psychology");
+		    			organization=organization+rs.getInt("organization");
+		    			law=law+rs.getInt("law");
+		    			analyse=analyse+rs.getInt("analyse");
+		    			count=count+1;
+	    			
+	    		 }
+	    	 }
+	    	 if(count!=0){
+		         estimaneBean=new EstimateBean();
+		    	 estimaneBean.setCommunity((int)(community/count));
+		    	 estimaneBean.setAnalyse((int)(analyse/count));
+		    	 estimaneBean.setOrganization((int)(organization/count));
+		    	 estimaneBean.setLaw((int)(law/count));
+		    	 estimaneBean.setPsychology((int)(psychology/count));
+		    	 estimaneBean.setUrgent((int)(urgent/count));
+		    	 }
+	    	 return estimaneBean;
+	     }	
+	    
 }

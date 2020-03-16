@@ -62,7 +62,7 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		int peopleLength=workuserEvaluatingIndicatorBean.size();//工作人员的长度
 		int CLength=taskLength*peopleLength;//最后矩阵的行数和列数
 		
-		int[]workUserRemainTaskNumber=new int[peopleLength];//每个工作人员还能做的剩余任务数量
+		int[][]workUserRemainTaskNumber=new int[peopleLength][2];//每个工作人员还能做的剩余任务数量
 		String[]WorkuserEvaluatingIndicators=new String[peopleLength]; //peopleLength个工作人员工号的存放数组
 		String[]WorkuserEvaluatingIndicator=new String[CLength]; //CLength个工作人员工号的存放数组
 		String[]Task=new String[CLength];  //CLength个诉求任务的taskID存放数组
@@ -83,9 +83,11 @@ public class CalculatePorprotionServlet extends HttpServlet {
 				}
 				for(int j=0;j<peopleLength;j++){
 					WorkuserEvaluatingIndicators[j]=workuserEvaluatingIndicatorBean.get(j).getWorkuserNo();
+					
 					workuserNo=workuserEvaluatingIndicatorBean.get(j).getWorkuserNo();
 					try {
-						workUserRemainTaskNumber[j]=UserDao.Show_workStatus(workuserNo);
+						workUserRemainTaskNumber[j][0]=Integer.valueOf(workuserEvaluatingIndicatorBean.get(j).getWorkuserNo());
+						workUserRemainTaskNumber[j][1]=UserDao.Show_workStatus(workuserNo);	
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -124,7 +126,7 @@ public class CalculatePorprotionServlet extends HttpServlet {
 			 PSA.num1=Array;
 			 int[] optimal=new int[CLength];
 			 optimal=psa1.bsss(PSA.num1);
-			 String as[][]=new String[CLength][2];
+			 String as[][]=new String[CLength][2];//用一个数组记录[任务id][工作人员工号]
 			 for(int i=0;i<optimal.length-1-1;i++)
 			 {
 				 as[i][0]=Task[optimal[i]];
@@ -132,112 +134,107 @@ public class CalculatePorprotionServlet extends HttpServlet {
 			 }
 			 as[CLength-1][0]=Task[optimal[0]];
 			 as[CLength-1][1]=WorkuserEvaluatingIndicator[optimal[CLength-1]];
-			 
-//			 for(int i=0;i<CLength;i++){
-//				 System.out.println("");
-//			       for(int j=0;j<2;j++){
-//			    	   System.out.print(as[i][j]+"  ");
-//			       }
-//			       }
-			 
-			 
-			 //去重
-//			 String as1[][]=new String[CLength][2];
-//			 String str="";
-//			 as1[0][0]=as[0][0];
-//			 for(int x=0;x<CLength;x++){
-//				 for(int y=0;y<2;y++){
-//					 str=as1[x][y];
-//					 for(int i=0;i<CLength;i++){
-//				       for(int j=0;j<2;j++){
-//					     if (str!=as[i][j])
-//					    	 as1[x][y]=as[i][j]; 		 
-//				 }
-//			 }
-//			 
-//				 }
-//			 }
-			 
-			 
-//			 
-//			 for(int i=0;i<optimal.length-1;i++)
-//			 {
-//				 try {
-//					MarchingDao.add_marching(WorkuserEvaluatingIndicator[optimal[i+1]],adminID,Task[optimal[i]],marchingTime);
-//				} catch (SQLException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			 }
-//			 try {
-//				MarchingDao.add_marching(WorkuserEvaluatingIndicator[optimal[0]],adminID,Task[optimal[optimal.length-1]],marchingTime);
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			 
-			 //增加匹配信息调用MarchingDao.add_marching(workuserNo, adminID, taskID, marchingTime)
+			 int temp = 0;  //用来记录去重后的数组长度和给去重后的数组作为下标索引
+		     String[][] NoRrepeat = new String[CLength][2];  //去重后的数组
+		     for (int i = 0; i < CLength; i++) {  //遍历原始数组as[任务id][工作人员工号]    	
+	             boolean isTrue = true;
+	              for (int j = i + 1; j < CLength; j++) {  //将原数组的数据逐一比较 
+	                   if (as[i][0] == as[j][0]&&as[i][1] == as[j][1]) {  //如果发现有重复元素，改变标记状态并结束内层循环
+	                    isTrue = false;
+	                    break;
+	                }
+	            }
+	            if (isTrue) {
+	            	NoRrepeat[temp][0] = as[i][0];
+	            	NoRrepeat[temp][1] = as[i][1];
+	                temp++;
+	            }
+	        	
+	        }
+		     //增加匹配信息调用MarchingDao.add_marching(workuserNo, adminID, taskID, marchingTime)
 			 //匹配消息后工作人员的信息修改UserDao.update_workuserTaskNumber(workuserNo)
 			 //每个人task被匹配后要修改的task状态TaskDao.update_taskMarchingStatus(taskID, marchingStatus)
 			 
-			 
-			 
-			 
-			 //显示长度为peopleLength的一位数组，对应的是工作人员的还能处理的任务数
-			 System.out.println();
-			 System.out.print("工作人员的还能处理的任务数:");
-			 for(int i=0;i<peopleLength;i++){
-				 System.out.print(workUserRemainTaskNumber[i]+"  ");
-			 }
+		    
 			 //显示长度为peopleLength的一位数组，对应的是工作人员的工号
 			 System.out.println();
-			 System.out.print("原始的工作人员的工号:");
+			 System.out.println("原始的工作人员的工号(WorkuserEvaluatingIndicators):");
 			 for(int i=0;i<peopleLength;i++){
 				 System.out.print( WorkuserEvaluatingIndicators[i]+"  ");
 			 }
+			 
 			 //显示长度为peopleLength的一位数组，对应的是诉求任务的taskID
 			 System.out.println();
-			 System.out.print("原始的诉求任务的taskID:");
+			 System.out.println("原始的诉求任务的taskID(taskids):");
 			 for(int i=0;i<taskLength;i++){
 				 System.out.print( taskids[i]+"  ");
 			 }
-		   //行代表诉求任务，列代表工作人员，显示生成的taskLength行，peopleLength列的矩阵
-		    System.out.println();
-		    System.out.print("原始taskLength行，peopleLength列的矩阵：(行代表诉求任务，列代表工作人员)");
-			for(int i=0;i<taskLength;i++){
-				System.out.println();
-				for(int j=0;j<peopleLength;j++){
-					System.out.print(ModuleList[i][j]+"  ");
-				}
-			}
+		
 			//计算CLength*CLength的矩阵，比如：{{1,2，1，2}，{3,4,3,4}，{1,2,1,2}，{3,4,3,4}}
 			 System.out.println();
-			 System.out.print("整合后的CLength行，CLength列的矩阵：(行代表诉求任务，列代表工作人员)");
+			 System.out.print("整合后的CLength行，CLength列的矩阵：(行代表诉求任务，列代表工作人员)(Array)");
 			 for(int i=0;i<CLength;i++){
 				 System.out.println();
 		    	  for(int j = 0;j<CLength;j++){
 		    		  System.out.print(Array[i][j]+"  ");
 		    	  }
 		      }
-		  //调用psa获取到的匹配结果一维数组
+			 
+		     //调用psa获取到的匹配结果一维数组
 			 System.out.println();
-			 System.out.print("调用psa获取到的匹配结果：");
+			 System.out.println("调用psa获取到的匹配结果：(optimal)");
 			 for(int i=0;i<CLength;i++){
 		    		System.out.print(optimal[i]+"  ");
 		    	  }
 		      
 			 //显示长度为CLength的一维数组，对应的是诉求任务的taskID
 			 System.out.println();
-			 System.out.print("整合后诉求任务的taskID:(对应矩阵的行)");
+			 System.out.println("整合后诉求任务的taskID:(对应矩阵的行)(Task)");
 			 for(int i=0;i<CLength;i++){
 				 System.out.print(Task[i]+"  ");
 			 } 
+			 
 			 //显示长度为CLength的一位数组，对应的是工作人员的工号
 			 System.out.println();
-			 System.out.print("整合后的工作人员的工号:(对应矩阵的列)");
+			 System.out.println("整合后的工作人员的工号:(对应矩阵的列)(WorkuserEvaluatingIndicator)");
 			 for(int i=0;i<CLength;i++){
 				 System.out.print(WorkuserEvaluatingIndicator[i]+"  ");
 			 }
+			 
+			 //显示通过psa匹配后的结果
+			 System.out.println();
+		     System.out.print("匹配后的数组[任务id][工作人员工号]：(as)");
+		     for(int i=0;i<CLength;i++){
+		    	    System.out.println("");
+		        	for(int j=0;j<2;j++){
+		        	System.out.print(as[i][j]+" ");
+		        	}
+		        }
+		      
+			 //显示长度为peopleLength的一位数组，对应的是工作人员的还能处理的任务数和工作号
+			 System.out.println();
+			 System.out.print("工作人员的还能处理的任务数:(workUserRemainTaskNumber,工号是int型要转成String)");
+			 for(int i=0;i<peopleLength;i++){
+				 System.out.println("工号："+workUserRemainTaskNumber[i][0]+"  剩余数："+workUserRemainTaskNumber[i][1]);				 
+			 }
+			 //显示去掉重复后的数组[任务id][工作人员工号]  
+		     System.out.print("匹配后去掉重复的数组[任务id][工作人员工号](NoRrepeat)：");
+		     for(int i=0;i<temp;i++){
+		    	    System.out.println("");
+		        	for(int j=0;j<2;j++){
+		        	System.out.print(NoRrepeat[i][j]+" ");
+		        	}
+		        }
+			 
+			 //行代表诉求任务，列代表工作人员，显示生成的taskLength行，peopleLength列的矩阵
+			    System.out.println();
+			    System.out.print("原始taskLength行，peopleLength列的矩阵：(行代表诉求任务，列代表工作人员)(ModuleList)");
+				for(int i=0;i<taskLength;i++){
+					System.out.println();
+					for(int j=0;j<peopleLength;j++){
+						System.out.print(ModuleList[i][j]+"  ");
+					}
+				}
 			 
 			
 			

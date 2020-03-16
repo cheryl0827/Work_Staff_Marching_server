@@ -315,6 +315,13 @@
     <servlet-name>AddWorkUserTaskNtmberServlet</servlet-name>
     <servlet-class>servlet.AddWorkUserTaskNtmberServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>EstimateAvgServlet</servlet-name>
+    <servlet-class>servlet.EstimateAvgServlet</servlet-class>
+  </servlet>
+
 
 
 
@@ -572,6 +579,10 @@
   <servlet-mapping>
     <servlet-name>AddWorkUserTaskNtmberServlet</servlet-name>
     <url-pattern>/AddWorkUserTaskNtmberServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EstimateAvgServlet</servlet-name>
+    <url-pattern>/EstimateAvgServlet</url-pattern>
   </servlet-mapping>
 
 
