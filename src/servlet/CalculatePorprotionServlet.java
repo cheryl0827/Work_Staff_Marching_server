@@ -6,7 +6,11 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -151,24 +155,67 @@ public class CalculatePorprotionServlet extends HttpServlet {
 	            }
 	        	
 	        }
+		     String[][] taskMarchings = new String[temp][2]; //任务id匹配次数的数组
+		     int arr[] = new int[taskMarchings.length];//匹配去重后任务id的存储
+		     for(int i=0;i<NoRrepeat.length;i++){
+		    	 if(NoRrepeat[i][0]!=null)
+		    	 arr[i] = Integer.valueOf(NoRrepeat[i][0]);
+			      }
+		     Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+			    for (int i = 0; i < arr.length; i++) {
+			        if (map.get(arr[i]) != null) {
+			            map.put(arr[i], map.get(arr[i]) + 1);
+			        } else if(arr[i]!=0){
+			            map.put(arr[i], 1);
+			        }
+			    }
+			    Set<Integer> keyset=map.keySet();
+			    Iterator<Integer> it=keyset.iterator();
+			    int c=0;
+			    while (it.hasNext()) {
+			    	Integer key=it.next();
+			        Integer value=map.get(key);
+			        c++;
+			        taskMarchings[c-1][0]=String.valueOf(key);
+			        taskMarchings[c-1][1]=String.valueOf(value);
+			    }
+			    
+			    String[][] workMarchings = new String[temp][2]; //工作人员工号匹配次数的数组
+			     int arr1[] = new int[workMarchings.length];//匹配去重后工作人员工号的存储
+			     for(int i=0;i<NoRrepeat.length;i++){
+			    	 if(NoRrepeat[i][0]!=null)
+			    	 arr1[i] = Integer.valueOf(NoRrepeat[i][1]);
+				      }
+			     Map<Integer, Integer> map1 = new HashMap<Integer, Integer>();
+				    for (int i = 0; i < arr1.length; i++) {
+				        if (map1.get(arr1[i]) != null) {
+				            map1.put(arr1[i], map1.get(arr1[i]) + 1);
+				        } else if(arr1[i]!=0){
+				            map1.put(arr1[i], 1);
+				        }
+				    }
+				    Set<Integer> keyset1=map1.keySet();
+				    Iterator<Integer> it1=keyset1.iterator();
+				    int cc=0;
+				    while (it1.hasNext()) {
+				    	Integer key1=it1.next();
+				        Integer value1=map1.get(key1);
+				        cc++;
+				        workMarchings[cc-1][0]=String.valueOf(key1);
+				        workMarchings[cc-1][1]=String.valueOf(value1);
+				    }
+				    
+
+
+		     
+		     
+		     
 		     //增加匹配信息调用MarchingDao.add_marching(workuserNo, adminID, taskID, marchingTime)
 			 //匹配消息后工作人员的信息修改UserDao.update_workuserTaskNumber(workuserNo)
 			 //每个人task被匹配后要修改的task状态TaskDao.update_taskMarchingStatus(taskID, marchingStatus)
 			 
 		    
-			 //显示长度为peopleLength的一位数组，对应的是工作人员的工号
-			 System.out.println();
-			 System.out.println("原始的工作人员的工号(WorkuserEvaluatingIndicators):");
-			 for(int i=0;i<peopleLength;i++){
-				 System.out.print( WorkuserEvaluatingIndicators[i]+"  ");
-			 }
 			 
-			 //显示长度为peopleLength的一位数组，对应的是诉求任务的taskID
-			 System.out.println();
-			 System.out.println("原始的诉求任务的taskID(taskids):");
-			 for(int i=0;i<taskLength;i++){
-				 System.out.print( taskids[i]+"  ");
-			 }
 		
 			//计算CLength*CLength的矩阵，比如：{{1,2，1，2}，{3,4,3,4}，{1,2,1,2}，{3,4,3,4}}
 			 System.out.println();
@@ -179,7 +226,6 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		    		  System.out.print(Array[i][j]+"  ");
 		    	  }
 		      }
-			 
 		     //调用psa获取到的匹配结果一维数组
 			 System.out.println();
 			 System.out.println("调用psa获取到的匹配结果：(optimal)");
@@ -196,7 +242,7 @@ public class CalculatePorprotionServlet extends HttpServlet {
 			 
 			 //显示长度为CLength的一位数组，对应的是工作人员的工号
 			 System.out.println();
-			 System.out.println("整合后的工作人员的工号:(对应矩阵的列)(WorkuserEvaluatingIndicator)");
+			 System.out.println("整合后的工作人员的工号:(对应矩阵的列)(WorkuserEvaluatingIndicator,String[Clength])");
 			 for(int i=0;i<CLength;i++){
 				 System.out.print(WorkuserEvaluatingIndicator[i]+"  ");
 			 }
@@ -211,23 +257,45 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		        	}
 		        }
 		      
-			 //显示长度为peopleLength的一位数组，对应的是工作人员的还能处理的任务数和工作号
-			 System.out.println();
-			 System.out.print("工作人员的还能处理的任务数:(workUserRemainTaskNumber,工号是int型要转成String)");
+			 //显示去掉重复后的数组[任务id][工作人员工号]  
+		     System.out.println();
+		     System.out.println("匹配后去掉重复的数组[任务id][工作人员工号](NoRrepeat,长度为temp)：");
+		     for(int i=0;i<temp;i++){   	
+		        	System.out.println(NoRrepeat[i][0]+"   "+NoRrepeat[i][1]);
+		        	
+		        }
+		    	     
+		     //显示长度为peopleLength的一位数组，对应的是工作人员的还能处理的任务数和工作号
+			 System.out.print("工作人员的还能处理的任务数:(workUserRemainTaskNumber,int[peopleLength][2])");
 			 for(int i=0;i<peopleLength;i++){
 				 System.out.println("工号："+workUserRemainTaskNumber[i][0]+"  剩余数："+workUserRemainTaskNumber[i][1]);				 
 			 }
-			 //显示去掉重复后的数组[任务id][工作人员工号]  
-		     System.out.print("匹配后去掉重复的数组[任务id][工作人员工号](NoRrepeat)：");
-		     for(int i=0;i<temp;i++){
-		    	    System.out.println("");
-		        	for(int j=0;j<2;j++){
-		        	System.out.print(NoRrepeat[i][j]+" ");
-		        	}
-		        }
+			//显示长度为peopleLength的一位数组，对应的是工作人员的工号
+			 System.out.println();
+			 System.out.println("原始的工作人员的工号(WorkuserEvaluatingIndicators,String[peopleLength]):");
+			 for(int i=0;i<peopleLength;i++){
+				 System.out.print( WorkuserEvaluatingIndicators[i]+"  ");
+			 }
+			 
+			 //显示长度为peopleLength的一位数组，对应的是诉求任务的taskID
+			 System.out.println();
+			 System.out.println("原始的诉求任务的taskID(taskids):");
+			 for(int i=0;i<taskLength;i++){
+				 System.out.print( taskids[i]+"  ");
+			 }
+			 //显示诉求任务id被匹配的次数
+			 System.out.println("诉求任务被匹配的次数：(taskMarchings,长度为c,String[temp][2])");
+		     for(int i=0;i<c;i++){
+		    	 System.out.println("诉求任务id："+taskMarchings[i][0]+"  匹配次数："+taskMarchings[i][1]);
+		     }
+		     //显示诉求任务id被匹配的次数
+			 System.out.println("工作人员工号被匹配的次数：(workMarchings,长度为cc,String[temp][2])");
+		     for(int i=0;i<cc;i++){
+		    	 System.out.println("工作人员工号："+workMarchings[i][0]+"  匹配次数："+workMarchings[i][1]);
+		     }
+		     
 			 
 			 //行代表诉求任务，列代表工作人员，显示生成的taskLength行，peopleLength列的矩阵
-			    System.out.println();
 			    System.out.print("原始taskLength行，peopleLength列的矩阵：(行代表诉求任务，列代表工作人员)(ModuleList)");
 				for(int i=0;i<taskLength;i++){
 					System.out.println();
