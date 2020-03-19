@@ -37,6 +37,27 @@ public class MarchingDao {
    	 }	
    	 return list;
     }	
+    //显示工作人员模糊的匹配信息
+    public static List<MarchingBean> Marching_SelectDim(String workuserNo,String catagery) throws SQLException{
+   	 List<MarchingBean>list=new ArrayList<MarchingBean>();
+   	 String sql="select * from marching m,task e where m.workuserNo=? and e.taskCatagery like ? and e.taskID=m.taskID";
+   	 ps=con.prepareStatement(sql);
+   	 ps.setString(1, workuserNo);
+   	 ps.setString(2,"%"+catagery+"%");
+   	 rs=ps.executeQuery();
+   	 if(rs!=null){
+   		 while(rs.next()){
+   			MarchingBean marchingBean=new MarchingBean();
+   			marchingBean.setMarchingID(rs.getInt("marchingID"));
+   			marchingBean.setWorkuserNo(rs.getString("workuserNo"));
+   			marchingBean.setAdminID(rs.getInt("adminID"));
+   			marchingBean.setTaskID(rs.getInt("taskID"));
+   			marchingBean.setMarchingTime(rs.getString("marchingTime"));
+   			list.add(marchingBean);
+   		 }
+   	 }	
+   	 return list;
+    }	
     //显示所有的匹配信息
     public static List<MarchingBean> Marching_SelectAll() throws SQLException{
       	 List<MarchingBean>list=new ArrayList<MarchingBean>();

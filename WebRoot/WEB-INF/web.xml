@@ -321,6 +321,41 @@
     <servlet-name>EstimateAvgServlet</servlet-name>
     <servlet-class>servlet.EstimateAvgServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserShowDimServlet</servlet-name>
+    <servlet-class>servlet.UserShowDimServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>TaskAuditDimShowServlet</servlet-name>
+    <servlet-class>servlet.TaskAuditDimShowServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>MmarchedDimShowServlet</servlet-name>
+    <servlet-class>servlet.MmarchedDimShowServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserTaskDimShowServlet</servlet-name>
+    <servlet-class>servlet.UserTaskDimShowServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>MarchingTaskDimShowServlet</servlet-name>
+    <servlet-class>servlet.MarchingTaskDimShowServlet</servlet-class>
+  </servlet>
+
+
+
+
+
 
 
 
@@ -583,6 +618,26 @@
   <servlet-mapping>
     <servlet-name>EstimateAvgServlet</servlet-name>
     <url-pattern>/EstimateAvgServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserShowDimServlet</servlet-name>
+    <url-pattern>/UserShowDimServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TaskAuditDimShowServlet</servlet-name>
+    <url-pattern>/TaskAuditDimShowServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MmarchedDimShowServlet</servlet-name>
+    <url-pattern>/MmarchedDimShowServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserTaskDimShowServlet</servlet-name>
+    <url-pattern>/UserTaskDimShowServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MarchingTaskDimShowServlet</servlet-name>
+    <url-pattern>/MarchingTaskDimShowServlet</url-pattern>
   </servlet-mapping>
 
 

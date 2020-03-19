@@ -352,6 +352,37 @@ public class UserDao {
     		 }
     	 return remainTaskNumber;
     }	
+    //模糊查询用户信息
+    public static List<UserBean> user_SelectDim(int registerStatus,String roleName,String name) throws SQLException{
+   	 List<UserBean>list=new ArrayList<UserBean>();
+   	 String sql="select * from user where registerStatus=? and roleName=? and userName like ?";
+   	 ps=con.prepareStatement(sql);
+   	 ps.setInt(1, registerStatus);
+   	 ps.setString(2, roleName);
+   	 ps.setString(3,"%"+name+"%");
+   	 rs=ps.executeQuery();
+   	 if(rs!=null){
+   		 while(rs.next()){
+   			 UserBean userBean=new UserBean();
+   			 userBean.setUserID(rs.getInt("userID"));
+   			 userBean.setUserName(rs.getString("userName"));
+   			 userBean.setIndentificationCard(rs.getString("indentificationCard"));
+   			 userBean.setPhone(rs.getString("phone"));
+   			 userBean.setCountry(rs.getString("country"));
+	   		 userBean.setAddress(rs.getString("address"));
+	   		 userBean.setRoleName(rs.getString("roleName"));
+	   		 userBean.setRegisterStatus(rs.getInt("registerStatus"));
+	   		 userBean.setCity(rs.getString("city"));
+	   		 userBean.setProvince(rs.getString("province"));
+	   		 userBean.setWorkuserNo(rs.getString("workuserNo"));
+	   		 userBean.setSex(rs.getString("sex"));
+	   		 //userBean.setWorkStatus(rs.getInt("workStatus"));
+	   		// userBean.setWorkevaluatingStatus(rs.getInt("workevaluatingStatus"));
+   			 list.add(userBean);
+   		 }
+   	 }	
+   	 return list;
+    }	 
     //查询用户的基本信息
     public static UserBean select_Userinformation(String workuserNo) throws SQLException {
     	 //List<UserBean>list=new ArrayList<UserBean>();

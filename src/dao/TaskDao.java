@@ -87,6 +87,35 @@ public class TaskDao {
 	    		 }
 	    	 }	
 	    	 return list;
+	     }
+	   //显示模糊的所有诉求任务
+	     public static List<TaskBean> task_SelectDim(String catagery) throws SQLException{
+	    	 List<TaskBean>list=new ArrayList<TaskBean>();
+	    	 String sql="select * from task where taskCatagery like ? order by taskTime desc;";
+	    	 ps=con.prepareStatement(sql);
+	    	 ps.setString(1,"%"+catagery+"%");
+	    	 rs=ps.executeQuery();
+	    	 if(rs!=null){
+	    		 while(rs.next()){
+	    			 TaskBean taskBean=new TaskBean();
+	    			 taskBean.setTaskID(rs.getInt("taskID"));
+	    			 taskBean.setTaskAdress(rs.getString("taskAdress"));
+	    			 taskBean.setTaskCatagery(rs.getString("taskCatagery"));
+	    			 taskBean.setTaskContent(rs.getString("taskContent"));
+	    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
+	    			 taskBean.setTaskTime(rs.getString("taskTime"));
+	    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
+	    			 taskBean.setUserID(rs.getInt("userID"));
+	    			 taskBean.setCommunity(rs.getInt("community"));
+	    			 taskBean.setUrgent(rs.getInt("urgent"));
+	    			 taskBean.setPsychology(rs.getInt("psychology"));
+	    			 taskBean.setOrganization(rs.getInt("organization"));
+	    			 taskBean.setAnalyse(rs.getInt("analyse"));
+	    			 taskBean.setLaw(rs.getInt("law"));
+	    			 list.add(taskBean);
+	    		 }
+	    	 }	
+	    	 return list;
 	     }	     
         //删除诉求任务	     
 	     public static boolean delete_task(int taskID) throws SQLException {
@@ -322,6 +351,40 @@ public class TaskDao {
 			    	 }	
 			    	 return list;
 			     }	     
+			     //显示普通用户模糊匹配的所有诉求任务
+			     public static List<TaskBean> task_UserSelectDim(int userID,String catagery) throws SQLException{
+			    	 List<TaskBean>list=new ArrayList<TaskBean>();
+			    	 TaskBean taskBean=null;
+			    	 String sql="select * from task where userID=? and taskCatagery like ? order by taskTime desc";
+			    	 ps=con.prepareStatement(sql);
+			    	 ps.setInt(1,userID);
+			    	 ps.setString(2,"%"+catagery+"%");
+			    	 rs=ps.executeQuery();
+			    	 if(rs!=null){
+			    		 while(rs.next()){
+			    			 taskBean=new TaskBean();
+			    			 taskBean.setTaskID(rs.getInt("taskID"));
+			    			 taskBean.setTaskAdress(rs.getString("taskAdress"));
+			    			 taskBean.setTaskCatagery(rs.getString("taskCatagery"));
+			    			 taskBean.setTaskContent(rs.getString("taskContent"));
+			    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
+			    			 taskBean.setTaskTime(rs.getString("taskTime"));
+			    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
+			    			 //taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+			    			 taskBean.setUserID(rs.getInt("userID"));
+			    			 taskBean.setCommunity(rs.getInt("community"));
+			    			 taskBean.setUrgent(rs.getInt("urgent"));
+			    			 taskBean.setPsychology(rs.getInt("psychology"));
+			    			 taskBean.setOrganization(rs.getInt("organization"));
+			    			 taskBean.setAnalyse(rs.getInt("analyse"));
+			    			 taskBean.setLaw(rs.getInt("law"));
+			    			 taskBean.setMarchingStatus(rs.getInt("marchingStatus"));
+			    			 taskBean.setPingjiaStatus(rs.getInt("pingjiaStatus"));
+			    			 list.add(taskBean);
+			    		 }
+			    	 }	
+			    	 return list;
+			     }	     
 			     //修改诉求任务的状态
 				    public static boolean update_usertaskStatus(int taskID,int taskStatus,int pingjiaStatus) throws SQLException {
 				        String sql="update task set taskStatus=?,pingjiaStatus=? where taskID=? ";
@@ -382,6 +445,37 @@ public class TaskDao {
 				    	 String sql="select * from task where  marchingStatus=? order by taskTime desc;";
 				    	 ps=con.prepareStatement(sql);
 				    	 ps.setInt(1,marchingStatus);  	
+				    	 rs=ps.executeQuery();
+				    	 if(rs!=null){
+				    		 while(rs.next()){
+				    			 TaskBean taskBean=new TaskBean();
+				    			 taskBean.setTaskID(rs.getInt("taskID"));
+				    			 taskBean.setTaskAdress(rs.getString("taskAdress"));
+				    			 taskBean.setTaskCatagery(rs.getString("taskCatagery"));
+				    			 taskBean.setTaskContent(rs.getString("taskContent"));
+				    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
+				    			 taskBean.setTaskTime(rs.getString("taskTime"));
+				    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
+				    			 //taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+				    			 taskBean.setUserID(rs.getInt("userID"));
+				    			 taskBean.setCommunity(rs.getInt("community"));
+				    			 taskBean.setUrgent(rs.getInt("urgent"));
+				    			 taskBean.setPsychology(rs.getInt("psychology"));
+				    			 taskBean.setOrganization(rs.getInt("organization"));
+				    			 taskBean.setAnalyse(rs.getInt("analyse"));
+				    			 taskBean.setLaw(rs.getInt("law"));
+				    			 list.add(taskBean);
+				    		 }
+				    	 }	
+				    	 return list;
+				     }	  
+				     //显示模糊匹配的所有匹配的诉求任务
+				     public static List<TaskBean> worktask_MarchedSelectDim(int marchingStatus,String taskContent) throws SQLException{
+				    	 List<TaskBean>list=new ArrayList<TaskBean>();
+				    	 String sql="select * from task where  marchingStatus=? and taskCatagery like ? order by taskTime desc;";
+				    	 ps=con.prepareStatement(sql);
+				    	 ps.setInt(1,marchingStatus);  
+				    	 ps.setString(2,"%"+taskContent+"%");
 				    	 rs=ps.executeQuery();
 				    	 if(rs!=null){
 				    		 while(rs.next()){
