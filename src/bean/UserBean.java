@@ -16,7 +16,16 @@ public class UserBean {
     private String sex;
     private int maxTaskNumber;
     private int remainTaskNumber;
+    private String userPicture;
     
+	public String getUserPicture() {
+		return userPicture;
+	}
+
+	public void setUserPicture(String userPicture) {
+		this.userPicture = userPicture;
+	}
+
 	public int getRemainTaskNumber() {
 		return remainTaskNumber;
 	}

@@ -44,6 +44,8 @@ public class UserLoginServlet extends HttpServlet {
 		try {
 			if(UserDao.select_userloginregister(phone, password, rolename)==2){
 			    UserBean userBean=UserDao.select_userlogin(phone, password, rolename);
+			    userBean.setUserPicture(req.getRequestURL().toString().replace(req.getServletPath(), "")
+                        + "/image/" +userBean.getUserPicture());
 				message.setCode(200);
 				message.setMessage("登录成功"); 
 				message.setData(userBean);

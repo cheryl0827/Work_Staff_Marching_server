@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import util.PSA;
+import bean.Message;
 import bean.TMessage;
 import bean.TaskBean;
 import bean.WorkuserEvaluatingIndicatorBean;
@@ -52,17 +53,26 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		String marchingTime=req.getParameter("marchingTime");//匹配时间
 		int marchingStatus=2;//匹配状态
 		
+		Message message=new Message();
 		String all_id=req.getParameter("all_id");//获取前台需要匹配的诉求任务的taskID
 		String[] taskids = all_id.split(",");//要匹配的诉求任务的taskID的数组，注意这个数组是String类型的
+		
+		String workuserNo;
+		int taskLength=taskids.length;//诉求任务数组的长度
 		List<WorkuserEvaluatingIndicatorBean> workuserEvaluatingIndicatorBean=new ArrayList<WorkuserEvaluatingIndicatorBean>();
 		try {
-			workuserEvaluatingIndicatorBean=WorkUserEvaluatingIndicatorDao.select_FreeWorkuser();//查询有空闲的工作人员的评价指标值
+			workuserEvaluatingIndicatorBean=WorkUserEvaluatingIndicatorDao.select_FreeWorkuser(taskLength);//查询有空闲(剩余处理的数是大于所有处理的任务数量）的工作人员的评价指标值
+		    if(workuserEvaluatingIndicatorBean==null||workuserEvaluatingIndicatorBean.size()<=0)
+		    {
+		    	message.setCode(-11);
+				message.setMessage("请重新选择小于"+taskLength+"件的诉求任务，否则无空闲的用户进行匹配！");
+				message.setData(null);
+				out.print(JSON.toJSONString(message));
+		    }
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} 
-		String workuserNo;
-		int taskLength=taskids.length;//诉求任务数组的长度
 		int peopleLength=workuserEvaluatingIndicatorBean.size();//工作人员的长度
 		int CLength=taskLength*peopleLength;//最后矩阵的行数和列数
 		
@@ -87,7 +97,6 @@ public class CalculatePorprotionServlet extends HttpServlet {
 				}
 				for(int j=0;j<peopleLength;j++){
 					WorkuserEvaluatingIndicators[j]=workuserEvaluatingIndicatorBean.get(j).getWorkuserNo();
-					
 					workuserNo=workuserEvaluatingIndicatorBean.get(j).getWorkuserNo();
 					try {
 						workUserRemainTaskNumber[j][0]=Integer.valueOf(workuserEvaluatingIndicatorBean.get(j).getWorkuserNo());
@@ -257,20 +266,35 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		        	}
 		        }
 		      
-			 //显示去掉重复后的数组[任务id][工作人员工号]  
+			
+		    	     
+		     //显示长度为peopleLength的一位数组，对应的是工作人员的还能处理的任务数和工作号
+			 System.out.println("工作人员的还能处理的任务数:(workUserRemainTaskNumber,int[peopleLength][2])");
+			 for(int i=0;i<peopleLength;i++){
+				 System.out.println("工号："+workUserRemainTaskNumber[i][0]+"  剩余数："+workUserRemainTaskNumber[i][1]);				 
+			 }
+			
+			 //显示诉求任务id被匹配的次数
+			 System.out.println();
+			 System.out.println("诉求任务被匹配的次数：(taskMarchings,长度为c,String[temp][2])");
+		     for(int i=0;i<c;i++){
+		    	 System.out.println("诉求任务id："+taskMarchings[i][0]+"  匹配次数："+taskMarchings[i][1]);
+		     }
+		     //显示去掉重复后的数组[任务id][工作人员工号]  
 		     System.out.println();
 		     System.out.println("匹配后去掉重复的数组[任务id][工作人员工号](NoRrepeat,长度为temp)：");
 		     for(int i=0;i<temp;i++){   	
 		        	System.out.println(NoRrepeat[i][0]+"   "+NoRrepeat[i][1]);
 		        	
 		        }
-		    	     
-		     //显示长度为peopleLength的一位数组，对应的是工作人员的还能处理的任务数和工作号
-			 System.out.print("工作人员的还能处理的任务数:(workUserRemainTaskNumber,int[peopleLength][2])");
-			 for(int i=0;i<peopleLength;i++){
-				 System.out.println("工号："+workUserRemainTaskNumber[i][0]+"  剩余数："+workUserRemainTaskNumber[i][1]);				 
-			 }
-			//显示长度为peopleLength的一位数组，对应的是工作人员的工号
+		     //显示诉求任务id被匹配的次数
+		 
+			 System.out.println("工作人员工号被匹配的次数：(workMarchings,长度为cc,String[temp][2])");
+		     for(int i=0;i<cc;i++){
+		    	 System.out.println("工作人员工号："+workMarchings[i][0]+"  匹配次数："+workMarchings[i][1]);
+		     }
+		     
+		   //显示长度为peopleLength的一位数组，对应的是工作人员的工号
 			 System.out.println();
 			 System.out.println("原始的工作人员的工号(WorkuserEvaluatingIndicators,String[peopleLength]):");
 			 for(int i=0;i<peopleLength;i++){
@@ -283,19 +307,8 @@ public class CalculatePorprotionServlet extends HttpServlet {
 			 for(int i=0;i<taskLength;i++){
 				 System.out.print( taskids[i]+"  ");
 			 }
-			 //显示诉求任务id被匹配的次数
-			 System.out.println("诉求任务被匹配的次数：(taskMarchings,长度为c,String[temp][2])");
-		     for(int i=0;i<c;i++){
-		    	 System.out.println("诉求任务id："+taskMarchings[i][0]+"  匹配次数："+taskMarchings[i][1]);
-		     }
-		     //显示诉求任务id被匹配的次数
-			 System.out.println("工作人员工号被匹配的次数：(workMarchings,长度为cc,String[temp][2])");
-		     for(int i=0;i<cc;i++){
-		    	 System.out.println("工作人员工号："+workMarchings[i][0]+"  匹配次数："+workMarchings[i][1]);
-		     }
-		     
-			 
 			 //行代表诉求任务，列代表工作人员，显示生成的taskLength行，peopleLength列的矩阵
+			    System.out.println();
 			    System.out.print("原始taskLength行，peopleLength列的矩阵：(行代表诉求任务，列代表工作人员)(ModuleList)");
 				for(int i=0;i<taskLength;i++){
 					System.out.println();

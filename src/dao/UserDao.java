@@ -75,6 +75,7 @@ public class UserDao {
         	userBean.setCity(rs.getString("city"));
         	userBean.setProvince(rs.getString("province"));
         	userBean.setWorkuserNo(rs.getString("workuserNo"));
+        	userBean.setUserPicture(rs.getString("userPicture"));
         	//userBean.setWorkStatus(rs.getInt("workStatus"));      	
         	}
         }
@@ -485,5 +486,21 @@ public class UserDao {
             flag=false;
         return flag;
     }
+    //更改头像
+    public static boolean update_picture(int userID,String picture) throws SQLException {
+    	String sql="update user set userPicture=? where userID=?";
+    	boolean flag=false;
+        ps=con.prepareStatement(sql);
+        ps.setString(1,picture);
+        ps.setInt(2,userID);
+        int count=ps.executeUpdate();
+        if(count==1){
+            flag=true;
+        }
+        else
+            flag=false;
+        return flag;
+    }
+    
     
 }

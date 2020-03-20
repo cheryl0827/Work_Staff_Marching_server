@@ -118,7 +118,7 @@ public class WorkUserEvaluatingIndicatorDao {
 	  	return list;   
 	    }
 	    //有空闲的工作人员指标信息的查看
-	    public static List<WorkuserEvaluatingIndicatorBean> select_FreeWorkuser() throws SQLException {
+	    public static List<WorkuserEvaluatingIndicatorBean> select_FreeWorkuser(int length) throws SQLException {
 	    	List<WorkuserEvaluatingIndicatorBean> list=new ArrayList<WorkuserEvaluatingIndicatorBean>();
 	    	String sql="select * from workevaluatingindicator";
 	        ps=con.prepareStatement(sql);
@@ -126,7 +126,7 @@ public class WorkUserEvaluatingIndicatorDao {
 	        if(rs!=null){
 	        	while(rs.next()){
 	        	String workuserNo=rs.getString("workuserNo");
-	        	if(UserDao.Show_workStatus(workuserNo)!=0){
+	        	if(UserDao.Show_workStatus(workuserNo)>=length){
 	        		WorkuserEvaluatingIndicatorBean workUser=new WorkuserEvaluatingIndicatorBean();
 		        	workUser.setWorkEvaluatingIndicatorID(rs.getInt("workEvaluatingIndicatorID"));
 		        	workUser.setCommunity(rs.getInt("community"));
