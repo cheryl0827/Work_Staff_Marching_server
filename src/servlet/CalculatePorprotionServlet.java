@@ -24,6 +24,7 @@ import bean.TaskBean;
 import bean.WorkuserEvaluatingIndicatorBean;
 
 import com.alibaba.fastjson.JSON;
+import com.mysql.jdbc.StringUtils;
 
 import dao.MarchingDao;
 import dao.TaskDao;
@@ -48,7 +49,8 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		String Number=req.getParameter("Number");//诉求任务所需要的工作人员数量
+		int num=Integer.valueOf(req.getParameter("Number"));//诉求任务所需要的工作人员数量
+		System.out.println("zaaaa"+num);
 		String adminID=req.getParameter("adminID");//匹配人员的工作id
 		String marchingTime=req.getParameter("marchingTime");//匹配时间
 		int marchingStatus=2;//匹配状态
@@ -214,14 +216,111 @@ public class CalculatePorprotionServlet extends HttpServlet {
 				        workMarchings[cc-1][1]=String.valueOf(value1);
 				    }
 				    
+				    String[][] b = new String[NoRrepeat.length][2]; //最终结果
+					String[] x; //每个id对应NoRrepeat中的工号,用于存储NoRrepeat中每个id的工号
+					int cq; //x的计数器
+					int q = 0;
+					String[][] result = new String[ModuleList.length][2];//得到重组后的taskId，worknum数组
+					String[] worknum=new String[peopleLength];//工作人员工号数组
+					for(int i = 0; i<c; i++){
+						worknum = WorkuserEvaluatingIndicators;
+						x= new  String[worknum.length];
+						cq = 0;
+						if(Integer.valueOf(taskMarchings[i][1]) > num){
+							System.out.println("taskMarchings[i][0]"+taskMarchings[i][0]);
+							System.out.println("taskMarchings[i][1]"+taskMarchings[i][1]);
+							//匹配次数大于num就去删除元素，然后赋值到新数组
+							for (int j = 0; j<NoRrepeat.length;j++){
+								//判断id是否相同，相同则取出来 
+								if(NoRrepeat[j][0] != null && NoRrepeat[j][0].equals(taskMarchings[i][0])){
+									System.out.println("NoRrepeat[j][0]azrael  == " +NoRrepeat[j][0] );
+									System.out.println("NoRrepeat[j][1]azrael  == " +NoRrepeat[j][1] );
 
+									x[cq] = NoRrepeat[j][1];
+									cq++;
+								}
+							}
+							//拿到x后先得到重组的taskId，worknum数组 result
+							for(int k = 0; k<taskids.length; k++){
+								if(taskids[k].equals(taskMarchings[i][0])){
+									result = selectSort(ModuleList[k],worknum);
+									break;
+								}
+							}
+							int d = 0;
+							//删除多余的元素
+							for(int m =0;m<result.length;m++){
+								for(int l = 0;l<x.length;l++){
+									if(x[l]!=null && result[m][1]!=null && result[m][1].equals(x[l])){						
+										b[q][0] = taskMarchings[i][0];
+										b[q][1] = x[l];
+										q++;
+										d++;
+										if (d>=num){
+											//数据到要求的个数时就跳出循环
+											break;
+										}
+									}
+								}
+								if (d>=num){
+									//数据到要求的个数时就跳出循环
+									break;
+								}
+							}
+						}else{
+							//否则就把元素取出来赋值到新数组.
+							for(int n = 0; n<NoRrepeat.length; n++){
+								//判断id是否相同，相同赋值
+								if(NoRrepeat[n][1]!=null && NoRrepeat[n][0].equals(taskMarchings[i][0])){
+									System.out.println("NoRrepeat[n][0] == "+NoRrepeat[n][0]);
+									System.out.println("NoRrepeat[n][1] == "+NoRrepeat[n][1]);
+//									x[cq] = NoRrepeat[n][1];
+									b[q][0] = taskMarchings[i][0];
+									b[q][1] = NoRrepeat[n][1];
+									q++;
+								}
+							}
+						}
+					}
+					boolean addflag=false;
+					 for(int i=0;i<b.length;i++){//增加匹配信息
+			        	   if(b[i][0]!=null){
+			        		   try {
+								addflag=MarchingDao.add_marching(b[i][1], adminID, b[i][0], marchingTime);
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}  
+			        	   }
+			           }
+					 boolean updateflag=false;
+					 for(int i=0;i<peopleLength;i++){//匹配消息后工作人员的信息修改
+						 try {
+							 updateflag=UserDao.update_workuserTaskNumber(WorkuserEvaluatingIndicators[i]);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					 }
+					 boolean updateTaskflag=false;
+					 for(int i=0;i<taskLength;i++){//每个task被匹配后要修改的task状态
+						 try {
+							updateTaskflag= TaskDao.update_taskMarchingStatus(Integer.valueOf(taskids[i]), marchingStatus);
+						} catch (NumberFormatException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					 }
+					
 
+            
 		     
-		     
-		     
-		     //增加匹配信息调用MarchingDao.add_marching(workuserNo, adminID, taskID, marchingTime)
-			 //匹配消息后工作人员的信息修改UserDao.update_workuserTaskNumber(workuserNo)
-			 //每个人task被匹配后要修改的task状态TaskDao.update_taskMarchingStatus(taskID, marchingStatus)
+		 
+			 
+			
 			 
 		    
 			 
@@ -268,11 +367,11 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		      
 			
 		    	     
-		     //显示长度为peopleLength的一位数组，对应的是工作人员的还能处理的任务数和工作号
-			 System.out.println("工作人员的还能处理的任务数:(workUserRemainTaskNumber,int[peopleLength][2])");
-			 for(int i=0;i<peopleLength;i++){
-				 System.out.println("工号："+workUserRemainTaskNumber[i][0]+"  剩余数："+workUserRemainTaskNumber[i][1]);				 
-			 }
+//		     //显示长度为peopleLength的一位数组，对应的是工作人员的还能处理的任务数和工作号
+//			 System.out.println("工作人员的还能处理的任务数:(workUserRemainTaskNumber,int[peopleLength][2])");
+//			 for(int i=0;i<peopleLength;i++){
+//				 System.out.println("工号："+workUserRemainTaskNumber[i][0]+"  剩余数："+workUserRemainTaskNumber[i][1]);				 
+//			 }
 			
 			 //显示诉求任务id被匹配的次数
 			 System.out.println();
@@ -289,11 +388,11 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		        }
 		     //显示诉求任务id被匹配的次数
 		 
-			 System.out.println("工作人员工号被匹配的次数：(workMarchings,长度为cc,String[temp][2])");
-		     for(int i=0;i<cc;i++){
-		    	 System.out.println("工作人员工号："+workMarchings[i][0]+"  匹配次数："+workMarchings[i][1]);
-		     }
-		     
+//			 System.out.println("工作人员工号被匹配的次数：(workMarchings,长度为cc,String[temp][2])");
+//		     for(int i=0;i<cc;i++){
+//		    	 System.out.println("工作人员工号："+workMarchings[i][0]+"  匹配次数："+workMarchings[i][1]);
+//		     }
+//		     
 		   //显示长度为peopleLength的一位数组，对应的是工作人员的工号
 			 System.out.println();
 			 System.out.println("原始的工作人员的工号(WorkuserEvaluatingIndicators,String[peopleLength]):");
@@ -316,14 +415,45 @@ public class CalculatePorprotionServlet extends HttpServlet {
 						System.out.print(ModuleList[i][j]+"  ");
 					}
 				}
+			    System.out.println("最终的匹配结果：");
+		           for(int i=0;i<b.length;i++){
+		        	   if(b[i][0]!=null){
+		        		   System.out.println(b[i][0]+"----------"+b[i][1]);  
+		        	   }
+					
+		           }
 			 
-			
-			
-		 
-		
-		
-		
+				
 
 	}
+	 public static String[][] selectSort(int arry[], String arry2[]) {
+         //定义重组后的二维数组
+					String[][] result = new String[arry.length][2];
+					//System.out.println("arry.length-----=="+arry.length);
+					for (int i = 0; i < arry.length - 1; i++) {
+						//System.out.println("arry"+i+"-----=="+arry[i]);
+						for (int j = i + 1; j < arry.length; j++) {
+							if (Integer.valueOf(arry[i]) < Integer.valueOf(arry[j])) {
+								int temp = arry[i];
+								String temp2 = arry2[i];
+								arry[i] = arry[j];
+								arry[j] = temp;  //交换行的数据大小，从大到小排序
+
+								arry2[i] = arry2[j];
+								arry2[j] = temp2;
+
+							}
+
+						}
+					}
+
+					for (int k = 0; k < arry.length; k++) {
+						result[k][0] = String.valueOf(arry[k]);
+						result[k][1] = arry2[k];
+					}
+					return result;
+				}
+	     
+	     
 }
 	
