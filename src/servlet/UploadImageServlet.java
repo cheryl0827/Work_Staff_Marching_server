@@ -81,13 +81,13 @@ public class UploadImageServlet extends HttpServlet {
                 System.out.println("成功");
                 message.setCode(200);
                 message.setData("token");
-                message.setMessage("添加成功");
+                message.setMessage("修改头像成功");
                 out.print(JSON.toJSONString(message));
             } else {
                 System.out.println("false");
                 message.setCode(-11);
                 message.setData("null");
-                message.setMessage("添加失败");
+                message.setMessage("修改头像失败");
                 out.print(JSON.toJSONString(message));
             }
         } catch (SQLException e) {
