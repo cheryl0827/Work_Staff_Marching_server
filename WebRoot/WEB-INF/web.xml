@@ -243,12 +243,7 @@
     <servlet-name>UserTaskShowServlet</servlet-name>
     <servlet-class>servlet.UserTaskShowServlet</servlet-class>
   </servlet>
-  <servlet>
-    <description>This is the description of my J2EE component</description>
-    <display-name>This is the display name of my J2EE component</display-name>
-    <servlet-name>ShowEstimateServlet</servlet-name>
-    <servlet-class>servlet.ShowEstimateServlet</servlet-class>
-  </servlet>
+
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
@@ -351,6 +346,27 @@
     <servlet-name>MarchingTaskDimShowServlet</servlet-name>
     <servlet-class>servlet.MarchingTaskDimShowServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ShowWorkUserEstimate</servlet-name>
+    <servlet-class>servlet.ShowWorkUserEstimate</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateEstimateServlet</servlet-name>
+    <servlet-class>servlet.UpdateEstimateServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UpdateTasklStatusServlet</servlet-name>
+    <servlet-class>servlet.UpdateTasklStatusServlet</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -638,6 +654,18 @@
   <servlet-mapping>
     <servlet-name>MarchingTaskDimShowServlet</servlet-name>
     <url-pattern>/MarchingTaskDimShowServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ShowWorkUserEstimate</servlet-name>
+    <url-pattern>/ShowWorkUserEstimate</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateEstimateServlet</servlet-name>
+    <url-pattern>/UpdateEstimateServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateTasklStatusServlet</servlet-name>
+    <url-pattern>/UpdateTasklStatusServlet</url-pattern>
   </servlet-mapping>
 
 

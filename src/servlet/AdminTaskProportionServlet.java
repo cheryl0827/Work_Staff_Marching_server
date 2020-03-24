@@ -40,12 +40,13 @@ public class AdminTaskProportionServlet extends HttpServlet {
 	    int analyse=Integer.valueOf(req.getParameter("analyse")).intValue();
 	    int law=Integer.valueOf(req.getParameter("law")).intValue();
 	    int taskID=Integer.valueOf(req.getParameter("taskID")).intValue();
+	    String workUserNumber=req.getParameter("workUserNumber");
 		Message message = new Message();
 		try {
-			if(TaskDao.adminadd_taskproportion(community, urgent, psychology, organization, analyse, law, taskID)){
+			if(TaskDao.adminadd_taskproportion(community, urgent, psychology, organization, analyse, law, taskID)&&TaskDao.update_taskWorkUserNumber(taskID, workUserNumber)){
 			   // UserBean userBean=UserDao.select_userlogin(phone, password, rolename);
 				message.setCode(200);
-				message.setMessage("诉求任务权重表填写成功"); 
+				message.setMessage("诉求任务权重信息审核成功"); 
 				message.setData(null);
 				}		
 
@@ -55,7 +56,7 @@ public class AdminTaskProportionServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.setCode(-11);
-			message.setMessage("诉求任务权重表填写失败");
+			message.setMessage("诉求任务权重信息审核失败");
 			message.setData(null);
 		}
 		out.print(JSON.toJSONString(message));

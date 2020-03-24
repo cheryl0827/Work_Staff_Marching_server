@@ -295,6 +295,7 @@ public class TaskDao {
 		    			 taskBean.setOrganization(rs.getInt("organization"));
 		    			 taskBean.setAnalyse(rs.getInt("analyse"));
 		    			 taskBean.setLaw(rs.getInt("law"));
+		    			 taskBean.setWorkUserNumber(rs.getString("workUserNumber"));
 		    			 list.add(taskBean);
 		    		 }
 		    	 }	
@@ -434,6 +435,7 @@ public class TaskDao {
 				    			 taskBean.setOrganization(rs.getInt("organization"));
 				    			 taskBean.setAnalyse(rs.getInt("analyse"));
 				    			 taskBean.setLaw(rs.getInt("law"));
+				    			 taskBean.setWorkUserNumber(rs.getString("workUserNumber"));
 				    			
 				    		 }
 				    	 }	
@@ -506,6 +508,21 @@ public class TaskDao {
 					        boolean flag=false;
 					        ps=con.prepareStatement(sql);
 					        ps.setInt(1,marchingStatus);
+					        ps.setInt(2,taskID);
+					        int count=ps.executeUpdate();
+					        if(count==1){
+					            flag=true;
+					        }
+					        else
+					            flag=false;
+					        return flag;
+					    }
+					    //修改诉求任务所需的工作人员数量
+					    public static boolean update_taskWorkUserNumber(int taskID,String workUserNumber) throws SQLException {
+					        String sql="update task set workUserNumber=? where taskID=? ";
+					        boolean flag=false;
+					        ps=con.prepareStatement(sql);
+					        ps.setString(1,workUserNumber);
 					        ps.setInt(2,taskID);
 					        int count=ps.executeUpdate();
 					        if(count==1){

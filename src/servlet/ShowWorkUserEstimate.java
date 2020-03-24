@@ -3,7 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +18,7 @@ import com.alibaba.fastjson.JSON;
 import dao.EstimateDao;
 import dao.WorkUserEvaluatingIndicatorDao;
 
-public class ShowEstimateServlet extends HttpServlet {
-
+public class ShowWorkUserEstimate extends HttpServlet {
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
 		// Put your code here
@@ -37,21 +35,22 @@ public class ShowEstimateServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		int taskID=Integer.valueOf(req.getParameter("taskID")).intValue();
-		System.out.print(taskID);
+		//int workevaluatingStatus=2;
+		String workuserNo=req.getParameter("workuserNo");
+		String taskID=req.getParameter("taskID");
 		TMessage message = new TMessage();
 		try {
 		   // if(UserDao.update_workevaluatingStatus(workevaluatingStatus, userID)){
-			EstimateBean estimateBean=EstimateDao.Estimate_show(taskID);
+			EstimateBean estimateBean=EstimateDao.select_workuser(workuserNo,taskID);
 			    message.setCode(200);
-				message.setMessage("查询评价信息成功"); 
+				message.setMessage("查询工作用户评价信息成功"); 
 				message.setData(estimateBean);	//}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.setCode(-11);
-			message.setMessage("查询评价信息失败");
+			message.setMessage("查询工作用户评价信息失败");
 			message.setData(null);
 		}
 		out.print(JSON.toJSONString(message));

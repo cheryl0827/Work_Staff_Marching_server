@@ -40,25 +40,28 @@ public class EstimateAddServlet extends HttpServlet {
 		int analyse=Integer.valueOf(req.getParameter("analyse")).intValue();
 		int law=Integer.valueOf(req.getParameter("law")).intValue();
 		int taskID=Integer.valueOf(req.getParameter("taskID")).intValue();
+		String taskID1=req.getParameter("taskID");
+		String workuserNo=req.getParameter("workuserNo");
 		int pingjiaStatus=Integer.valueOf(req.getParameter("pingjiaStatus")).intValue();
 		int taskStatus=Integer.valueOf(req.getParameter("taskStatus")).intValue();
 		Message message = new Message();
 		try {
-			if(TaskDao.update_usertaskStatus(taskID, taskStatus, pingjiaStatus)){
-			if(EstimateDao.add_estimate(community, urgent, psychology, organization, analyse, law, taskID)){
+			//if(TaskDao.update_usertaskStatus(taskID, taskStatus, pingjiaStatus)){
+			if(EstimateDao.add_estimate(community, urgent, psychology, organization, analyse, law, workuserNo,taskID1)){
 			   // UserBean userBean=UserDao.select_userlogin(phone, password, rolename);
 				message.setCode(200);
-				message.setMessage("诉求任务评价成功"); 
+				message.setMessage("工作人员能力评价成功"); 
 				message.setData(null);
 				}		
 
-		}} catch (SQLException e) {
+		//}
+		} catch (SQLException e) {
 			
 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.setCode(-11);
-			message.setMessage("诉求任务评价失败");
+			message.setMessage("工作人员能力评价失败");
 			message.setData(null);
 		}
 		out.print(JSON.toJSONString(message));

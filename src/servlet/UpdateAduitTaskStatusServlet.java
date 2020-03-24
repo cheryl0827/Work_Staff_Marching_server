@@ -56,7 +56,7 @@ public class UpdateAduitTaskStatusServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.setCode(-11);
-			message.setMessage("办理结束失败");
+			message.setMessage("审核诉求任务失败");
 			message.setData(null);
 		}
 		out.print(JSON.toJSONString(message));

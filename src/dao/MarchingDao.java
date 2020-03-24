@@ -142,5 +142,21 @@ public class MarchingDao {
             flag=false;
         return flag;
     }
+  //查找 marchingID 
+    public static int show_msrchingid(String workuserNo,String taskID) throws SQLException {
+        String sql="select * from marching where workuserNo=? and taskID=?";
+        boolean flag=false;
+        ps=con.prepareStatement(sql);
+        ps.setString(1,workuserNo);
+        ps.setString(2,taskID);
+        int marchingID = 0;
+        rs=ps.executeQuery();
+    	 if(rs!=null){
+    		 while(rs.next()){
+    			 marchingID=rs.getInt("marchingID"); 
+    		 }
+    		 }
+    	 return marchingID;
+    }
  	
 }

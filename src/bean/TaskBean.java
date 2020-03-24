@@ -19,7 +19,14 @@ public class TaskBean {
   private int recordStatus;
   private int marchingStatus;
   private int pingjiaStatus;
+  private String workUserNumber;
   
+public String getWorkUserNumber() {
+	return workUserNumber;
+}
+public void setWorkUserNumber(String workUserNumber) {
+	this.workUserNumber = workUserNumber;
+}
 public int getPingjiaStatus() {
 	return pingjiaStatus;
 }

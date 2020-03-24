@@ -61,6 +61,7 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		
 		String workuserNo;
 		int taskLength=taskids.length;//诉求任务数组的长度
+		String[][] task=new String[taskLength][2];//诉求任务和诉求任务所需要的工作人员数量
 		List<WorkuserEvaluatingIndicatorBean> workuserEvaluatingIndicatorBean=new ArrayList<WorkuserEvaluatingIndicatorBean>();
 		try {
 			workuserEvaluatingIndicatorBean=WorkUserEvaluatingIndicatorDao.select_FreeWorkuser(taskLength);//查询有空闲(剩余处理的数是大于所有处理的任务数量）的工作人员的评价指标值
@@ -84,11 +85,14 @@ public class CalculatePorprotionServlet extends HttpServlet {
 					TaskBean taskBean = null;
 					try {
 						taskBean = TaskDao.task_porprotion(taskids[i]);//查询诉求任务的评价指标值
+						task[i][0]=String.valueOf(taskBean.getTaskID());
+						task[i][1]=taskBean.getWorkUserNumber();
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					for(int j=0;j<peopleLength;j++){
+						
 						WorkuserEvaluatingIndicators[j]=workuserEvaluatingIndicatorBean.get(j).getWorkuserNo();
 						workuserNo=workuserEvaluatingIndicatorBean.get(j).getWorkuserNo();
 						Count=(int) (taskBean.getCommunity()*workuserEvaluatingIndicatorBean.get(j).getCommunity()*E+
@@ -261,52 +265,52 @@ public class CalculatePorprotionServlet extends HttpServlet {
 								}
 							}
 						}
-						boolean addflag=false;
-						 for(int i=0;i<b.length;i++){//增加匹配信息
-				        	   if(b[i][0]!=null){
-				        		   try {
-									addflag=MarchingDao.add_marching(b[i][1], adminID, b[i][0], marchingTime);
-								} catch (SQLException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}  
-				        	   }
-				           }
-						 boolean updateflag=false;
-						 for(int i=0;i<peopleLength;i++){//匹配消息后工作人员的信息修改
-							 try {
-								 updateflag=UserDao.update_workuserTaskNumber(WorkuserEvaluatingIndicators[i]);
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						 }
-						 boolean updateTaskflag=false;
-						 for(int i=0;i<taskLength;i++){//每个task被匹配后要修改的task状态
-							 try {
-								updateTaskflag= TaskDao.update_taskMarchingStatus(Integer.valueOf(taskids[i]), marchingStatus);
-							} catch (NumberFormatException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						 }
-						 if(addflag&&updateflag&&updateTaskflag){
-							 	message.setCode(200);
-						        message.setMessage("匹配工作人员和诉求任务信息成功");
-						    	message.setData(null);
-						        out.print(JSON.toJSONString(message)); 
-						 }
-						 if(!(addflag&&updateflag&&updateTaskflag)){
-							 	message.setCode(-11);
-						        message.setMessage("匹配工作人员和诉求任务信息失败");
-						    	message.setData(null);
-						        out.print(JSON.toJSONString(message)); 
-						 }
-	
-					    
+//						boolean addflag=false;
+//						 for(int i=0;i<b.length;i++){//增加匹配信息
+//				        	   if(b[i][0]!=null){
+//				        		   try {
+//									addflag=MarchingDao.add_marching(b[i][1], adminID, b[i][0], marchingTime);
+//								} catch (SQLException e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								}  
+//				        	   }
+//				           }
+//						 boolean updateflag=false;
+//						 for(int i=0;i<peopleLength;i++){//匹配消息后工作人员的信息修改
+//							 try {
+//								 updateflag=UserDao.update_workuserTaskNumber(WorkuserEvaluatingIndicators[i]);
+//							} catch (SQLException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
+//						 }
+//						 boolean updateTaskflag=false;
+//						 for(int i=0;i<taskLength;i++){//每个task被匹配后要修改的task状态
+//							 try {
+//								updateTaskflag= TaskDao.update_taskMarchingStatus(Integer.valueOf(taskids[i]), marchingStatus);
+//							} catch (NumberFormatException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							} catch (SQLException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
+//						 }
+//						 if(addflag&&updateflag&&updateTaskflag){
+//							 	message.setCode(200);
+//						        message.setMessage("匹配工作人员和诉求任务信息成功");
+//						    	message.setData(null);
+//						        out.print(JSON.toJSONString(message)); 
+//						 }
+//						 if(!(addflag&&updateflag&&updateTaskflag)){
+//							 	message.setCode(-11);
+//						        message.setMessage("匹配工作人员和诉求任务信息失败");
+//						    	message.setData(null);
+//						        out.print(JSON.toJSONString(message)); 
+//						 }
+//	
+//					    
 	
 	            
 				//计算CLength*CLength的矩阵，比如：{{1,2，1，2}，{3,4,3,4}，{1,2,1,2}，{3,4,3,4}}
@@ -351,11 +355,11 @@ public class CalculatePorprotionServlet extends HttpServlet {
 			      
 				
 			    	     
-	//		     //显示长度为peopleLength的一位数组，对应的是工作人员的还能处理的任务数和工作号
-	//			 System.out.println("工作人员的还能处理的任务数:(workUserRemainTaskNumber,int[peopleLength][2])");
-	//			 for(int i=0;i<peopleLength;i++){
-	//				 System.out.println("工号："+workUserRemainTaskNumber[i][0]+"  剩余数："+workUserRemainTaskNumber[i][1]);				 
-	//			 }
+			     //显示长度为peopleLength的一位数组，对应的是工作人员的还能处理的任务数和工作号
+				 System.out.println("诉求任务所需要的工作人员数量,String[peopleLength][2])");
+				 for(int i=0;i<taskLength;i++){
+					 System.out.println("taskid："+task[i][0]+"  需要的工作人员数量："+task[i][1]);				 
+				 }
 				
 				 //显示诉求任务id被匹配的次数
 				 System.out.println();
@@ -427,7 +431,7 @@ public class CalculatePorprotionServlet extends HttpServlet {
 
 	}
 	 public static String[][] selectSort(int arry[], String arry2[]) {
-         //定义重组后的二维数组
+         //定义重组后的二维数组，从大到小排序
 					String[][] result = new String[arry.length][2];
 					//System.out.println("arry.length-----=="+arry.length);
 					for (int i = 0; i < arry.length - 1; i++) {
