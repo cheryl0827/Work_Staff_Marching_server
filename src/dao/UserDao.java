@@ -384,6 +384,35 @@ public class UserDao {
    	 }	
    	 return list;
     }	 
+    //模糊查询用户信息
+    public static List<UserBean> userPhone_SelectDim(String name) throws SQLException{
+   	 List<UserBean>list=new ArrayList<UserBean>();
+   	 String sql="select * from user where userName like ?";
+   	 ps=con.prepareStatement(sql);
+   	 ps.setString(1,"%"+name+"%");
+   	 rs=ps.executeQuery();
+   	 if(rs!=null){
+   		 while(rs.next()){
+   			 UserBean userBean=new UserBean();
+   			 userBean.setUserID(rs.getInt("userID"));
+   			 userBean.setUserName(rs.getString("userName"));
+   			 userBean.setIndentificationCard(rs.getString("indentificationCard"));
+   			 userBean.setPhone(rs.getString("phone"));
+   			 userBean.setCountry(rs.getString("country"));
+	   		 userBean.setAddress(rs.getString("address"));
+	   		 userBean.setRoleName(rs.getString("roleName"));
+	   		 userBean.setRegisterStatus(rs.getInt("registerStatus"));
+	   		 userBean.setCity(rs.getString("city"));
+	   		 userBean.setProvince(rs.getString("province"));
+	   		 userBean.setWorkuserNo(rs.getString("workuserNo"));
+	   		 userBean.setSex(rs.getString("sex"));
+	   		 //userBean.setWorkStatus(rs.getInt("workStatus"));
+	   		// userBean.setWorkevaluatingStatus(rs.getInt("workevaluatingStatus"));
+   			 list.add(userBean);
+   		 }
+   	 }	
+   	 return list;
+    }	 
     //查询用户的基本信息
     public static UserBean select_Userinformation(String workuserNo) throws SQLException {
     	 //List<UserBean>list=new ArrayList<UserBean>();

@@ -9,13 +9,13 @@ public class EstimateBean {
 	  private int analyse;
 	  private int law;
 	  private int taskID;
-	  private String workuserNo;
+	  private int marchingID;
 	  
-	  public String getWorkuserNo() {
-		return workuserNo;
+	public int getMarchingID() {
+		return marchingID;
 	}
-	public void setWorkuserNo(String workuserNo) {
-		this.workuserNo = workuserNo;
+	public void setMarchingID(int marchingID) {
+		this.marchingID = marchingID;
 	}
 	public int getEstimateID() {
 		return estimateID;

@@ -49,8 +49,6 @@ public class CalculatePorprotionServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		int num=Integer.valueOf(req.getParameter("Number"));//诉求任务所需要的工作人员数量
-		System.out.println("zaaaa"+num);
 		String adminID=req.getParameter("adminID");//匹配人员的工作id
 		String marchingTime=req.getParameter("marchingTime");//匹配时间
 		int marchingStatus=2;//匹配状态
@@ -214,103 +212,108 @@ public class CalculatePorprotionServlet extends HttpServlet {
 							worknum = WorkuserEvaluatingIndicators;
 							x= new  String[worknum.length];
 							cq = 0;
-							if(Integer.valueOf(taskMarchings[i][1]) > num){
-								//匹配次数大于num就去删除元素，然后赋值到新数组
-								for (int j = 0; j<NoRrepeat.length;j++){
-									//判断id是否相同，相同则取出来 
-									if(NoRrepeat[j][0] != null && NoRrepeat[j][0].equals(taskMarchings[i][0])){
-										x[cq] = NoRrepeat[j][1];
-										cq++;
-									}
-								}
-								//拿到x后先得到重组的taskId，worknum数组 result
-								for(int k = 0; k<taskids.length; k++){
-									if(taskids[k].equals(taskMarchings[i][0])){
-										result = selectSort(ModuleList[k],worknum);
-										break;
-									}
-								}
-								int d = 0;
-								//删除多余的元素
-								for(int m =0;m<result.length;m++){
-									for(int l = 0;l<x.length;l++){
-										if(x[l]!=null && result[m][1]!=null && result[m][1].equals(x[l])){						
-											b[q][0] = taskMarchings[i][0];
-											b[q][1] = x[l];
-											q++;
-											d++;
-											if (d>=num){
+							for(int y=0;y<task.length;y++){
+								if(taskMarchings[i][0].equals(task[y][0])){
+									if(Integer.valueOf(taskMarchings[i][1]) > Integer.valueOf(task[y][1])){
+										//匹配次数大于num就去删除元素，然后赋值到新数组
+										for (int j = 0; j<NoRrepeat.length;j++){
+											//判断id是否相同，相同则取出来 
+											if(NoRrepeat[j][0] != null && NoRrepeat[j][0].equals(taskMarchings[i][0])){
+												x[cq] = NoRrepeat[j][1];
+												cq++;
+											}
+										}
+										//拿到x后先得到重组的taskId，worknum数组 result
+										for(int k = 0; k<taskids.length; k++){
+											if(taskids[k].equals(taskMarchings[i][0])){
+												result = selectSort(ModuleList[k],worknum);
+												break;
+											}
+										}
+										int d = 0;
+										//删除多余的元素
+										for(int m =0;m<result.length;m++){
+											for(int l = 0;l<x.length;l++){
+												if(x[l]!=null && result[m][1]!=null && result[m][1].equals(x[l])){						
+													b[q][0] = taskMarchings[i][0];
+													b[q][1] = x[l];
+													q++;
+													d++;
+													if (d>= Integer.valueOf(task[y][1])){
+														//数据到要求的个数时就跳出循环
+														break;
+													}
+												}
+											}
+											if (d>= Integer.valueOf(task[y][1])){
 												//数据到要求的个数时就跳出循环
 												break;
 											}
 										}
-									}
-									if (d>=num){
-										//数据到要求的个数时就跳出循环
-										break;
-									}
-								}
-							}else{
-								//否则就把元素取出来赋值到新数组.
-								for(int n = 0; n<NoRrepeat.length; n++){
-									//判断id是否相同，相同赋值
-									if(NoRrepeat[n][1]!=null && NoRrepeat[n][0].equals(taskMarchings[i][0])){
-										System.out.println("NoRrepeat[n][0] == "+NoRrepeat[n][0]);
-										System.out.println("NoRrepeat[n][1] == "+NoRrepeat[n][1]);
-	//									x[cq] = NoRrepeat[n][1];
-										b[q][0] = taskMarchings[i][0];
-										b[q][1] = NoRrepeat[n][1];
-										q++;
+									}else{
+										//否则就把元素取出来赋值到新数组.
+										for(int n = 0; n<NoRrepeat.length; n++){
+											//判断id是否相同，相同赋值
+											if(NoRrepeat[n][1]!=null && NoRrepeat[n][0].equals(taskMarchings[i][0])){
+												System.out.println("NoRrepeat[n][0] == "+NoRrepeat[n][0]);
+												System.out.println("NoRrepeat[n][1] == "+NoRrepeat[n][1]);
+			//									x[cq] = NoRrepeat[n][1];
+												b[q][0] = taskMarchings[i][0];
+												b[q][1] = NoRrepeat[n][1];
+												q++;
+											}
+										}
 									}
 								}
 							}
+							
 						}
-//						boolean addflag=false;
-//						 for(int i=0;i<b.length;i++){//增加匹配信息
-//				        	   if(b[i][0]!=null){
-//				        		   try {
-//									addflag=MarchingDao.add_marching(b[i][1], adminID, b[i][0], marchingTime);
-//								} catch (SQLException e) {
-//									// TODO Auto-generated catch block
-//									e.printStackTrace();
-//								}  
-//				        	   }
-//				           }
-//						 boolean updateflag=false;
-//						 for(int i=0;i<peopleLength;i++){//匹配消息后工作人员的信息修改
-//							 try {
-//								 updateflag=UserDao.update_workuserTaskNumber(WorkuserEvaluatingIndicators[i]);
-//							} catch (SQLException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-//						 }
-//						 boolean updateTaskflag=false;
-//						 for(int i=0;i<taskLength;i++){//每个task被匹配后要修改的task状态
-//							 try {
-//								updateTaskflag= TaskDao.update_taskMarchingStatus(Integer.valueOf(taskids[i]), marchingStatus);
-//							} catch (NumberFormatException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							} catch (SQLException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-//						 }
-//						 if(addflag&&updateflag&&updateTaskflag){
-//							 	message.setCode(200);
-//						        message.setMessage("匹配工作人员和诉求任务信息成功");
-//						    	message.setData(null);
-//						        out.print(JSON.toJSONString(message)); 
-//						 }
-//						 if(!(addflag&&updateflag&&updateTaskflag)){
-//							 	message.setCode(-11);
-//						        message.setMessage("匹配工作人员和诉求任务信息失败");
-//						    	message.setData(null);
-//						        out.print(JSON.toJSONString(message)); 
-//						 }
-//	
-//					    
+						boolean addflag=false;
+						 for(int i=0;i<b.length;i++){//增加匹配信息
+				        	   if(b[i][0]!=null){
+				        		   try {
+									addflag=MarchingDao.add_marching(b[i][1], adminID, b[i][0], marchingTime);
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}  
+				        	   }
+				           }
+						 boolean updateflag=false;
+						 for(int i=0;i<peopleLength;i++){//匹配消息后工作人员的信息修改
+							 try {
+								 updateflag=UserDao.update_workuserTaskNumber(WorkuserEvaluatingIndicators[i]);
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						 }
+						 boolean updateTaskflag=false;
+						 for(int i=0;i<taskLength;i++){//每个task被匹配后要修改的task状态
+							 try {
+								updateTaskflag= TaskDao.update_taskMarchingStatus(Integer.valueOf(taskids[i]), marchingStatus);
+							} catch (NumberFormatException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						 }
+						 if(addflag&&updateflag&&updateTaskflag){
+							 	message.setCode(200);
+						        message.setMessage("匹配工作人员和诉求任务信息成功");
+						    	message.setData(null);
+						        out.print(JSON.toJSONString(message)); 
+						 }
+						 if(!(addflag&&updateflag&&updateTaskflag)){
+							 	message.setCode(-11);
+						        message.setMessage("匹配工作人员和诉求任务信息失败");
+						    	message.setData(null);
+						        out.print(JSON.toJSONString(message)); 
+						 }
+	
+					    
 	
 	            
 				//计算CLength*CLength的矩阵，比如：{{1,2，1，2}，{3,4,3,4}，{1,2,1,2}，{3,4,3,4}}

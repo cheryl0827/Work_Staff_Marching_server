@@ -63,28 +63,7 @@ public class EstimateDao {
 	        }
 	  	return estimaneBean;   
 	    }
-	    //诉求任务评价的查看
-	     public static EstimateBean Estimate_show(int taskID) throws SQLException {
-	    	 String sql="select * from estimate where taskID=?";
-	    	 EstimateBean estimaneBean=null;
-	    	 ps=con.prepareStatement(sql);
-	    	 ps.setInt(1,taskID);
-	    	 rs=ps.executeQuery();
-	    	 if(rs!=null){
-	    		 while(rs.next()){
-	    			 estimaneBean=new EstimateBean();
-	    			 estimaneBean.setTaskID(rs.getInt("taskID"));	    		
-	    			 estimaneBean.setCommunity(rs.getInt("community"));
-	    			 estimaneBean.setUrgent(rs.getInt("urgent"));
-	    			 estimaneBean.setPsychology(rs.getInt("psychology"));
-	    			 estimaneBean.setOrganization(rs.getInt("organization"));
-	    			 estimaneBean.setAnalyse(rs.getInt("analyse"));
-	    			 estimaneBean.setLaw(rs.getInt("law"));
-	    			
-	    		 }
-	    	 }	
-	    	 return estimaneBean;
-	     }	
+	  
 	   //根据工号显示诉求任务评价信息的平均值
 	     public static EstimateBean estimateAvg_show(String workuserNo) throws SQLException {
 	    	 String sql="select * from marching m,estimate e where m.workuserNo=? and e.marchingID=m.marchingID";
