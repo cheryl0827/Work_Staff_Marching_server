@@ -51,7 +51,7 @@ public class UserBaseRegisterServlet extends HttpServlet {
 		Message message=new Message();//传给前台
 		try {
 	
-			if(UserDao.add_userSelect(phone)&&UserDao.add_user(userName, phone, password, roleName,sex,workuserNo)){
+			if(UserDao.add_userSelect(phone,roleName)&&UserDao.add_user(userName, phone, password, roleName,sex,workuserNo)){
 				message.setCode(200);//成功
 				message.setData(null);//传数据	
 				message.setMessage("注册成功");

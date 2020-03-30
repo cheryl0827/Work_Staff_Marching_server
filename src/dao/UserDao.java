@@ -37,11 +37,12 @@ public class UserDao {
         return flag;
     }
     //用户注册的查看
-    public static boolean add_userSelect(String phone) throws SQLException {
-        String sql="select * from user where phone=?";
+    public static boolean add_userSelect(String phone,String roleName) throws SQLException {
+        String sql="select * from user where phone=? and roleName=?";
         boolean flag=true;
         ps=con.prepareStatement(sql);
-        ps.setString(1,phone);   
+        ps.setString(1,phone);
+        ps.setString(2, roleName);
         rs=ps.executeQuery();
         if(rs.next()){
             flag=false;          
@@ -183,6 +184,7 @@ public class UserDao {
 	   		 userBean.setProvince(rs.getString("province"));
 	   		 userBean.setWorkuserNo(rs.getString("workuserNo"));
 	   		 userBean.setSex(rs.getString("sex"));
+	   		 userBean.setMaxTaskNumber(rs.getInt("maxTaskNumber"));
 	   		 //userBean.setWorkStatus(rs.getInt("workStatus"));
 	   		// userBean.setWorkevaluatingStatus(rs.getInt("workevaluatingStatus"));
    			 list.add(userBean);

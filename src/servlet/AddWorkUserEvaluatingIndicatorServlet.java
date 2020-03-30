@@ -45,12 +45,13 @@ public class AddWorkUserEvaluatingIndicatorServlet extends HttpServlet {
 		int analyse=Integer.valueOf(req.getParameter("analyse")).intValue();
 		int law=Integer.valueOf(req.getParameter("law")).intValue();
 		String workuserNo=req.getParameter("workuserNo");
+		int maxTaskNumber=Integer.valueOf(req.getParameter("maxTaskNumber")).intValue();
 		Message message = new Message();
 		try {
-			if(WorkUserEvaluatingIndicatorDao.add_workevaliatingindicator(community, urgent, psychology, organization, analyse, law, workuserNo)){
+			if(WorkUserEvaluatingIndicatorDao.add_workevaliatingindicator(community, urgent, psychology, organization, analyse, law, workuserNo)&&UserDao.add_maxTaskNumber(maxTaskNumber, workuserNo)){
 			   // UserBean userBean=UserDao.select_userlogin(phone, password, rolename);
 				message.setCode(200);
-				message.setMessage("工作人员评价成功"); 
+				message.setMessage("工作人员评价指标信息和最大任务数填写成功"); 
 				message.setData(null);
 				}		
 
@@ -60,7 +61,7 @@ public class AddWorkUserEvaluatingIndicatorServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.setCode(-11);
-			message.setMessage("工作人员评价失败");
+			message.setMessage("工作人员评价指标信息和最大任务数填写失败");
 			message.setData(null);
 		}
 		out.print(JSON.toJSONString(message));
