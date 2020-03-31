@@ -387,11 +387,12 @@ public class UserDao {
    	 return list;
     }	 
     //模糊查询用户信息
-    public static List<UserBean> userPhone_SelectDim(String name) throws SQLException{
+    public static List<UserBean> userPhone_SelectDim(String name,String roleName) throws SQLException{
    	 List<UserBean>list=new ArrayList<UserBean>();
-   	 String sql="select * from user where userName like ?";
+   	 String sql="select * from user where userName like ? and roleName=?";
    	 ps=con.prepareStatement(sql);
    	 ps.setString(1,"%"+name+"%");
+   	 ps.setString(2, roleName);
    	 rs=ps.executeQuery();
    	 if(rs!=null){
    		 while(rs.next()){

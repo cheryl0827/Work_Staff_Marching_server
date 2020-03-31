@@ -376,6 +376,20 @@
     <servlet-name>WorkUserEstimateAvgServlet</servlet-name>
     <servlet-class>servlet.WorkUserEstimateAvgServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>WorkUserTaskShowServlet</servlet-name>
+    <servlet-class>servlet.WorkUserTaskShowServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>WorkUserTaskDimServlet</servlet-name>
+    <servlet-class>servlet.WorkUserTaskDimServlet</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -685,6 +699,14 @@
   <servlet-mapping>
     <servlet-name>WorkUserEstimateAvgServlet</servlet-name>
     <url-pattern>/WorkUserEstimateAvgServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>WorkUserTaskShowServlet</servlet-name>
+    <url-pattern>/WorkUserTaskShowServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>WorkUserTaskDimServlet</servlet-name>
+    <url-pattern>/WorkUserTaskDimServlet</url-pattern>
   </servlet-mapping>
 
 

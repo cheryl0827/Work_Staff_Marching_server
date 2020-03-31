@@ -58,6 +58,7 @@ public class TaskDao {
 	            flag=false;
 	        return flag;
 	    }
+	    
 	    //显示所有诉求任务
 	     public static List<TaskBean> taskSelect(int taskStatus) throws SQLException{
 	    	 List<TaskBean>list=new ArrayList<TaskBean>();
@@ -532,5 +533,71 @@ public class TaskDao {
 					            flag=false;
 					        return flag;
 					    }
+					    //显示工作人员的所有诉求任务
+					     public static List<TaskBean> taskEnd_Select(String workuserNo) throws SQLException{
+					    	 List<TaskBean>list=new ArrayList<TaskBean>();
+					    	 String sql="select * from marching m,task t where m.taskID=t.taskID and m.handleStatus=? and m.workuserNo=? order by t.taskTime desc;;";
+					    	 ps=con.prepareStatement(sql);
+					    	 int handleStatus=2;
+					    	 ps.setInt(1, handleStatus);
+					    	 ps.setString(2, workuserNo);
+					    	 rs=ps.executeQuery();
+					    	 if(rs!=null){
+					    		 while(rs.next()){
+					    			 TaskBean taskBean=new TaskBean();
+					    			 taskBean.setTaskID(rs.getInt("taskID"));
+					    			 taskBean.setTaskAdress(rs.getString("taskAdress"));
+					    			 taskBean.setTaskCatagery(rs.getString("taskCatagery"));
+					    			 taskBean.setTaskContent(rs.getString("taskContent"));
+					    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
+					    			 taskBean.setTaskTime(rs.getString("taskTime"));
+					    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
+					    			 //taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+					    			 taskBean.setUserID(rs.getInt("userID"));
+					    			 taskBean.setCommunity(rs.getInt("community"));
+					    			 taskBean.setUrgent(rs.getInt("urgent"));
+					    			 taskBean.setPsychology(rs.getInt("psychology"));
+					    			 taskBean.setOrganization(rs.getInt("organization"));
+					    			 taskBean.setAnalyse(rs.getInt("analyse"));
+					    			 taskBean.setLaw(rs.getInt("law"));
+					    			 list.add(taskBean);
+					    		 }
+					    	 }	
+					    	 return list;
+					     }
+								
+					     //模糊查询显示工作人员的所有诉求任务
+					     public static List<TaskBean> taskEndDim_Select(String workuserNo,String taskCatagery) throws SQLException{
+					    	 List<TaskBean>list=new ArrayList<TaskBean>();
+					    	 String sql="select * from marching m,task t where m.taskID=t.taskID and m.handleStatus=? and m.workuserNo=? and t.taskCatagery like ?  order by t.taskTime desc;";
+					    	 ps=con.prepareStatement(sql);
+					    	 int handleStatus=2;
+					    	 ps.setInt(1, handleStatus);
+					    	 ps.setString(2, workuserNo);
+					    	 ps.setString(3,"%"+taskCatagery+"%");
+					    	 rs=ps.executeQuery();
+					    	 if(rs!=null){
+					    		 while(rs.next()){
+					    			 TaskBean taskBean=new TaskBean();
+					    			 taskBean.setTaskID(rs.getInt("taskID"));
+					    			 taskBean.setTaskAdress(rs.getString("taskAdress"));
+					    			 taskBean.setTaskCatagery(rs.getString("taskCatagery"));
+					    			 taskBean.setTaskContent(rs.getString("taskContent"));
+					    			 taskBean.setTaskDetaiAdress(rs.getString("taskDetaiAdress"));
+					    			 taskBean.setTaskTime(rs.getString("taskTime"));
+					    			 taskBean.setTaskStatus(rs.getInt("taskStatus"));
+					    			 //taskBean.setTaskWorknumber(rs.getString("taskWorknumber"));
+					    			 taskBean.setUserID(rs.getInt("userID"));
+					    			 taskBean.setCommunity(rs.getInt("community"));
+					    			 taskBean.setUrgent(rs.getInt("urgent"));
+					    			 taskBean.setPsychology(rs.getInt("psychology"));
+					    			 taskBean.setOrganization(rs.getInt("organization"));
+					    			 taskBean.setAnalyse(rs.getInt("analyse"));
+					    			 taskBean.setLaw(rs.getInt("law"));
+					    			 list.add(taskBean);
+					    		 }
+					    	 }	
+					    	 return list;
+					     }
 								  	     
 }

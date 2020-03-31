@@ -13,14 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.CodeExchange;
 import bean.TMessage;
-import bean.UserBean;
+import bean.TaskBean;
 
 import com.alibaba.fastjson.JSON;
 
-import dao.UserDao;
+import dao.TaskDao;
 
-public class UserDimShowServlet extends HttpServlet {
-
+public class WorkUserTaskDimServlet extends HttpServlet {
 	public void destroy() {
 		super.destroy(); // Just puts "destroy" string in log
 		// Put your code here
@@ -37,21 +36,21 @@ public class UserDimShowServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
-		String name=CodeExchange.ChineseCoding(req.getParameter("name"));
-		String roleName=CodeExchange.ChineseCoding(req.getParameter("roleName"));
-	    TMessage<List<UserBean>> message=new TMessage<List<UserBean>>();
+		String workuserNo = req.getParameter("workuserNo");
+		String taskCatagery=CodeExchange.ChineseCoding(req.getParameter("taskCatagery"));
+	    TMessage<List<TaskBean>> message=new TMessage<List<TaskBean>>();
 		try {
-			List<UserBean> userBean=new ArrayList<UserBean>();
-			userBean=UserDao.userPhone_SelectDim(name,roleName);
-			if(userBean!=null && userBean.size()>0){
+			List<TaskBean> taskBean=new ArrayList<TaskBean>();
+			taskBean=TaskDao.taskEndDim_Select(workuserNo, taskCatagery);
+			if(taskBean!=null && taskBean.size()>0){
 				message.setCode(200);
-				message.setMessage("获取用户信息");
-				message.setData(userBean);
+				message.setMessage("获取工作人员处理的诉求任务成功");
+				message.setData(taskBean);
 				out.print(JSON.toJSONString(message));
 			}
 			else{
 				message.setCode(-11);
-				message.setMessage("获取用户数据失败，没有相关的工作用户信息");
+				message.setMessage("获取工作人员处理的诉求任务失败");
 				message.setData(null);
 				out.print(JSON.toJSONString(message));
 				
