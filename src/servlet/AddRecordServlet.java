@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSON;
 
 import dao.IdentifyCodeDao;
 import dao.RecordDao;
+import dao.TaskDao;
 
 public class AddRecordServlet extends HttpServlet {
 
@@ -44,10 +45,11 @@ public class AddRecordServlet extends HttpServlet {
 		String taskID1=req.getParameter("taskID");
 		String userName=req.getParameter("userName");
 		String workuserNo=req.getParameter("workuserNo");
+		int recordStatus=2;
 		int taskID=Integer.valueOf(taskID1).intValue();
 		Message message = new Message();
 		try {
-			   if (RecordDao.add_record(taskID, nextVisitTime, recordContent, recordTime, workuserNo, userName)) {
+			   if (TaskDao.update_recordStatus(taskID, recordStatus)&&RecordDao.add_record(taskID, nextVisitTime, recordContent, recordTime, workuserNo, userName)) {
 				message.setCode(200);
 				message.setMessage("获取验证码成功"); 
 				message.setData(null);

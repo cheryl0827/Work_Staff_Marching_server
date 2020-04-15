@@ -482,6 +482,23 @@ public class UserDao {
         return remainTaskNumber;
     }
   //根据工号修改工作人员的剩余能处理的任务数
+    public static boolean select_workuserTaskNumber(int remainTaskNumber,String workuserNo) throws SQLException {
+    	String sql="update user set remainTaskNumber=? where workuserNo=?";
+    	//int remainTaskNumber = 0;
+        ps=con.prepareStatement(sql);
+        ps.setInt(1, remainTaskNumber);
+        ps.setString(2,workuserNo);
+        boolean flag=false;
+        int count=ps.executeUpdate();
+        if(count==1){
+            flag=true;
+        }
+        else
+            flag=false;
+        return flag;
+       
+    }
+  //根据工号修改工作人员的剩余能处理的任务数
     public static boolean update_userTaskNumber(String workuserNo) throws SQLException {
     	String sql="update user set remainTaskNumber=? where workuserNo=?";
     	boolean flag=false;
@@ -503,10 +520,13 @@ public class UserDao {
     public static boolean update_workuserTaskNumber(String workuserNo) throws SQLException {
     	String sql="update user set remainTaskNumber=? where workuserNo=?";
     	boolean flag=false;
-    	int handleStatus=1;
-        int coun=MarchingDao.calculate_workusertasks(workuserNo,handleStatus);
+    	//int handleStatus=1;
+//        int coun=MarchingDao.calculate_workusertasks(workuserNo,handleStatus);
         int c=UserDao.select_userTaskNumber(workuserNo);
-    	int remainTaskNumber=c-coun;
+//        System.out.println("c=="+c);
+//        System.out.println("count==="+coun);
+    	int remainTaskNumber=c-1;
+    	System.out.println("remainTaskNumber=="+remainTaskNumber);
         ps=con.prepareStatement(sql);
         ps.setInt(1,remainTaskNumber);
         ps.setString(2,workuserNo);
@@ -518,6 +538,29 @@ public class UserDao {
             flag=false;
         return flag;
     }
+    //根据工号显示诉求任务评价信息的平均值
+    public static boolean update_workUserTaskNumber(int taskID) throws SQLException {
+   	 String sql="select * from marching m,user u where m.workuserNo=u.workuserNo and m.taskID=?";
+   	 //EstimateBean estimaneBean=null;
+   	 boolean flag=false;
+   	 ps=con.prepareStatement(sql);
+   	 ps.setInt(1,taskID);
+   	 rs=ps.executeQuery(); 
+   	 if(rs!=null){
+   		 while(rs.next()){
+   			 String workuserNo=rs.getString("workuserNo");
+   			 int remainTaskNumber=rs.getInt("remainTaskNumber");
+   			 remainTaskNumber=remainTaskNumber+1;
+   			 if(UserDao.select_workuserTaskNumber(remainTaskNumber, workuserNo))
+   				 flag=true;
+   			 else flag=flag;	
+   		 }
+   	 }
+   	 System.out.println("userDao");
+   	 System.out.println(flag);
+   	 return flag;
+   	 
+    }	
     //更改头像
     public static boolean update_picture(int userID,String picture) throws SQLException {
     	String sql="update user set userPicture=? where userID=?";

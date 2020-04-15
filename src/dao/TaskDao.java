@@ -467,6 +467,8 @@ public class TaskDao {
 				    			 taskBean.setOrganization(rs.getInt("organization"));
 				    			 taskBean.setAnalyse(rs.getInt("analyse"));
 				    			 taskBean.setLaw(rs.getInt("law"));
+				    			 taskBean.setPingjiaStatus(rs.getInt("pingjiaStatus"));
+				    			 taskBean.setRecordStatus(rs.getInt("recordStatus"));;
 				    			 list.add(taskBean);
 				    		 }
 				    	 }	
@@ -599,5 +601,22 @@ public class TaskDao {
 					    	 }	
 					    	 return list;
 					     }
+					     //修改诉求任务的匹配状态
+						    public static boolean update_marchingStatus(int taskID,int marchingStatus) throws SQLException {
+						        String sql="update task set marchingStatus=? where taskID=? ";
+						        boolean flag=false;
+						        ps=con.prepareStatement(sql);
+						        ps.setInt(1,marchingStatus);
+						        ps.setInt(2,taskID);
+						        int count=ps.executeUpdate();
+						        if(count==1){
+						            flag=true;
+						        }
+						        else
+						            flag=false;
+						        System.out.println("task:");
+						        System.out.println(flag);
+						        return flag;
+						    }	
 								  	     
 }

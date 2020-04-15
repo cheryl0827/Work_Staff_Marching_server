@@ -269,25 +269,20 @@ public class CalculatePorprotionServlet extends HttpServlet {
 							
 						}
 						boolean addflag=false;
+						 boolean updateflag=false;
 						 for(int i=0;i<b.length;i++){//增加匹配信息
 				        	   if(b[i][0]!=null){
 				        		   try {
 									addflag=MarchingDao.add_marching(b[i][1], adminID, b[i][0], marchingTime);
-								} catch (SQLException e) {
+									 updateflag=UserDao.update_workuserTaskNumber(b[i][1]);
+				        		   } catch (SQLException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}  
 				        	   }
 				           }
-						 boolean updateflag=false;
-						 for(int i=0;i<peopleLength;i++){//匹配消息后工作人员的信息修改
-							 try {
-								 updateflag=UserDao.update_workuserTaskNumber(WorkuserEvaluatingIndicators[i]);
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						 }
+						
+						
 						 boolean updateTaskflag=false;
 						 for(int i=0;i<taskLength;i++){//每个task被匹配后要修改的task状态
 							 try {

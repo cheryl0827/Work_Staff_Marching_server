@@ -158,5 +158,22 @@ public class MarchingDao {
     		 }
     	 return marchingID;
     }
+    //删除匹配的诉求任务	     
+    public static boolean delete_marching(int taskID) throws SQLException {
+	        String sql="delete from marching where taskID=?";
+	        boolean flag=false;
+	        ps=con.prepareStatement(sql);
+	        ps.setInt(1,taskID);		      
+	        int count=ps.executeUpdate();
+	        if(count==1){
+	            flag=false;
+	        }
+	        else
+	            flag=true;
+	        System.out.println("marching:");
+	        System.out.println(flag);
+	        return flag;
+	     
+	    }   
  	
 }
