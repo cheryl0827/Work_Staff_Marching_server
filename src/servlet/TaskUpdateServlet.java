@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean.CodeExchange;
 import bean.Message;
 
 import com.alibaba.fastjson.JSON;
@@ -28,44 +27,48 @@ public class TaskUpdateServlet extends HttpServlet {
 		doPost(request, response);
 	}
 
-	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
-		String taskAdress =req.getParameter("taskAdress");
-		String taskCatagery= req.getParameter("taskCatagery");
-		String taskDetaiAdress= req.getParameter("taskDetaiAdress");
-		String taskContent=  req.getParameter("taskContent");
-		String taskTime=req.getParameter("taskTime");
+		String taskAdress = req.getParameter("taskAdress");
+		String taskCatagery = req.getParameter("taskCatagery");
+		String taskDetaiAdress = req.getParameter("taskDetaiAdress");
+		String taskContent = req.getParameter("taskContent");
+		String taskTime = req.getParameter("taskTime");
 		PrintWriter out = resp.getWriter();
-		String taskID1=req.getParameter("taskID");
-		int taskID=Integer.valueOf(taskID1).intValue();
+		String taskID1 = req.getParameter("taskID");
+		int community = Integer.valueOf(req.getParameter("community"));
+		int urgent = Integer.valueOf(req.getParameter("urgent"));
+		int psychology = Integer.valueOf(req.getParameter("psychology"));
+		int organization = Integer.valueOf(req.getParameter("organization"));
+		int analyse = Integer.valueOf(req.getParameter("analyse"));
+		int law = Integer.valueOf(req.getParameter("law"));
+		int taskID = Integer.valueOf(taskID1).intValue();
 		Message message = new Message();
 		try {
-			   if (TaskDao.update_task(taskAdress, taskCatagery, taskContent, taskTime, taskID, taskDetaiAdress)) {
+			if (TaskDao.update_task(taskAdress, taskCatagery, taskContent,
+					taskTime, taskID, taskDetaiAdress, community, urgent,
+					psychology, organization, analyse, law)) {
 				message.setCode(200);
-				message.setMessage("修改诉求任务成功"); 
+				message.setMessage("修改诉求任务成功");
 				message.setData(null);
-			    }
-			else {
+			} else {
 				message.setCode(-11);
 				message.setMessage("修改诉求任务失败");
 				message.setData(null);
-				
+
 			}
 			out.print(JSON.toJSONString(message));
 
 		} catch (SQLException e) {
-			
 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
-	
 	public void init() throws ServletException {
 		// Put your code here
 	}
